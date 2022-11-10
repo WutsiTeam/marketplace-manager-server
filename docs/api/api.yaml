@@ -5,9 +5,9 @@ info:
   version: "1.0.0"
 
 servers:
-  - url: https://marketplace-access-server-test.herokuapp.com
+  - url: https://marketplace-manager-test.herokuapp.com
     description: Sandbox
-  - url: https://marketplace-access-server-prod.herokuapp.com
+  - url: https://marketplace-manager-prod.herokuapp.com
     description: Production
 
 paths:
