@@ -34,6 +34,7 @@ paths:
       tags:
         - Store
 
+
   /v1/products:
     post:
       operationId: create-product
@@ -69,6 +70,23 @@ paths:
           description: Success
       tags:
         - Product
+
+  /v1/products/status:
+    post:
+      operationId: update-product-status
+      description: Update the status of a product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductStatusRequest'
+      responses:
+        200:
+          description: Success
+      tags:
+        - Product
+
 
   /v1/pictures:
     post:
@@ -108,21 +126,26 @@ paths:
       tags:
         - Product
 
-  /v1/products/status:
-    post:
-      operationId: update-product-status
-      description: Update the status of a product
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateProductStatusRequest'
+
+  /v1/categories/import:
+    get:
+      operationId: "import-category"
+      description: |
+        Import all the product categories.
+        Wutsi used [Google Product Categories](https://support.google.com/merchants/answer/6324436) for categorizing products
+      parameters:
+        - in: query
+          name: language
+          description: 2 letter code of the language of the categories
+          required: true
+          schema:
+            type: string
+            required: true
       responses:
         200:
           description: Success
       tags:
-        - Product
+        - Category
 
 
 components:
