@@ -1,7 +1,7 @@
 package com.wutsi.marketplace.manager.`delegate`
 
 import com.wutsi.marketplace.manager.dto.UpdateProductStatusRequest
-import com.wutsi.marketplace.manager.workflow.product.UpdateProductStatusWorkflow
+import com.wutsi.marketplace.manager.workflow.UpdateProductStatusWorkflow
 import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service

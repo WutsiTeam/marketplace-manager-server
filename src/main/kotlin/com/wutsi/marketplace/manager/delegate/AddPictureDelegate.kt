@@ -2,7 +2,7 @@ package com.wutsi.marketplace.manager.`delegate`
 
 import com.wutsi.marketplace.manager.dto.AddPictureRequest
 import com.wutsi.marketplace.manager.dto.AddPictureResponse
-import com.wutsi.marketplace.manager.workflow.picture.AddPictureWorkflow
+import com.wutsi.marketplace.manager.workflow.AddPictureWorkflow
 import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service

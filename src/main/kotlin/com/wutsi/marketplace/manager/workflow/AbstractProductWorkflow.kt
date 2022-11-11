@@ -1,9 +1,8 @@
-package com.wutsi.marketplace.manager.workflow.product
+package com.wutsi.marketplace.manager.workflow
 
 import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.manager.event.ProductEventPayload
-import com.wutsi.marketplace.manager.workflow.AbstractMarketplaceWorkflow
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.Rule

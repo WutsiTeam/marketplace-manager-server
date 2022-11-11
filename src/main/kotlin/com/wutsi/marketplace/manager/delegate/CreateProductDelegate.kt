@@ -2,7 +2,7 @@ package com.wutsi.marketplace.manager.`delegate`
 
 import com.wutsi.marketplace.manager.dto.CreateProductRequest
 import com.wutsi.marketplace.manager.dto.CreateProductResponse
-import com.wutsi.marketplace.manager.workflow.product.CreateProductWorkflow
+import com.wutsi.marketplace.manager.workflow.CreateProductWorkflow
 import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service

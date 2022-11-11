@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.workflow.product
+package com.wutsi.marketplace.manager.workflow
 
 import com.wutsi.marketplace.manager.dto.UpdateProductAttributeRequest
 import com.wutsi.platform.core.stream.EventStream
