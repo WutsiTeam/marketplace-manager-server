@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service
 @Service
 class DeletePictureWorkflow(
     eventStream: EventStream
-) : AbstractProductWorkflow<Long, Void>(eventStream) {
-    override fun getProductId(context: WorkflowContext<Long, Void>): Long? =
+) : AbstractProductWorkflow<Long, Unit>(eventStream) {
+    override fun getProductId(pictureId: Long, context: WorkflowContext): Long? =
         null
 
-    override fun doExecute(context: WorkflowContext<Long, Void>) {
-        val pictureId = context.request!!
+    override fun doExecute(pictureId: Long, context: WorkflowContext) {
         marketplaceAccessApi.deletePicture(pictureId)
     }
 }

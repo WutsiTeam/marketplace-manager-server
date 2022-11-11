@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service
 @Service
 class UpdateProductAttributeWorkflow(
     eventStream: EventStream
-) : AbstractProductWorkflow<UpdateProductAttributeRequest, Void>(eventStream) {
-    override fun getProductId(context: WorkflowContext<UpdateProductAttributeRequest, Void>): Long? =
-        context.request?.productId
+) : AbstractProductWorkflow<UpdateProductAttributeRequest, Unit>(eventStream) {
+    override fun getProductId(request: UpdateProductAttributeRequest, context: WorkflowContext): Long? =
+        request.productId
 
-    override fun doExecute(context: WorkflowContext<UpdateProductAttributeRequest, Void>) {
-        val request = context.request!!
+    override fun doExecute(request: UpdateProductAttributeRequest, context: WorkflowContext) {
         marketplaceAccessApi.updateProductAttribute(
             id = request.productId,
             request = com.wutsi.marketplace.access.dto.UpdateProductAttributeRequest(

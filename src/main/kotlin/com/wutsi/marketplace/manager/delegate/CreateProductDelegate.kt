@@ -19,9 +19,6 @@ class CreateProductDelegate(
         logger.add("request_price", request.price)
         logger.add("request_category_id", request.categoryId)
 
-        val context = WorkflowContext<CreateProductRequest, CreateProductResponse>(request)
-        workflow.execute(context)
-
-        return context.response as CreateProductResponse
+        return workflow.execute(request, WorkflowContext())
     }
 }

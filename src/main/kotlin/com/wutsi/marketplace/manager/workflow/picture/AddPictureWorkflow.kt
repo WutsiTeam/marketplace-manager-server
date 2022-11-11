@@ -16,22 +16,21 @@ import org.springframework.stereotype.Service
 class AddPictureWorkflow(
     eventStream: EventStream
 ) : AbstractProductWorkflow<AddPictureRequest, AddPictureResponse>(eventStream) {
-    override fun getProductId(context: WorkflowContext<AddPictureRequest, AddPictureResponse>) =
-        context.request?.productId
+    override fun getProductId(request: AddPictureRequest, context: WorkflowContext) =
+        request.productId
 
     override fun getAdditionalRules(account: Account, store: Store?, product: Product?) = listOf(
         product?.let { ProductShouldNotHaveTooManyPicturesRule(it, regulationEngine) }
     )
 
-    override fun doExecute(context: WorkflowContext<AddPictureRequest, AddPictureResponse>) {
-        val request = context.request!!
+    override fun doExecute(request: AddPictureRequest, context: WorkflowContext): AddPictureResponse {
         val response = marketplaceAccessApi.createPicture(
             request = CreatePictureRequest(
                 productId = request.productId,
                 url = request.url
             )
         )
-        context.response = AddPictureResponse(
+        return AddPictureResponse(
             pictureId = response.pictureId
         )
     }

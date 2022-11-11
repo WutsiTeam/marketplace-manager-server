@@ -16,8 +16,6 @@ class AddPictureDelegate(
         logger.add("request_prodcut_id", request.productId)
         logger.add("request_url", request.url)
 
-        val context = WorkflowContext<AddPictureRequest, AddPictureResponse>(request)
-        workflow.execute(context)
-        return context.response as AddPictureResponse
+        return workflow.execute(request, WorkflowContext())
     }
 }

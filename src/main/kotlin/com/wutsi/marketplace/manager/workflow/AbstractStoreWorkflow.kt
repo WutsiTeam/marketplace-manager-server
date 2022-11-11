@@ -1,8 +1,7 @@
-package com.wutsi.marketplace.manager.workflow.store
+package com.wutsi.marketplace.manager.workflow
 
 import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.manager.event.StoreEventPayload
-import com.wutsi.marketplace.manager.workflow.AbstractMarketplaceWorkflow
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.Rule
@@ -13,7 +12,7 @@ import com.wutsi.workflow.rule.account.AccountShouldBeBusinessRule
 
 abstract class AbstractStoreWorkflow<Req, Resp>(eventStream: EventStream) :
     AbstractMarketplaceWorkflow<Req, Resp, StoreEventPayload>(eventStream) {
-    override fun getValidationRules(context: WorkflowContext<Req, Resp>): RuleSet {
+    override fun getValidationRules(request: Req, context: WorkflowContext): RuleSet {
         val account = getCurrentAccount(context)
         val store = account.storeId?.let {
             getCurrentStore(account)

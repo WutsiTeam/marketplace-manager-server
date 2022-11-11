@@ -14,19 +14,18 @@ import org.springframework.stereotype.Service
 class CreateProductWorkflow(
     eventStream: EventStream
 ) : AbstractProductWorkflow<CreateProductRequest, CreateProductResponse>(eventStream) {
-    override fun getProductId(context: WorkflowContext<CreateProductRequest, CreateProductResponse>): Long? =
+    override fun getProductId(request: CreateProductRequest, context: WorkflowContext): Long? =
         null
 
     override fun getAdditionalRules(account: Account, store: Store?, product: Product?) = listOf(
         store?.let { StoreShouldNotHaveTooManyProductsRule(it, regulationEngine) }
     )
 
-    override fun doExecute(context: WorkflowContext<CreateProductRequest, CreateProductResponse>) {
+    override fun doExecute(request: CreateProductRequest, context: WorkflowContext): CreateProductResponse {
         val account = getCurrentAccount(context)
-        val request = context.request!!
         val response = marketplaceAccessApi.createProduct(
             request = com.wutsi.marketplace.access.dto.CreateProductRequest(
-                storeId = account.storeId!!,
+                storeId = account.storeId ?: -1,
                 pictureUrl = request.pictureUrl,
                 title = request.title,
                 summary = request.summary,
@@ -34,7 +33,7 @@ class CreateProductWorkflow(
                 categoryId = request.categoryId
             )
         )
-        context.response = CreateProductResponse(
+        return CreateProductResponse(
             productId = response.productId
         )
     }

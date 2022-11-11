@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.workflow.store
+package com.wutsi.marketplace.manager.workflow
 
 import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service
 @Service
 class SuspendStoreWorkflow(
     eventStream: EventStream
-) : AbstractStoreWorkflow<Void, Long>(eventStream) {
+) : AbstractStoreWorkflow<Void?, Long?>(eventStream) {
     override fun getEventType() = EventURN.STORE_SUSPENDED.urn
 
-    override fun toEventPayload(context: WorkflowContext<Void, Long>) = context.response?.let {
+    override fun toEventPayload(request: Void?, storeId: Long?, context: WorkflowContext) = storeId?.let {
         StoreEventPayload(
             accountId = getCurrentAccountId(context),
-            storeId = it
+            storeId = storeId
         )
     }
 
@@ -30,14 +30,16 @@ class SuspendStoreWorkflow(
         store?.let { AccountShouldBeOwnerOfStoreRule(account, it) }
     )
 
-    override fun doExecute(context: WorkflowContext<Void, Long>) {
+    override fun doExecute(request: Void?, context: WorkflowContext): Long? {
         val account = getCurrentAccount(context)
-        marketplaceAccessApi.updateStoreStatus(
-            id = account.storeId!!,
-            request = UpdateStoreStatusRequest(
-                status = StoreStatus.SUSPENDED.name
+        if (account.storeId != null) {
+            marketplaceAccessApi.updateStoreStatus(
+                id = account.storeId!!,
+                request = UpdateStoreStatusRequest(
+                    status = StoreStatus.SUSPENDED.name
+                )
             )
-        )
-        context.response = account.storeId
+        }
+        return account.storeId
     }
 }

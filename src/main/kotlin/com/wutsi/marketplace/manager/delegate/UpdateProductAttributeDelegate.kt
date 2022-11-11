@@ -16,6 +16,6 @@ public class UpdateProductAttributeDelegate(
         logger.add("request_name", request.name)
         logger.add("request_value", request.value)
 
-        workflow.execute(WorkflowContext(request))
+        workflow.execute(request, WorkflowContext())
     }
 }

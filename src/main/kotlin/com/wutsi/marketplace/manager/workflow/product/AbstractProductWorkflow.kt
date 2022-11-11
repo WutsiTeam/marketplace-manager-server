@@ -19,15 +19,15 @@ import com.wutsi.workflow.rule.account.StoreShouldBeActiveRule
 abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
     AbstractMarketplaceWorkflow<Req, Resp, ProductEventPayload>(eventStream) {
     override fun getEventType(): String? = null
-    override fun toEventPayload(context: WorkflowContext<Req, Resp>): ProductEventPayload? = null
-    protected abstract fun getProductId(context: WorkflowContext<Req, Resp>): Long?
+    override fun toEventPayload(request: Req, response: Resp, context: WorkflowContext): ProductEventPayload? = null
+    protected abstract fun getProductId(request: Req, context: WorkflowContext): Long?
 
-    override fun getValidationRules(context: WorkflowContext<Req, Resp>): RuleSet {
+    override fun getValidationRules(request: Req, context: WorkflowContext): RuleSet {
         val account = getCurrentAccount(context)
         val store = account.storeId?.let {
             getCurrentStore(account)
         }
-        val product = getProduct(context)
+        val product = getProduct(request, context)
 
         val rules = mutableListOf(
             AccountShouldBeBusinessRule(account),
@@ -45,8 +45,8 @@ abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
 
     protected open fun getAdditionalRules(account: Account, store: Store?, product: Product?): List<Rule?> = emptyList()
 
-    private fun getProduct(context: WorkflowContext<Req, Resp>): Product? =
-        getProductId(context)?.let {
+    private fun getProduct(request: Req, context: WorkflowContext): Product? =
+        getProductId(request, context)?.let {
             marketplaceAccessApi.getProduct(it).product
         }
 }

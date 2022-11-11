@@ -22,10 +22,10 @@ abstract class AbstractMarketplaceWorkflow<Req, Resp, Ev>(eventStream: EventStre
     @Autowired
     protected lateinit var regulationEngine: RegulationEngine
 
-    protected fun getCurrentAccountId(context: WorkflowContext<Req, Resp>): Long =
+    protected fun getCurrentAccountId(context: WorkflowContext): Long =
         context.accountId ?: SecurityUtil.getAccountId()
 
-    protected fun getCurrentAccount(context: WorkflowContext<Req, Resp>): Account {
+    protected fun getCurrentAccount(context: WorkflowContext): Account {
         val accountId = context.accountId ?: SecurityUtil.getAccountId()
         return membershipAccessApi.getAccount(accountId).account
     }

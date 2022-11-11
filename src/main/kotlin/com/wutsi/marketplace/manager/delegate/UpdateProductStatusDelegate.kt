@@ -15,6 +15,6 @@ class UpdateProductStatusDelegate(
         logger.add("request_product_id", request.productId)
         logger.add("request_status", request.status)
 
-        workflow.execute(WorkflowContext(request))
+        workflow.execute(request, WorkflowContext())
     }
 }

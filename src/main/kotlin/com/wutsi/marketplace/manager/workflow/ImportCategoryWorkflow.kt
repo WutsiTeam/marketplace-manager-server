@@ -1,7 +1,6 @@
-package com.wutsi.marketplace.manager.workflow.category
+package com.wutsi.marketplace.manager.workflow
 
 import com.wutsi.marketplace.access.dto.SaveCategoryRequest
-import com.wutsi.marketplace.manager.workflow.AbstractMarketplaceWorkflow
 import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.RuleSet
@@ -17,18 +16,17 @@ import java.util.Scanner
 class ImportCategoryWorkflow(
     eventStream: EventStream,
     private val logger: KVLogger
-) : AbstractMarketplaceWorkflow<String, Void, Void>(eventStream) {
+) : AbstractMarketplaceWorkflow<String, Unit, Void>(eventStream) {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ImportCategoryWorkflow::class.java)
     }
 
     override fun getEventType(): String? = null
-    override fun toEventPayload(context: WorkflowContext<String, Void>): Void? = null
-    override fun getValidationRules(context: WorkflowContext<String, Void>) = RuleSet.NONE
+    override fun toEventPayload(language: String, response: Unit, context: WorkflowContext): Void? = null
+    override fun getValidationRules(language: String, context: WorkflowContext) = RuleSet.NONE
 
-    override fun doExecute(context: WorkflowContext<String, Void>) {
+    override fun doExecute(language: String, context: WorkflowContext) {
         // Language
-        val language = context.request
         if (language != null) {
             LocaleContextHolder.setLocale(Locale(language))
         }
