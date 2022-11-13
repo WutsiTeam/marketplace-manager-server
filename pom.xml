@@ -20,10 +20,11 @@
 
   <properties>
     <jacoco.threshold.line>0.94</jacoco.threshold.line>
-    <jacoco.threshold.class>0.94</jacoco.threshold.class>
+    <jacoco.threshold.class>0.92</jacoco.threshold.class>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <jdk.version>11</jdk.version>
 
+    <commons-csv.version>1.9.0</commons-csv.version>
     <javax-validation.version>2.0.1.Final</javax-validation.version>
     <junit.version>5.9.0</junit.version>
     <kotlin.version>1.7.10</kotlin.version>
@@ -32,7 +33,7 @@
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
 
     <wutsi-platform-core.version>0.0.188</wutsi-platform-core.version>
-    <wutsi-marketplace-access.version>1.0.7</wutsi-marketplace-access.version>
+    <wutsi-marketplace-access.version>1.0.10</wutsi-marketplace-access.version>
     <wutsi-membership-access.version>1.0.14</wutsi-membership-access.version>
     <wutsi-membership-manager.version>1.0.8</wutsi-membership-manager.version>
     <wutsi-regulation.version>1.0.7</wutsi-regulation.version>
@@ -71,6 +72,11 @@
       <version>${wutsi-membership-access.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>${commons-csv.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>

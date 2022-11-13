@@ -1,7 +1,7 @@
 package com.wutsi.marketplace.manager.endpoint
 
 import com.wutsi.marketplace.manager.`delegate`.UpdateProductAttributeDelegate
-import com.wutsi.marketplace.manager.dto.UpdateProductAttributeRequest
+import com.wutsi.marketplace.manager.dto.UpdateProductAttributeListRequest
 import org.springframework.web.bind.`annotation`.PostMapping
 import org.springframework.web.bind.`annotation`.RequestBody
 import org.springframework.web.bind.`annotation`.RestController
@@ -14,7 +14,7 @@ public class UpdateProductAttributeController(
     @PostMapping("/v1/products/attributes")
     public fun invoke(
         @Valid @RequestBody
-        request: UpdateProductAttributeRequest
+        request: UpdateProductAttributeListRequest
     ) {
         delegate.invoke(request)
     }
