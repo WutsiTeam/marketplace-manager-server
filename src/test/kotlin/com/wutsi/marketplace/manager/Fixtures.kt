@@ -1,8 +1,11 @@
 package com.wutsi.marketplace.manager
 
+import com.wutsi.marketplace.access.dto.CategorySummary
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.access.dto.Product
+import com.wutsi.marketplace.access.dto.ProductSummary
 import com.wutsi.marketplace.access.dto.Store
+import com.wutsi.marketplace.access.enums.ProductStatus
 import com.wutsi.marketplace.access.enums.StoreStatus
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
@@ -47,7 +50,27 @@ object Fixtures {
     fun createProduct(id: Long = -1, storeId: Long = -1, pictures: List<PictureSummary> = emptyList()) = Product(
         id = id,
         storeId = storeId,
-        pictures = pictures
+        pictures = pictures,
+        summary = "This is a summary",
+        description = "This is the description",
+        price = 100000L,
+        comparablePrice = 150000L,
+        quantity = 11,
+        status = ProductStatus.DRAFT.name,
+        thumbnail = PictureSummary(
+            id = 1,
+            url = "http://www.img.com/1.png"
+        ),
+        currency = "XAF",
+        title = "This is the title",
+        category = CategorySummary(
+            id = 1,
+            title = "Art"
+        )
+    )
+
+    fun createProductSummary(id: Long = -1) = ProductSummary(
+        id = id
     )
 
     fun createPictureSummary() = PictureSummary()
