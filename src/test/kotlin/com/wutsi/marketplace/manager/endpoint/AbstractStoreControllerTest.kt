@@ -64,7 +64,6 @@ abstract class AbstractStoreControllerTest<Req> : AbstractSecuredControllerTest(
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.MEMBER_NOT_ACTIVE.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 
@@ -84,7 +83,6 @@ abstract class AbstractStoreControllerTest<Req> : AbstractSecuredControllerTest(
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.MEMBER_NOT_BUSINESS.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 }

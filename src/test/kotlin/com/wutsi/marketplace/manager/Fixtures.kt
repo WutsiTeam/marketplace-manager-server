@@ -47,7 +47,12 @@ object Fixtures {
         productCount = productCount
     )
 
-    fun createProduct(id: Long = -1, storeId: Long = -1, pictures: List<PictureSummary> = emptyList()) = Product(
+    fun createProduct(
+        id: Long = -1,
+        storeId: Long = -1,
+        quantity: Int? = 11,
+        pictures: List<PictureSummary> = emptyList()
+    ) = Product(
         id = id,
         storeId = storeId,
         pictures = pictures,
@@ -55,12 +60,9 @@ object Fixtures {
         description = "This is the description",
         price = 100000L,
         comparablePrice = 150000L,
-        quantity = 11,
+        quantity = quantity,
         status = ProductStatus.DRAFT.name,
-        thumbnail = PictureSummary(
-            id = 1,
-            url = "http://www.img.com/1.png"
-        ),
+        thumbnail = if (pictures.isEmpty()) null else pictures[0],
         currency = "XAF",
         title = "This is the title",
         category = CategorySummary(
@@ -73,5 +75,8 @@ object Fixtures {
         id = id
     )
 
-    fun createPictureSummary() = PictureSummary()
+    fun createPictureSummary(id: Long = -1) = PictureSummary(
+        id = id,
+        url = "https://img.com/$id.png"
+    )
 }

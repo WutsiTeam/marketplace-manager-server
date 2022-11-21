@@ -51,7 +51,11 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         store = Fixtures.createStore(id = STORE_ID, accountId = ACCOUNT_ID)
         doReturn(GetStoreResponse(store)).whenever(marketplaceAccessApi).getStore(any())
 
-        product = Fixtures.createProduct(id = PRODUCT_ID, storeId = STORE_ID)
+        product = Fixtures.createProduct(
+            id = PRODUCT_ID,
+            storeId = STORE_ID,
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2))
+        )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
         request = createRequest()
@@ -73,7 +77,6 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.NO_STORE.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 
@@ -94,7 +97,6 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.STORE_NOT_ACTIVE.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 
@@ -123,7 +125,6 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.MEMBER_NOT_ACTIVE.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 
@@ -144,7 +145,6 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.MEMBER_NOT_BUSINESS.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 
@@ -165,7 +165,6 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.PRODUCT_NOT_OWNER.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 
@@ -186,7 +185,6 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
         assertEquals(ErrorURN.STORE_NOT_OWNER.urn, response.error.code)
 
-        verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }
 }
