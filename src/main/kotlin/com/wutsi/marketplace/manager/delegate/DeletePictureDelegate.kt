@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service
 @Service
 class DeletePictureDelegate(private val workflow: DeletePictureWorkflow) {
     fun invoke(id: Long) {
-        workflow.execute(id, WorkflowContext(id))
+        workflow.execute(id, WorkflowContext())
     }
 }
