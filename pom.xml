@@ -37,7 +37,7 @@
     <wutsi-membership-access.version>1.0.14</wutsi-membership-access.version>
     <wutsi-membership-manager.version>1.0.8</wutsi-membership-manager.version>
     <wutsi-regulation.version>1.0.7</wutsi-regulation.version>
-    <wutsi-workflow.version>1.0.12</wutsi-workflow.version>
+    <wutsi-workflow.version>1.0.13</wutsi-workflow.version>
   </properties>
 
   <dependencies>
