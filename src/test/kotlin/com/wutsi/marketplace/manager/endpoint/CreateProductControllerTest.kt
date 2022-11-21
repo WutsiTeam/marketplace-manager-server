@@ -61,7 +61,8 @@ class CreateProductControllerTest : AbstractProductControllerTest<CreateProductR
                 title = request!!.title,
                 summary = request!!.summary,
                 categoryId = request!!.categoryId,
-                price = request!!.price
+                price = request!!.price,
+                quantity = request!!.quantity
             )
         )
 

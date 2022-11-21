@@ -30,7 +30,8 @@ class CreateProductWorkflow(
                 title = request.title,
                 summary = request.summary,
                 price = request.price,
-                categoryId = request.categoryId
+                categoryId = request.categoryId,
+                quantity = request.quantity
             )
         )
         return CreateProductResponse(
