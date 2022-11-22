@@ -177,6 +177,23 @@ paths:
       tags:
         - Product
 
+    delete:
+      operationId: "delete-product"
+      description: Delete a product
+      parameters:
+        - in: path
+          name: id
+          description: ID of the product
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+      tags:
+        - Product
+
   /v1/pictures:
     post:
       operationId: add-picture
@@ -392,6 +409,12 @@ components:
         offset:
           type: integer
           default: 0
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - PUBLISHED
+          nullable: true
 
     SearchProductResponse:
       type: object
