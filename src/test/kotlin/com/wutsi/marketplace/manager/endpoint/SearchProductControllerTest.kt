@@ -5,7 +5,6 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.wutsi.marketplace.access.enums.ProductSort
 import com.wutsi.marketplace.access.enums.ProductStatus
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.dto.SearchProductRequest
@@ -25,7 +24,8 @@ public class SearchProductControllerTest : AbstractProductControllerTest<SearchP
         storeId = 111L,
         limit = 100,
         offset = 0,
-        status = ProductStatus.PUBLISHED.name
+        status = ProductStatus.PUBLISHED.name,
+        sortBy = "RECOMMENDED"
     )
 
     @Test
@@ -55,7 +55,7 @@ public class SearchProductControllerTest : AbstractProductControllerTest<SearchP
                 limit = request!!.limit,
                 offset = request!!.offset,
                 status = request!!.status,
-                sortBy = ProductSort.TITLE.name
+                sortBy = request!!.sortBy
             )
         )
 

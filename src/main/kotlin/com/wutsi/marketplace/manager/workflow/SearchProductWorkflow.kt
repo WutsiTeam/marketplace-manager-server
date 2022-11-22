@@ -1,6 +1,5 @@
 package com.wutsi.marketplace.manager.workflow
 
-import com.wutsi.marketplace.access.enums.ProductSort
 import com.wutsi.marketplace.manager.dto.ProductSummary
 import com.wutsi.marketplace.manager.dto.SearchProductRequest
 import com.wutsi.marketplace.manager.dto.SearchProductResponse
@@ -31,8 +30,8 @@ class SearchProductWorkflow(
                 categoryIds = request.categoryIds,
                 productIds = request.productIds,
                 storeId = request.storeId,
-                sortBy = ProductSort.TITLE.name,
-                status = request.status
+                sortBy = request.sortBy,
+                status = request.status,
             )
         )
         return SearchProductResponse(

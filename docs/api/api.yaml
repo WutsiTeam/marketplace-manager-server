@@ -415,6 +415,14 @@ components:
             - DRAFT
             - PUBLISHED
           nullable: true
+        sortBy:
+          type: string
+          enum:
+            - RECOMMENDED
+            - PRICE_DESC
+            - PRICE_ASC
+            - TITLE
+          nullable: true
 
     SearchProductResponse:
       type: object
