@@ -31,7 +31,7 @@ class SearchProductWorkflow(
                 productIds = request.productIds,
                 storeId = request.storeId,
                 sortBy = request.sortBy,
-                status = request.status,
+                status = request.status
             )
         )
         return SearchProductResponse(
