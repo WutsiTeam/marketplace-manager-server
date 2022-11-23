@@ -25,7 +25,11 @@ public class GetProductControllerTest : AbstractProductControllerTest<Long>() {
     @Test
     public fun invoke() {
         // GIVEN
-        val product = Fixtures.createProduct(id = PRODUCT_ID, storeId = STORE_ID)
+        val product = Fixtures.createProduct(
+            id = PRODUCT_ID,
+            storeId = STORE_ID,
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2))
+        )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
         // WHEN
