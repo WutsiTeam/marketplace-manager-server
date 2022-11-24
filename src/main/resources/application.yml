@@ -41,6 +41,10 @@ wutsi:
   platform:
     security:
       type: jwt
+      public-endpoints:
+        - "GET /v1/products/{id}"
+        - "GET /v1/products/search"
+        - "GET /v1/stores/{id}"
     cache:
       name: ${wutsi.application.name}
       type: local
