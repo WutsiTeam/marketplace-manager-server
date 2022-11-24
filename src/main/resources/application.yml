@@ -41,6 +41,8 @@ wutsi:
   platform:
     security:
       type: jwt
+      public-endpoint:
+        - "GET /v1/members"
     cache:
       name: ${wutsi.application.name}
       type: local
