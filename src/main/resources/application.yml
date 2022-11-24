@@ -43,7 +43,7 @@ wutsi:
       type: jwt
       public-endpoints:
         - "GET /v1/products/{id}"
-        - "GET /v1/products/search"
+        - "POST /v1/products/search"
         - "GET /v1/stores/{id}"
     cache:
       name: ${wutsi.application.name}

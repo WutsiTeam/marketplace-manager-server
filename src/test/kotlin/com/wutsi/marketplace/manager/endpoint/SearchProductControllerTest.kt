@@ -11,14 +11,18 @@ import com.wutsi.marketplace.manager.dto.SearchProductRequest
 import com.wutsi.marketplace.manager.dto.SearchProductResponse
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SearchProductControllerTest : AbstractProductControllerTest<SearchProductRequest>() {
-    override fun url() = "http://localhost:$port/v1/products/search"
+public class SearchProductControllerTest : AbstractControllerTest() {
+    @LocalServerPort
+    val port: Int = 0
 
-    override fun createRequest(): SearchProductRequest = SearchProductRequest(
+    private fun url() = "http://localhost:$port/v1/products/search"
+
+    val request = SearchProductRequest(
         productIds = listOf(100L, 200L),
         categoryIds = listOf(1L, 2L, 3L),
         storeId = 111L,
@@ -62,10 +66,5 @@ public class SearchProductControllerTest : AbstractProductControllerTest<SearchP
         assertEquals(products.size, response.body!!.products.size)
 
         verify(eventStream, never()).publish(any(), any())
-    }
-
-    @Test
-    override fun notProductOwner() {
-        // NOTHING
     }
 }

@@ -5,6 +5,7 @@ import com.wutsi.marketplace.manager.dto.SearchProductRequest
 import com.wutsi.marketplace.manager.dto.SearchProductResponse
 import com.wutsi.marketplace.manager.event.ProductEventPayload
 import com.wutsi.platform.core.stream.EventStream
+import com.wutsi.workflow.RuleSet
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service
 
@@ -19,6 +20,8 @@ class SearchProductWorkflow(
         response: SearchProductResponse,
         context: WorkflowContext
     ): ProductEventPayload? = null
+
+    override fun getValidationRules(request: SearchProductRequest, context: WorkflowContext) = RuleSet.NONE
 
     override fun getProductId(request: SearchProductRequest, context: WorkflowContext): Long? = null
 
