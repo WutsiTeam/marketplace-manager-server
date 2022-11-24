@@ -5,6 +5,7 @@ import com.wutsi.marketplace.manager.dto.GetProductResponse
 import com.wutsi.marketplace.manager.dto.Product
 import com.wutsi.marketplace.manager.event.ProductEventPayload
 import com.wutsi.platform.core.stream.EventStream
+import com.wutsi.workflow.RuleSet
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service
 
@@ -21,6 +22,8 @@ class GetProductWorkflow(
     ): ProductEventPayload? = null
 
     override fun getProductId(productId: Long, context: WorkflowContext): Long? = null
+
+    override fun getValidationRules(request: Long, context: WorkflowContext) = RuleSet.NONE
 
     override fun doExecute(productId: Long, context: WorkflowContext): GetProductResponse {
         val product = marketplaceAccessApi.getProduct(productId).product

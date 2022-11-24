@@ -5,6 +5,7 @@ import com.wutsi.marketplace.manager.dto.GetStoreResponse
 import com.wutsi.marketplace.manager.dto.Store
 import com.wutsi.marketplace.manager.event.StoreEventPayload
 import com.wutsi.platform.core.stream.EventStream
+import com.wutsi.workflow.RuleSet
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service
 
@@ -20,6 +21,8 @@ class GetStoreWorkflow(
         context: WorkflowContext
     ): StoreEventPayload? = null
 
+    override fun getValidationRules(request: Long, context: WorkflowContext) = RuleSet.NONE
+    
     override fun doExecute(storeId: Long, context: WorkflowContext): GetStoreResponse {
         val store = marketplaceAccessApi.getStore(storeId).store
         return GetStoreResponse(

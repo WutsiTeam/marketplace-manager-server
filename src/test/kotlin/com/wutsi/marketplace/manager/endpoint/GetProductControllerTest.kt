@@ -7,20 +7,20 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.marketplace.access.dto.GetProductResponse
 import com.wutsi.marketplace.manager.Fixtures
+import com.wutsi.marketplace.manager.endpoint.AbstractSecuredControllerTest.Companion.PRODUCT_ID
+import com.wutsi.marketplace.manager.endpoint.AbstractSecuredControllerTest.Companion.STORE_ID
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GetProductControllerTest : AbstractProductControllerTest<Long>() {
-    override fun url() = "http://localhost:$port/v1/products/$PRODUCT_ID"
+public class GetProductControllerTest : AbstractControllerTest() {
+    @LocalServerPort
+    val port: Int = 0
 
-    override fun createRequest(): Long? = PRODUCT_ID
-
-    override fun submit() {
-        rest.getForEntity(url(), com.wutsi.marketplace.manager.dto.GetProductResponse::class.java)
-    }
+    private fun url() = "http://localhost:$port/v1/products/$PRODUCT_ID"
 
     @Test
     public fun invoke() {
@@ -54,10 +54,5 @@ public class GetProductControllerTest : AbstractProductControllerTest<Long>() {
         assertEquals(product.pictures.size, prod.pictures.size)
 
         verify(eventStream, never()).publish(any(), any())
-    }
-
-    @Test
-    override fun notProductOwner() {
-        // NOTHING
     }
 }
