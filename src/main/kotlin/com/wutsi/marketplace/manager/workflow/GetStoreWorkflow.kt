@@ -22,7 +22,7 @@ class GetStoreWorkflow(
     ): StoreEventPayload? = null
 
     override fun getValidationRules(request: Long, context: WorkflowContext) = RuleSet.NONE
-    
+
     override fun doExecute(storeId: Long, context: WorkflowContext): GetStoreResponse {
         val store = marketplaceAccessApi.getStore(storeId).store
         return GetStoreResponse(

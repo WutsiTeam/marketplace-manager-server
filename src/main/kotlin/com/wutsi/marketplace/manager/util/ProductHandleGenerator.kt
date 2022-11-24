@@ -23,10 +23,6 @@ object ProductHandleGenerator {
     }
 
     private fun toAscii(string: String): String {
-        if (string == null || string.isEmpty()) {
-            return ""
-        }
-
         var str = string.trim()
         val sb = StringBuilder(str.length)
         str = Normalizer.normalize(str, Normalizer.Form.NFD)
