@@ -6,9 +6,9 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.enums.ProductStatus
 import com.wutsi.marketplace.access.dto.GetProductResponse
 import com.wutsi.marketplace.access.dto.UpdateProductStatusRequest
-import com.wutsi.marketplace.access.enums.ProductStatus
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.platform.core.error.ErrorResponse
 import com.wutsi.workflow.error.ErrorURN

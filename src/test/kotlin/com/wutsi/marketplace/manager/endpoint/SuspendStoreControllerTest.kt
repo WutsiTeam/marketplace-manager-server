@@ -6,8 +6,8 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
-import com.wutsi.marketplace.access.enums.StoreStatus
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.event.EventURN
 import com.wutsi.marketplace.manager.event.StoreEventPayload

@@ -1,12 +1,12 @@
 package com.wutsi.marketplace.manager
 
+import com.wutsi.enums.ProductStatus
+import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.CategorySummary
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.ProductSummary
 import com.wutsi.marketplace.access.dto.Store
-import com.wutsi.marketplace.access.enums.ProductStatus
-import com.wutsi.marketplace.access.enums.StoreStatus
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
 import com.wutsi.membership.access.enums.AccountStatus

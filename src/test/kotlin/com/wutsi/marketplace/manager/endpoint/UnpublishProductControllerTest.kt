@@ -3,8 +3,8 @@ package com.wutsi.marketplace.manager.endpoint
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
+import com.wutsi.enums.ProductStatus
 import com.wutsi.marketplace.access.dto.UpdateProductStatusRequest
-import com.wutsi.marketplace.access.enums.ProductStatus
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus

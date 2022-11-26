@@ -1,9 +1,9 @@
 package com.wutsi.marketplace.manager.workflow
 
+import com.wutsi.enums.ProductStatus
 import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.access.dto.UpdateProductStatusRequest
-import com.wutsi.marketplace.access.enums.ProductStatus
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.Rule

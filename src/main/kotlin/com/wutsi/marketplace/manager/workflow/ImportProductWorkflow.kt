@@ -1,9 +1,9 @@
 package com.wutsi.marketplace.manager.workflow
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.wutsi.enums.ProductStatus
 import com.wutsi.marketplace.access.dto.ProductSummary
 import com.wutsi.marketplace.access.dto.SearchProductRequest
-import com.wutsi.marketplace.access.enums.ProductStatus
 import com.wutsi.marketplace.access.error.ErrorURN
 import com.wutsi.marketplace.manager.dto.CreateProductRequest
 import com.wutsi.marketplace.manager.dto.ImportProductRequest
