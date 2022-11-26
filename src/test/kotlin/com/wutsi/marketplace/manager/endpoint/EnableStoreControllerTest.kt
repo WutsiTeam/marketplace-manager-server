@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.error.ErrorURN
 import com.wutsi.event.EventURN
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.CreateStoreRequest
@@ -14,7 +15,6 @@ import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.dto.EnableStoreResponse
 import com.wutsi.membership.access.dto.GetAccountResponse
 import com.wutsi.platform.core.error.ErrorResponse
-import com.wutsi.workflow.error.ErrorURN
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
