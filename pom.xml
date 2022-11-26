@@ -32,7 +32,7 @@
     <klint.version>0.47.1</klint.version>
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
 
-    <wutsi-enums.version>1.0.2</wutsi-enums.version>
+    <wutsi-enums.version>1.0.3</wutsi-enums.version>
     <wutsi-platform-core.version>0.0.190</wutsi-platform-core.version>
     <wutsi-marketplace-access.version>1.0.12</wutsi-marketplace-access.version>
     <wutsi-membership-access.version>1.0.14</wutsi-membership-access.version>
