@@ -1,9 +1,9 @@
 package com.wutsi.marketplace.manager.workflow
 
+import com.wutsi.event.ProductEventPayload
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.manager.dto.GetProductResponse
 import com.wutsi.marketplace.manager.dto.Product
-import com.wutsi.marketplace.manager.event.ProductEventPayload
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.RuleSet
 import com.wutsi.workflow.WorkflowContext

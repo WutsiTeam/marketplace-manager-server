@@ -1,5 +1,6 @@
 package com.wutsi.marketplace.manager
 
+import com.wutsi.enums.AccountStatus
 import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.CategorySummary
@@ -9,7 +10,6 @@ import com.wutsi.marketplace.access.dto.ProductSummary
 import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
-import com.wutsi.membership.access.enums.AccountStatus
 
 object Fixtures {
     fun createAccount(

@@ -7,10 +7,10 @@ import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.enums.StoreStatus
+import com.wutsi.event.EventURN
+import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
 import com.wutsi.marketplace.manager.Fixtures
-import com.wutsi.marketplace.manager.event.EventURN
-import com.wutsi.marketplace.manager.event.StoreEventPayload
 import com.wutsi.membership.access.dto.GetAccountResponse
 import com.wutsi.platform.core.error.ErrorResponse
 import com.wutsi.workflow.error.ErrorURN
