@@ -7,6 +7,7 @@ import com.wutsi.marketplace.access.dto.CategorySummary
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.ProductSummary
+import com.wutsi.marketplace.access.dto.ReservationSummary
 import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
@@ -78,5 +79,9 @@ object Fixtures {
     fun createPictureSummary(id: Long = -1) = PictureSummary(
         id = id,
         url = "https://img.com/$id.png"
+    )
+
+    fun createReservationSummary(id: Long) = ReservationSummary(
+        id = id
     )
 }
