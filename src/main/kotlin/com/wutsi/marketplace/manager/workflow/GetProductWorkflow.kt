@@ -1,5 +1,6 @@
 package com.wutsi.marketplace.manager.workflow
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.wutsi.event.ProductEventPayload
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.manager.dto.GetProductResponse
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class GetProductWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
+    private val objectMapper: ObjectMapper
 ) : AbstractProductWorkflow<Long, GetProductResponse>(eventStream) {
     override fun getEventType(): String? = null
 
@@ -28,22 +30,9 @@ class GetProductWorkflow(
     override fun doExecute(productId: Long, context: WorkflowContext): GetProductResponse {
         val product = marketplaceAccessApi.getProduct(productId).product
         return GetProductResponse(
-            product = Product(
-                id = product.id,
-                title = product.title,
-                summary = product.summary,
-                price = product.price,
-                comparablePrice = product.comparablePrice,
-                currency = product.currency,
-                quantity = product.quantity,
-                status = product.status,
-                storeId = product.storeId,
-                created = product.created,
-                updated = product.updated,
-                published = product.published,
-                thumbnail = product.thumbnail?.let { toPictureThumbnail(it) },
-                pictures = product.pictures.map { toPictureThumbnail(it) },
-                description = product.description
+            product = objectMapper.readValue(
+                objectMapper.writeValueAsString(product),
+                Product::class.java
             )
         )
     }

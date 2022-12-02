@@ -43,7 +43,9 @@ public class GetProductControllerTest : AbstractControllerTest() {
 
         val prod = response.body!!.product
         assertEquals(product.id, prod.id)
-        assertEquals(product.storeId, prod.storeId)
+        assertEquals(product.store.id, prod.store.id)
+        assertEquals(product.store.accountId, prod.store.accountId)
+        assertEquals(product.store.currency, prod.store.currency)
         assertEquals(product.title, prod.title)
         assertEquals(product.summary, prod.summary)
         assertEquals(product.description, prod.description)

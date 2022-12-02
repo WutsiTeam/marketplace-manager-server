@@ -5,7 +5,7 @@ import java.time.OffsetDateTime
 
 public data class Product(
     public val id: Long = 0,
-    public val storeId: Long = 0,
+    public val store: StoreSummary = StoreSummary(),
     public val thumbnail: PictureSummary? = null,
     public val pictures: List<PictureSummary> = emptyList(),
     public val title: String = "",

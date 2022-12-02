@@ -50,8 +50,6 @@ class SearchProductWorkflow(
                     status = it.status,
                     storeId = it.storeId,
                     categoryId = it.categoryId,
-                    created = it.created,
-                    updated = it.updated,
                     thumbnailUrl = it.thumbnailUrl
                 )
             }

@@ -498,14 +498,6 @@ components:
           type: integer
           description: Quantity in stock
           nullable: true
-        created:
-          type: string
-          format: date-time
-          description: Creation Date/Time
-        updated:
-          type: string
-          format: date-time
-          description: Last modification Date/Time
         status:
           type: string
           enum:
@@ -519,14 +511,12 @@ components:
           type: integer
           format: int64
           description: Unique identifier of the product
-        storeId:
-          type: integer
-          format: int64
-          description: ID of the merchant account
+        store:
+          type: object
+          $ref: "#/components/schemas/StoreSummary"
         thumbnail:
           type: object
           $ref: "#/components/schemas/PictureSummary"
-          nullable: true
         pictures:
           type: array
           items:
@@ -630,6 +620,27 @@ components:
           format: date-time
           description: Last modification Date/Time
           nullable: true
+        status:
+          type: string
+          enum:
+            - UNDER_REVIEW
+            - ACTIVE
+            - SUSPENDED
+
+    StoreSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of created store
+        accountId:
+          type: integer
+          format: int64
+          description: ID of the associated account
+        currency:
+          type: string
+          description: Currency of the store
         status:
           type: string
           enum:

@@ -9,6 +9,7 @@ import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.ProductSummary
 import com.wutsi.marketplace.access.dto.ReservationSummary
 import com.wutsi.marketplace.access.dto.Store
+import com.wutsi.marketplace.access.dto.StoreSummary
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
 
@@ -55,7 +56,11 @@ object Fixtures {
         pictures: List<PictureSummary> = emptyList()
     ) = Product(
         id = id,
-        storeId = storeId,
+        store = StoreSummary(
+            id = storeId,
+            accountId = -1,
+            currency = "XAF"
+        ),
         pictures = pictures,
         summary = "This is a summary",
         description = "This is the description",
