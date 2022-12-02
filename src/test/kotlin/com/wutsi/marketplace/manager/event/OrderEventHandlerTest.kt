@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.wutsi.enums.OrderStatus
+import com.wutsi.enums.ReservationStatus
 import com.wutsi.event.OrderEventPayload
 import com.wutsi.marketplace.access.MarketplaceAccessApi
 import com.wutsi.marketplace.access.dto.SearchReservationResponse
@@ -57,13 +57,13 @@ internal class OrderEventHandlerTest {
         verify(marketplaceAccessApi).updateReservationStatus(
             reservations[0].id,
             UpdateReservationStatusRequest(
-                OrderStatus.EXPIRED.name
+                ReservationStatus.CANCELLED.name
             )
         )
         verify(marketplaceAccessApi).updateReservationStatus(
             reservations[1].id,
             UpdateReservationStatusRequest(
-                OrderStatus.EXPIRED.name
+                ReservationStatus.CANCELLED.name
             )
         )
 

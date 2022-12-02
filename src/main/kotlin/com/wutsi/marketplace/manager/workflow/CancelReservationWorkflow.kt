@@ -1,6 +1,6 @@
 package com.wutsi.marketplace.manager.workflow
 
-import com.wutsi.enums.OrderStatus
+import com.wutsi.enums.ReservationStatus
 import com.wutsi.marketplace.access.dto.UpdateReservationStatusRequest
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.RuleSet
@@ -21,7 +21,7 @@ class CancelReservationWorkflow(
         marketplaceAccessApi.updateReservationStatus(
             id = reservationId,
             request = UpdateReservationStatusRequest(
-                status = OrderStatus.EXPIRED.name
+                status = ReservationStatus.CANCELLED.name
             )
         )
     }
