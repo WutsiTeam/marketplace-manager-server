@@ -8,7 +8,6 @@ import com.wutsi.workflow.Rule
 import com.wutsi.workflow.RuleSet
 import com.wutsi.workflow.WorkflowContext
 import com.wutsi.workflow.rule.account.AccountShouldBeActiveRule
-import com.wutsi.workflow.rule.account.AccountShouldBeBusinessRule
 
 abstract class AbstractStoreWorkflow<Req, Resp>(eventStream: EventStream) :
     AbstractMarketplaceWorkflow<Req, Resp, StoreEventPayload>(eventStream) {
@@ -18,8 +17,7 @@ abstract class AbstractStoreWorkflow<Req, Resp>(eventStream: EventStream) :
             getCurrentStore(account)
         }
         val rules = mutableListOf<Rule?>(
-            AccountShouldBeActiveRule(account),
-            AccountShouldBeBusinessRule(account)
+            AccountShouldBeActiveRule(account)
         )
         rules.addAll(getAdditionalRules(account, store))
         return RuleSet(

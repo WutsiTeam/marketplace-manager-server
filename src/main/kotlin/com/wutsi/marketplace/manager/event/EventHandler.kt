@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class EventHandler(
+    private val business: BusinessEventHandler,
     private val order: OrderEventHandler
 ) {
     @EventListener
     fun handleEvent(event: Event) {
         when (event.type) {
             EventURN.ORDER_EXPIRED.urn -> order.onOrderExpired(event)
+            EventURN.BUSINESS_DEACTIVATED.urn -> business.onBusinessDeactivated(event)
             else -> {}
         }
     }

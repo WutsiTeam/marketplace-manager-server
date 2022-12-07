@@ -66,23 +66,4 @@ abstract class AbstractStoreControllerTest<Req> : AbstractSecuredControllerTest(
 
         verify(eventStream, never()).publish(any(), any())
     }
-
-    @Test
-    fun notBusinessAccount() {
-        // GIVEN
-        val account = Fixtures.createAccount(business = false)
-        doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
-
-        // WHEN
-        val ex = assertThrows<HttpClientErrorException> {
-            submit()
-        }
-        // THEN
-        assertEquals(HttpStatus.CONFLICT, ex.statusCode)
-
-        val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
-        assertEquals(ErrorURN.MEMBER_NOT_BUSINESS.urn, response.error.code)
-
-        verify(eventStream, never()).publish(any(), any())
-    }
 }
