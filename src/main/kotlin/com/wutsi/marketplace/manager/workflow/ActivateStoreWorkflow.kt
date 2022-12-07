@@ -4,7 +4,7 @@ import com.wutsi.event.EventURN
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.CreateStoreRequest
 import com.wutsi.marketplace.access.dto.Store
-import com.wutsi.marketplace.manager.dto.EnableStoreResponse
+import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.WorkflowContext
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service
 @Service
 class ActivateStoreWorkflow(
     eventStream: EventStream
-) : AbstractStoreWorkflow<Void?, EnableStoreResponse>(eventStream) {
+) : AbstractStoreWorkflow<Void?, ActivateStoreResponse>(eventStream) {
     override fun getEventType() = EventURN.STORE_ACTIVATED.urn
 
-    override fun toEventPayload(request: Void?, response: EnableStoreResponse, context: WorkflowContext) =
+    override fun toEventPayload(request: Void?, response: ActivateStoreResponse, context: WorkflowContext) =
         StoreEventPayload(
             accountId = getCurrentAccountId(context),
             storeId = response.storeId
@@ -27,7 +27,7 @@ class ActivateStoreWorkflow(
         CountryShouldSupportStoreRule(account, regulationEngine)
     )
 
-    override fun doExecute(request: Void?, context: WorkflowContext): EnableStoreResponse {
+    override fun doExecute(request: Void?, context: WorkflowContext): ActivateStoreResponse {
         val account = getCurrentAccount(context)
         val response = marketplaceAccessApi.createStore(
             request = CreateStoreRequest(
@@ -35,7 +35,7 @@ class ActivateStoreWorkflow(
                 currency = regulationEngine.country(account.country).currency
             )
         )
-        return EnableStoreResponse(
+        return ActivateStoreResponse(
             storeId = response.storeId
         )
     }

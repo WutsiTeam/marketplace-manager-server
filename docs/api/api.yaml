@@ -13,20 +13,20 @@ servers:
 paths:
   /v1/stores:
     post:
-      operationId: "enable-store"
-      description: Enable the store of the current user
+      operationId: "activate-store"
+      description: Activate the store of the current user
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnableStoreResponse'
+                $ref: '#/components/schemas/ActivateStoreResponse'
       tags:
         - Store
 
     delete:
-      operationId: "suspend-store"
+      operationId: "deactivate-store"
       description: Disable the store of the current user
       responses:
         200:
@@ -290,7 +290,7 @@ components:
       name: Authorization
 
   schemas:
-    EnableStoreResponse:
+    ActivateStoreResponse:
       type: object
       properties:
         storeId:

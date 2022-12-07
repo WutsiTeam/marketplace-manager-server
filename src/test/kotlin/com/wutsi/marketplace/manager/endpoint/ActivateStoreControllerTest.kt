@@ -12,7 +12,7 @@ import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.CreateStoreRequest
 import com.wutsi.marketplace.access.dto.CreateStoreResponse
 import com.wutsi.marketplace.manager.Fixtures
-import com.wutsi.marketplace.manager.dto.EnableStoreResponse
+import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
 import com.wutsi.membership.access.dto.GetAccountResponse
 import com.wutsi.platform.core.error.ErrorResponse
 import org.junit.jupiter.api.Test
@@ -34,7 +34,7 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
         doReturn(CreateStoreResponse(STORE_ID)).whenever(marketplaceAccessApi).createStore(any())
 
         // WHEN
-        val response = rest.postForEntity(url(), null, EnableStoreResponse::class.java)
+        val response = rest.postForEntity(url(), null, ActivateStoreResponse::class.java)
 
         // THEN
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -63,7 +63,7 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
 
         // WHEN
         val ex = assertThrows<HttpClientErrorException> {
-            rest.postForEntity(url(), null, EnableStoreResponse::class.java)
+            rest.postForEntity(url(), null, ActivateStoreResponse::class.java)
         }
         // THEN
         assertEquals(HttpStatus.CONFLICT, ex.statusCode)

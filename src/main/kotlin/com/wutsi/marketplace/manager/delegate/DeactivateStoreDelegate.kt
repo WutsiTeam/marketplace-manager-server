@@ -5,7 +5,7 @@ import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service
 
 @Service
-class SuspendStoreDelegate(private val workflow: DeactivateStoreWorkflow) {
+class DeactivateStoreDelegate(private val workflow: DeactivateStoreWorkflow) {
     fun invoke() {
         workflow.execute(null, WorkflowContext())
     }
