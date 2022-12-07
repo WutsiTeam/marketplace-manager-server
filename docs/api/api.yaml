@@ -615,17 +615,17 @@ components:
           type: string
           format: date-time
           description: Last modification Date/Time
-        suspended:
+        deactivated:
           type: string
           format: date-time
-          description: Last modification Date/Time
+          description: De-activation date/time
           nullable: true
         status:
           type: string
           enum:
             - UNDER_REVIEW
             - ACTIVE
-            - SUSPENDED
+            - INACTIVE
 
     StoreSummary:
       type: object
@@ -646,4 +646,8 @@ components:
           enum:
             - UNDER_REVIEW
             - ACTIVE
-            - SUSPENDED
+            - INACTIVE
+        created:
+          type: string
+          format: date-time
+          description: Registration Date/Time

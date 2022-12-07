@@ -23,7 +23,7 @@ import org.springframework.web.client.HttpClientErrorException
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class EnableStoreControllerTest : AbstractStoreControllerTest<Void>() {
+class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
     override fun url() = "http://localhost:$port/v1/stores"
 
     override fun createRequest(): Void? = null
@@ -47,7 +47,7 @@ class EnableStoreControllerTest : AbstractStoreControllerTest<Void>() {
         )
 
         verify(eventStream).publish(
-            EventURN.STORE_ENABLED.urn,
+            EventURN.STORE_ACTIVATED.urn,
             StoreEventPayload(
                 accountId = account.id,
                 storeId = STORE_ID

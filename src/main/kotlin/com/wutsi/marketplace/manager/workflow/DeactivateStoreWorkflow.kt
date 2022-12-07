@@ -13,10 +13,10 @@ import com.wutsi.workflow.rule.account.AccountShouldHaveStoreRule
 import org.springframework.stereotype.Service
 
 @Service
-class SuspendStoreWorkflow(
+class DeactivateStoreWorkflow(
     eventStream: EventStream
 ) : AbstractStoreWorkflow<Void?, Long?>(eventStream) {
-    override fun getEventType() = EventURN.STORE_SUSPENDED.urn
+    override fun getEventType() = EventURN.STORE_DEACTIVATED.urn
 
     override fun toEventPayload(request: Void?, storeId: Long?, context: WorkflowContext) = storeId?.let {
         StoreEventPayload(
@@ -36,7 +36,7 @@ class SuspendStoreWorkflow(
             marketplaceAccessApi.updateStoreStatus(
                 id = account.storeId!!,
                 request = UpdateStoreStatusRequest(
-                    status = StoreStatus.SUSPENDED.name
+                    status = StoreStatus.INACTIVE.name
                 )
             )
         }

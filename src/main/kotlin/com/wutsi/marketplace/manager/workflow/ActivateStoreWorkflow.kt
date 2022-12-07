@@ -12,10 +12,10 @@ import com.wutsi.workflow.rule.account.CountryShouldSupportStoreRule
 import org.springframework.stereotype.Service
 
 @Service
-class EnableStoreWorkflow(
+class ActivateStoreWorkflow(
     eventStream: EventStream
 ) : AbstractStoreWorkflow<Void?, EnableStoreResponse>(eventStream) {
-    override fun getEventType() = EventURN.STORE_ENABLED.urn
+    override fun getEventType() = EventURN.STORE_ACTIVATED.urn
 
     override fun toEventPayload(request: Void?, response: EnableStoreResponse, context: WorkflowContext) =
         StoreEventPayload(

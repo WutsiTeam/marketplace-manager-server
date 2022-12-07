@@ -5,7 +5,7 @@ import org.springframework.web.bind.`annotation`.DeleteMapping
 import org.springframework.web.bind.`annotation`.RestController
 
 @RestController
-public class SuspendStoreController(
+public class DeactivateStoreController(
     public val `delegate`: SuspendStoreDelegate
 ) {
     @DeleteMapping("/v1/stores")

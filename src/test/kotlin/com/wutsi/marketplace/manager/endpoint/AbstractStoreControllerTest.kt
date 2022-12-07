@@ -51,7 +51,7 @@ abstract class AbstractStoreControllerTest<Req> : AbstractSecuredControllerTest(
     @Test
     fun notActive() {
         // GIVEN
-        account = Fixtures.createAccount(status = AccountStatus.SUSPENDED)
+        account = Fixtures.createAccount(status = AccountStatus.INACTIVE)
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 
         // WHEN

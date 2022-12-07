@@ -22,7 +22,7 @@ import org.springframework.web.client.HttpClientErrorException
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SuspendStoreControllerTest : AbstractStoreControllerTest<Void>() {
+class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
     override fun url() = "http://localhost:$port/v1/stores"
 
     override fun createRequest(): Void? = null
@@ -40,12 +40,12 @@ class SuspendStoreControllerTest : AbstractStoreControllerTest<Void>() {
         verify(marketplaceAccessApi).updateStoreStatus(
             account.storeId!!,
             UpdateStoreStatusRequest(
-                status = StoreStatus.SUSPENDED.name
+                status = StoreStatus.INACTIVE.name
             )
         )
 
         verify(eventStream).publish(
-            EventURN.STORE_SUSPENDED.urn,
+            EventURN.STORE_DEACTIVATED.urn,
             StoreEventPayload(
                 accountId = account.id,
                 storeId = STORE_ID

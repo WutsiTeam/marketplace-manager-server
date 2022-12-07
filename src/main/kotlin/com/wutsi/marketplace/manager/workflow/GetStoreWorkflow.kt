@@ -34,7 +34,7 @@ class GetStoreWorkflow(
                 publishedProductCount = store.publishedProductCount,
                 created = store.created,
                 updated = store.updated,
-                suspended = store.suspended,
+                deactivated = store.deactivated,
                 status = store.status
             )
         )

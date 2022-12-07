@@ -83,7 +83,7 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
     @Test
     fun storeNotActive() {
         // GIVEN
-        store = Fixtures.createStore(id = STORE_ID, accountId = ACCOUNT_ID, status = StoreStatus.SUSPENDED)
+        store = Fixtures.createStore(id = STORE_ID, accountId = ACCOUNT_ID, status = StoreStatus.INACTIVE)
         doReturn(GetStoreResponse(store)).whenever(marketplaceAccessApi).getStore(any())
 
         // WHEN
@@ -107,11 +107,11 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
             id = ACCOUNT_ID,
             business = true,
             storeId = STORE_ID,
-            status = AccountStatus.SUSPENDED
+            status = AccountStatus.INACTIVE
         )
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 
-        val store = Fixtures.createStore(STORE_ID, status = StoreStatus.SUSPENDED)
+        val store = Fixtures.createStore(STORE_ID, status = StoreStatus.INACTIVE)
         doReturn(GetStoreResponse(store)).whenever(marketplaceAccessApi).getStore(any())
 
         // WHEN
