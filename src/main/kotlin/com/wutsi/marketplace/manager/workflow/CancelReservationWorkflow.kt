@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 class CancelReservationWorkflow(
     eventStream: EventStream
 ) : AbstractMarketplaceWorkflow<Long, Unit, Void>(eventStream) {
-    override fun getEventType(): String? = null
+    override fun getEventType(reservationId: Long, response: Unit, context: WorkflowContext): String? = null
 
     override fun getValidationRules(reservationId: Long, context: WorkflowContext): RuleSet = RuleSet.NONE
 

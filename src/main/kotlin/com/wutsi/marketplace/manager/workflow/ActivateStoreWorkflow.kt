@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service
 class ActivateStoreWorkflow(
     eventStream: EventStream
 ) : AbstractStoreWorkflow<Void?, ActivateStoreResponse>(eventStream) {
-    override fun getEventType() = EventURN.STORE_ACTIVATED.urn
+    override fun getEventType(request: Void?, response: ActivateStoreResponse, context: WorkflowContext) =
+        EventURN.STORE_ACTIVATED.urn
 
     override fun toEventPayload(request: Void?, response: ActivateStoreResponse, context: WorkflowContext) =
         StoreEventPayload(

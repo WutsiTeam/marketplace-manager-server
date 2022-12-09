@@ -15,7 +15,11 @@ class GetProductWorkflow(
     eventStream: EventStream,
     private val objectMapper: ObjectMapper
 ) : AbstractProductWorkflow<Long, GetProductResponse>(eventStream) {
-    override fun getEventType(): String? = null
+    override fun getEventType(
+        productId: Long,
+        response: GetProductResponse,
+        context: WorkflowContext
+    ): String? = null
 
     override fun toEventPayload(
         productId: Long,

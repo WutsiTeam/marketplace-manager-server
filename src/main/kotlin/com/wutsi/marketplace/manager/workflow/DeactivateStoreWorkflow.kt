@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 class DeactivateStoreWorkflow(
     eventStream: EventStream
 ) : AbstractStoreWorkflow<Void?, Long?>(eventStream) {
-    override fun getEventType() = EventURN.STORE_DEACTIVATED.urn
+    override fun getEventType(request: Void?, storeId: Long?, context: WorkflowContext) = EventURN.STORE_DEACTIVATED.urn
 
     override fun toEventPayload(request: Void?, storeId: Long?, context: WorkflowContext) = storeId?.let {
         StoreEventPayload(

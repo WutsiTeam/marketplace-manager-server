@@ -21,7 +21,7 @@ class ImportCategoryWorkflow(
         private val LOGGER = LoggerFactory.getLogger(ImportCategoryWorkflow::class.java)
     }
 
-    override fun getEventType(): String? = null
+    override fun getEventType(language: String, response: Unit, context: WorkflowContext): String? = null
     override fun toEventPayload(language: String, response: Unit, context: WorkflowContext): Void? = null
     override fun getValidationRules(language: String, context: WorkflowContext) = RuleSet.NONE
 

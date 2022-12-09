@@ -17,7 +17,7 @@ import com.wutsi.workflow.rule.account.StoreShouldBeActiveRule
 
 abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
     AbstractMarketplaceWorkflow<Req, Resp, ProductEventPayload>(eventStream) {
-    override fun getEventType(): String? = null
+    override fun getEventType(request: Req, response: Resp, context: WorkflowContext): String? = null
     override fun toEventPayload(request: Req, response: Resp, context: WorkflowContext): ProductEventPayload? = null
     protected abstract fun getProductId(request: Req, context: WorkflowContext): Long?
 

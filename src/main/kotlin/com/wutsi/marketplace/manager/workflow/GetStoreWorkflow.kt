@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service
 class GetStoreWorkflow(
     eventStream: EventStream
 ) : AbstractStoreWorkflow<Long, GetStoreResponse>(eventStream) {
-    override fun getEventType(): String? = null
+    override fun getEventType(
+        productId: Long,
+        response: GetStoreResponse,
+        context: WorkflowContext
+    ): String? = null
 
     override fun toEventPayload(
         productId: Long,
