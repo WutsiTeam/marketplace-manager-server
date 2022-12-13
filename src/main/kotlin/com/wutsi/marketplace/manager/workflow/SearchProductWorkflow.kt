@@ -1,5 +1,6 @@
 package com.wutsi.marketplace.manager.workflow
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.wutsi.event.ProductEventPayload
 import com.wutsi.marketplace.manager.dto.ProductSummary
 import com.wutsi.marketplace.manager.dto.SearchProductRequest
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SearchProductWorkflow(
+    private val objectMapper: ObjectMapper,
     eventStream: EventStream
 ) : AbstractProductWorkflow<SearchProductRequest, SearchProductResponse>(eventStream) {
     override fun getEventType(
@@ -43,18 +45,9 @@ class SearchProductWorkflow(
         )
         return SearchProductResponse(
             products = response.products.map {
-                ProductSummary(
-                    id = it.id,
-                    title = it.title,
-                    summary = it.summary,
-                    price = it.price,
-                    comparablePrice = it.comparablePrice,
-                    currency = it.currency,
-                    quantity = it.quantity,
-                    status = it.status,
-                    storeId = it.storeId,
-                    categoryId = it.categoryId,
-                    thumbnailUrl = it.thumbnailUrl
+                objectMapper.readValue(
+                    objectMapper.writeValueAsString(it),
+                    ProductSummary::class.java
                 )
             }
         )

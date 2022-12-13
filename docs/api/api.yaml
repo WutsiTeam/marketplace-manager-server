@@ -59,6 +59,20 @@ paths:
         - Store
 
 
+  /v1/meeting-providers/search:
+    post:
+      operationId: "search-meeting-provider"
+      description: Return all meeting providers
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchMeetingProviderResponse'
+      tags:
+        - Product
+
   /v1/products:
     post:
       operationId: create-product
@@ -138,6 +152,24 @@ paths:
         - Product
       security:
         - api_key: []
+
+  /v1/products/event:
+    post:
+      operationId: "update-product-event"
+      description: Update an product attribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductEventRequest'
+      responses:
+        200:
+          description: Success
+        404:
+          description: The product not found
+      tags:
+        - Product
 
   /v1/products/import:
     post:
@@ -503,6 +535,14 @@ components:
           enum:
             - DRAFT
             - PUBLISHED
+        type:
+          type: string
+          description: Type of product
+          enum:
+            - PHYSICAL
+            - DIGITAL_DOWNLOAD
+            - WEBMINAR
+            - MEMBERSHIP
 
     Product:
       type: object
@@ -566,6 +606,18 @@ components:
           type: string
           format: date-time
           description: Published modification Date/Time
+          nullable: true
+        type:
+          type: string
+          description: Type of product
+          enum:
+            - PHYSICAL
+            - DIGITAL_DOWNLOAD
+            - WEBMINAR
+            - MEMBERSHIP
+        event:
+          type: object
+          $ref: "#/components/schemas/Event"
           nullable: true
 
     PictureSummary:
@@ -651,3 +703,101 @@ components:
           type: string
           format: date-time
           description: Registration Date/Time
+
+    UpdateProductEventRequest:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: ID of the product
+        online:
+          type: boolean
+          description: Online event?
+        meetingId:
+          type: string
+          description: ID of the meeting
+          nullable: true
+        meetingPassword:
+          type: string
+          description: Password of the meeting
+          nullable: true
+        meetingProviderId:
+          type: integer
+          format: int64
+          description: Event provider
+          nullable: true
+        starts:
+          type: string
+          format: date-time
+          description: Start/Event date
+          nullable: true
+        ends:
+          type: string
+          format: date-time
+          description: Event date
+          nullable: true
+      required:
+        - starts
+        - ends
+
+    SearchMeetingProviderResponse:
+      type: object
+      properties:
+        meetingProviders:
+          type: array
+          items:
+            $ref: "#/components/schemas/MeetingProviderSummary"
+
+    MeetingProviderSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the event provider
+        type:
+          type: string
+          description: Type of provider
+          enum:
+            - ZOOM
+            - MEET
+        name:
+          type: string
+          description: Password of the meeting
+        logoUrl:
+          type: string
+          description: URL of the logo
+
+    Event:
+      type: object
+      properties:
+        online:
+          type: boolean
+          description: Online event
+        meetingId:
+          type: string
+          description: ID of the meeting
+        meetingPassword:
+          type: string
+          description: Password of the meeting
+          nullable: true
+        meetingProvider:
+          type: object
+          $ref: "#/components/schemas/MeetingProviderSummary"
+          description: Online meeting provider
+          nullable: true
+        meetingJoinUrl:
+          type: string
+          description: Join URL
+          nullable: true
+        starts:
+          type: string
+          format: date-time
+          description: Start/Event date
+          nullable: true
+        ends:
+          type: string
+          format: date-time
+          description: Event date
+          nullable: true

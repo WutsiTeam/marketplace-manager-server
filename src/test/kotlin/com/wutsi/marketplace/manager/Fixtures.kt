@@ -1,9 +1,11 @@
 package com.wutsi.marketplace.manager
 
 import com.wutsi.enums.AccountStatus
+import com.wutsi.enums.MeetingProviderType
 import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.CategorySummary
+import com.wutsi.marketplace.access.dto.MeetingProviderSummary
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.ProductSummary
@@ -89,4 +91,12 @@ object Fixtures {
     fun createReservationSummary(id: Long) = ReservationSummary(
         id = id
     )
+
+    fun createMeetingProviderSummary(id: Long, type: MeetingProviderType = MeetingProviderType.ZOOM) =
+        MeetingProviderSummary(
+            id = id,
+            logoUrl = "https://img.com/$id.png",
+            name = "NAME-$id",
+            type = type.name
+        )
 }

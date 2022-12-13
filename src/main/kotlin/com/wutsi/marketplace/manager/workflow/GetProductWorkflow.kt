@@ -2,7 +2,6 @@ package com.wutsi.marketplace.manager.workflow
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.wutsi.event.ProductEventPayload
-import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.manager.dto.GetProductResponse
 import com.wutsi.marketplace.manager.dto.Product
 import com.wutsi.platform.core.stream.EventStream
@@ -40,9 +39,4 @@ class GetProductWorkflow(
             )
         )
     }
-
-    private fun toPictureThumbnail(picture: PictureSummary) = com.wutsi.marketplace.manager.dto.PictureSummary(
-        id = picture.id,
-        url = picture.url
-    )
 }

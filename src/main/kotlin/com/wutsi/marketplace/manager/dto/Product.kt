@@ -25,5 +25,7 @@ public data class Product(
     public val updated: OffsetDateTime = OffsetDateTime.now(),
     public val status: String = "",
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    public val published: OffsetDateTime? = null
+    public val published: OffsetDateTime? = null,
+    public val type: String = "",
+    public val event: Event = Event()
 )

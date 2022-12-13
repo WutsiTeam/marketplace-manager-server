@@ -15,5 +15,6 @@ public data class ProductSummary(
     public val categoryId: Long? = null,
     public val currency: String = "",
     public val quantity: Int? = null,
-    public val status: String = ""
+    public val status: String = "",
+    public val type: String = ""
 )
