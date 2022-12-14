@@ -543,6 +543,10 @@ components:
             - DIGITAL_DOWNLOAD
             - WEBMINAR
             - MEMBERSHIP
+        event:
+          type: object
+          $ref: "#/components/schemas/Event"
+          nullable: true
 
     Product:
       type: object
