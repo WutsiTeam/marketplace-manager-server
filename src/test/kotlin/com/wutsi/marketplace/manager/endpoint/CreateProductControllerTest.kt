@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.enums.ProductType
 import com.wutsi.error.ErrorURN
 import com.wutsi.marketplace.access.dto.GetStoreResponse
 import com.wutsi.marketplace.manager.Fixtures
@@ -30,7 +31,8 @@ class CreateProductControllerTest : AbstractProductControllerTest<CreateProductR
         title = "Product A",
         summary = "This is a summary",
         categoryId = 3203029,
-        price = 1500
+        price = 1500,
+        type = ProductType.EVENT.name
     )
 
     @BeforeEach
@@ -62,7 +64,8 @@ class CreateProductControllerTest : AbstractProductControllerTest<CreateProductR
                 summary = request!!.summary,
                 categoryId = request!!.categoryId,
                 price = request!!.price,
-                quantity = request!!.quantity
+                quantity = request!!.quantity,
+                type = request!!.type
             )
         )
 
