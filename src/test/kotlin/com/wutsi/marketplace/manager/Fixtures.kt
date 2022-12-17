@@ -3,6 +3,7 @@ package com.wutsi.marketplace.manager
 import com.wutsi.enums.AccountStatus
 import com.wutsi.enums.MeetingProviderType
 import com.wutsi.enums.ProductStatus
+import com.wutsi.enums.ProductType
 import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.CategorySummary
 import com.wutsi.marketplace.access.dto.MeetingProviderSummary
@@ -14,6 +15,8 @@ import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.access.dto.StoreSummary
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 object Fixtures {
     fun createAccount(
@@ -55,7 +58,9 @@ object Fixtures {
         id: Long = -1,
         storeId: Long = -1,
         quantity: Int? = 11,
-        pictures: List<PictureSummary> = emptyList()
+        pictures: List<PictureSummary> = emptyList(),
+        type: ProductType = ProductType.PHYSICAL_PRODUCT,
+        event: com.wutsi.marketplace.access.dto.Event? = null
     ) = Product(
         id = id,
         store = StoreSummary(
@@ -70,9 +75,11 @@ object Fixtures {
         comparablePrice = 150000L,
         quantity = quantity,
         status = ProductStatus.DRAFT.name,
+        type = type.name,
         thumbnail = if (pictures.isEmpty()) null else pictures[0],
         currency = "XAF",
         title = "This is the title",
+        event = event,
         category = CategorySummary(
             id = 1,
             title = "Art"
@@ -99,4 +106,25 @@ object Fixtures {
             name = "NAME-$id",
             type = type.name
         )
+
+    fun createEvent(
+        starts: OffsetDateTime = OffsetDateTime.of(2020, 1, 1, 10, 30, 0, 0, ZoneOffset.UTC),
+        ends: OffsetDateTime = OffsetDateTime.of(2020, 1, 1, 15, 30, 0, 0, ZoneOffset.UTC),
+        meetingProvider: MeetingProviderSummary? = null
+    ) = com.wutsi.marketplace.access.dto.Event(
+        online = true,
+        meetingPassword = "123456",
+        meetingId = "1234567890",
+        meetingJoinUrl = "https://us04.zoom.us/j/12345678",
+        starts = starts,
+        ends = ends,
+        meetingProvider = meetingProvider
+    )
+
+    fun createMeetingProviderSummary() = MeetingProviderSummary(
+        id = 1000,
+        type = MeetingProviderType.ZOOM.name,
+        name = "Zoom",
+        logoUrl = "https://prod-wutsi.s3.amazonaws.com/static/marketplace-access-server/meeting-providers/zoom.png"
+    )
 }
