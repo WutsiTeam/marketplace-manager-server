@@ -23,5 +23,6 @@ public data class Product(
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     public val published: OffsetDateTime? = null,
     public val type: String = "",
-    public val event: Event? = null
+    public val event: Event? = null,
+    public val files: List<FileSummary> = emptyList()
 )

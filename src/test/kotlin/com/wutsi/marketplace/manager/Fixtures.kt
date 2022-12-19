@@ -6,6 +6,7 @@ import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.ProductType
 import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.CategorySummary
+import com.wutsi.marketplace.access.dto.FileSummary
 import com.wutsi.marketplace.access.dto.MeetingProviderSummary
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.access.dto.Product
@@ -54,13 +55,25 @@ object Fixtures {
         productCount = productCount
     )
 
+    fun createFileSummary(
+        id: Long
+    ) = FileSummary(
+        id = id,
+        url = "https://www.img.com/$id.png",
+        name = "$id.png",
+        contentType = "image/png",
+        contentSize = 10000,
+        created = OffsetDateTime.of(2020, 1, 1, 10, 30, 0, 0, ZoneOffset.UTC)
+    )
+
     fun createProduct(
         id: Long = -1,
         storeId: Long = -1,
         quantity: Int? = 11,
         pictures: List<PictureSummary> = emptyList(),
         type: ProductType = ProductType.PHYSICAL_PRODUCT,
-        event: com.wutsi.marketplace.access.dto.Event? = null
+        event: com.wutsi.marketplace.access.dto.Event? = null,
+        files: List<FileSummary> = emptyList()
     ) = Product(
         id = id,
         store = StoreSummary(
@@ -83,7 +96,8 @@ object Fixtures {
         category = CategorySummary(
             id = 1,
             title = "Art"
-        )
+        ),
+        files = files
     )
 
     fun createProductSummary(id: Long = -1) = ProductSummary(
