@@ -49,7 +49,7 @@ internal class EventHandlerTest {
         // GIVEN
         val reservations = listOf(
             Fixtures.createReservationSummary(1),
-            Fixtures.createReservationSummary(2)
+            Fixtures.createReservationSummary(2),
         )
         doReturn(SearchReservationResponse(reservations)).whenever(marketplaceAccessApi).searchReservation(any())
 
@@ -58,9 +58,9 @@ internal class EventHandlerTest {
             type = EventURN.ORDER_EXPIRED.urn,
             payload = mapper.writeValueAsString(
                 OrderEventPayload(
-                    orderId = "1111"
-                )
-            )
+                    orderId = "1111",
+                ),
+            ),
         )
         handler.handleEvent(event)
 
@@ -68,14 +68,14 @@ internal class EventHandlerTest {
         verify(marketplaceAccessApi).updateReservationStatus(
             reservations[0].id,
             UpdateReservationStatusRequest(
-                ReservationStatus.CANCELLED.name
-            )
+                ReservationStatus.CANCELLED.name,
+            ),
         )
         verify(marketplaceAccessApi).updateReservationStatus(
             reservations[1].id,
             UpdateReservationStatusRequest(
-                ReservationStatus.CANCELLED.name
-            )
+                ReservationStatus.CANCELLED.name,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())
@@ -86,7 +86,7 @@ internal class EventHandlerTest {
         // GIVEN
         val reservations = listOf(
             Fixtures.createReservationSummary(1),
-            Fixtures.createReservationSummary(2)
+            Fixtures.createReservationSummary(2),
         )
         doReturn(SearchReservationResponse(reservations)).whenever(marketplaceAccessApi).searchReservation(any())
 
@@ -102,21 +102,21 @@ internal class EventHandlerTest {
             payload = mapper.writeValueAsString(
                 BusinessEventPayload(
                     accountId = account.id,
-                    businessId = account.businessId!!
-                )
-            )
+                    businessId = account.businessId!!,
+                ),
+            ),
         )
         handler.handleEvent(event)
 
         // THEN
         verify(marketplaceAccessApi).updateStoreStatus(
             account.storeId!!,
-            UpdateStoreStatusRequest(StoreStatus.INACTIVE.name)
+            UpdateStoreStatusRequest(StoreStatus.INACTIVE.name),
         )
 
         verify(eventStream).publish(
             EventURN.STORE_DEACTIVATED.urn,
-            StoreEventPayload(storeId = store.id, accountId = store.accountId)
+            StoreEventPayload(storeId = store.id, accountId = store.accountId),
         )
     }
 }

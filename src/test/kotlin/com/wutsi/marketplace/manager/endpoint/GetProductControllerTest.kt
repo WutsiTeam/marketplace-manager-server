@@ -28,7 +28,7 @@ public class GetProductControllerTest : AbstractControllerTest() {
         val product = Fixtures.createProduct(
             id = PRODUCT_ID,
             storeId = STORE_ID,
-            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2))
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 

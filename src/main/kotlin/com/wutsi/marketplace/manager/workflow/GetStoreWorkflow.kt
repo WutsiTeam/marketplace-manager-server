@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service
 
 @Service
 class GetStoreWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractStoreWorkflow<Long, GetStoreResponse>(eventStream) {
     override fun getEventType(
         productId: Long,
         response: GetStoreResponse,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): String? = null
 
     override fun toEventPayload(
         productId: Long,
         response: GetStoreResponse,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): StoreEventPayload? = null
 
     override fun getValidationRules(request: Long, context: WorkflowContext) = RuleSet.NONE
@@ -39,13 +39,13 @@ class GetStoreWorkflow(
                 created = store.created,
                 updated = store.updated,
                 deactivated = store.deactivated,
-                status = store.status
-            )
+                status = store.status,
+            ),
         )
     }
 
     private fun toPictureThumbnail(picture: PictureSummary) = com.wutsi.marketplace.manager.dto.PictureSummary(
         id = picture.id,
-        url = picture.url
+        url = picture.url,
     )
 }

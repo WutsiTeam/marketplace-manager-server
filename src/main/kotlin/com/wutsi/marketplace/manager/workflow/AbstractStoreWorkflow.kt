@@ -17,11 +17,11 @@ abstract class AbstractStoreWorkflow<Req, Resp>(eventStream: EventStream) :
             getCurrentStore(account)
         }
         val rules = mutableListOf<Rule?>(
-            AccountShouldBeActiveRule(account)
+            AccountShouldBeActiveRule(account),
         )
         rules.addAll(getAdditionalRules(account, store))
         return RuleSet(
-            rules.filterNotNull()
+            rules.filterNotNull(),
         )
     }
 

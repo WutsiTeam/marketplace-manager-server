@@ -32,7 +32,7 @@ class CreateFileControllerTest : AbstractProductControllerTest<CreateFileRequest
         productId = PRODUCT_ID,
         url = "https://www.img.com/1.png",
         contentSize = 10000,
-        contentType = "image/png"
+        contentType = "image/png",
     )
 
     @BeforeEach
@@ -59,8 +59,8 @@ class CreateFileControllerTest : AbstractProductControllerTest<CreateFileRequest
                 productId = request!!.productId,
                 url = request!!.url,
                 contentType = request!!.contentType,
-                contentSize = request!!.contentSize
-            )
+                contentSize = request!!.contentSize,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())
@@ -77,8 +77,8 @@ class CreateFileControllerTest : AbstractProductControllerTest<CreateFileRequest
                 Fixtures.createFileSummary(2),
                 Fixtures.createFileSummary(3),
                 Fixtures.createFileSummary(4),
-                Fixtures.createFileSummary(5)
-            )
+                Fixtures.createFileSummary(5),
+            ),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 

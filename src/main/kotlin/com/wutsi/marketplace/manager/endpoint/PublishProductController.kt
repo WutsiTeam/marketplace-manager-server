@@ -8,7 +8,7 @@ import kotlin.Long
 
 @RestController
 public class PublishProductController(
-    public val `delegate`: PublishProductDelegate
+    public val `delegate`: PublishProductDelegate,
 ) {
     @PostMapping("/v1/products/{id}/publish")
     public fun invoke(@PathVariable(name = "id") id: Long) {

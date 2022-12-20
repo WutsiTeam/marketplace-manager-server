@@ -14,20 +14,20 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeactivateStoreWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractStoreWorkflow<Void?, Long?>(eventStream) {
     override fun getEventType(request: Void?, storeId: Long?, context: WorkflowContext) = EventURN.STORE_DEACTIVATED.urn
 
     override fun toEventPayload(request: Void?, storeId: Long?, context: WorkflowContext) = storeId?.let {
         StoreEventPayload(
             accountId = getCurrentAccountId(context),
-            storeId = storeId
+            storeId = storeId,
         )
     }
 
     override fun getAdditionalRules(account: Account, store: Store?) = listOf(
         AccountShouldHaveStoreRule(account),
-        store?.let { AccountShouldBeOwnerOfStoreRule(account, it) }
+        store?.let { AccountShouldBeOwnerOfStoreRule(account, it) },
     )
 
     override fun doExecute(request: Void?, context: WorkflowContext): Long? {
@@ -36,8 +36,8 @@ class DeactivateStoreWorkflow(
             marketplaceAccessApi.updateStoreStatus(
                 id = account.storeId!!,
                 request = UpdateStoreStatusRequest(
-                    status = StoreStatus.INACTIVE.name
-                )
+                    status = StoreStatus.INACTIVE.name,
+                ),
             )
         }
         return account.storeId

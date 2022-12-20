@@ -9,12 +9,12 @@ import javax.validation.Valid
 
 @RestController
 public class UpdateProductEventController(
-    public val `delegate`: UpdateProductEventDelegate
+    public val `delegate`: UpdateProductEventDelegate,
 ) {
     @PostMapping("/v1/products/event")
     public fun invoke(
         @Valid @RequestBody
-        request: UpdateProductEventRequest
+        request: UpdateProductEventRequest,
     ) {
         delegate.invoke(request)
     }

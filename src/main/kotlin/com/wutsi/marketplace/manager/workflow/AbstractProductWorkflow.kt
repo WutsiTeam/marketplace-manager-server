@@ -34,11 +34,11 @@ abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
             AccountShouldHaveStoreRule(account),
             store?.let { AccountShouldBeOwnerOfStoreRule(account, it) },
             store?.let { StoreShouldBeActiveRule(it) },
-            product?.let { AccountShouldBeOwnerOfProductRule(account, it) }
+            product?.let { AccountShouldBeOwnerOfProductRule(account, it) },
         )
         rules.addAll(getAdditionalRules(account, store, product))
         return RuleSet(
-            rules.filterNotNull()
+            rules.filterNotNull(),
         )
     }
 

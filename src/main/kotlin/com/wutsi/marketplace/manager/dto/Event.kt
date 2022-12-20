@@ -12,5 +12,5 @@ public data class Event(
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     public val starts: OffsetDateTime? = null,
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    public val ends: OffsetDateTime? = null
+    public val ends: OffsetDateTime? = null,
 )

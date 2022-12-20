@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service
 @Service
 class GetProductWorkflow(
     eventStream: EventStream,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
 ) : AbstractProductWorkflow<Long, GetProductResponse>(eventStream) {
     override fun getEventType(
         productId: Long,
         response: GetProductResponse,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): String? = null
 
     override fun toEventPayload(
         productId: Long,
         response: GetProductResponse,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): ProductEventPayload? = null
 
     override fun getProductId(productId: Long, context: WorkflowContext): Long? = null
@@ -35,8 +35,8 @@ class GetProductWorkflow(
         return GetProductResponse(
             product = objectMapper.readValue(
                 objectMapper.writeValueAsString(product),
-                Product::class.java
-            )
+                Product::class.java,
+            ),
         )
     }
 }

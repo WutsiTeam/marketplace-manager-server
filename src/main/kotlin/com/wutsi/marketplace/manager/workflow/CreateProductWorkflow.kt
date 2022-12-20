@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class CreateProductWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<CreateProductRequest, CreateProductResponse>(eventStream) {
     override fun getProductId(request: CreateProductRequest, context: WorkflowContext): Long? =
         null
 
     override fun getAdditionalRules(account: Account, store: Store?, product: Product?) = listOf(
-        store?.let { StoreShouldNotHaveTooManyProductsRule(it, regulationEngine) }
+        store?.let { StoreShouldNotHaveTooManyProductsRule(it, regulationEngine) },
     )
 
     override fun doExecute(request: CreateProductRequest, context: WorkflowContext): CreateProductResponse {
@@ -32,11 +32,11 @@ class CreateProductWorkflow(
                 price = request.price,
                 categoryId = request.categoryId,
                 quantity = request.quantity,
-                type = request.type
-            )
+                type = request.type,
+            ),
         )
         return CreateProductResponse(
-            productId = response.productId
+            productId = response.productId,
         )
     }
 }

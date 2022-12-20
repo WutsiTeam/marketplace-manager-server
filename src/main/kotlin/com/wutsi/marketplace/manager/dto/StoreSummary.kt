@@ -11,5 +11,5 @@ public data class StoreSummary(
     public val currency: String = "",
     public val status: String = "",
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    public val created: OffsetDateTime = OffsetDateTime.now()
+    public val created: OffsetDateTime = OffsetDateTime.now(),
 )

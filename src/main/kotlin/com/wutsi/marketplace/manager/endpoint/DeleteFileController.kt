@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 public class DeleteFileController(
-    public val `delegate`: DeleteFileDelegate
+    public val `delegate`: DeleteFileDelegate,
 ) {
     @DeleteMapping("/v1/files/{id}")
     public fun invoke(@PathVariable(name = "id") id: Long) {

@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.`delegate`
+package com.wutsi.marketplace.manager.delegate
 
 import com.wutsi.marketplace.manager.dto.UpdateProductEventRequest
 import com.wutsi.marketplace.manager.workflow.UpdateProductEventWorkflow
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 public class UpdateProductEventDelegate(
     private val workflow: UpdateProductEventWorkflow,
-    private val logger: KVLogger
+    private val logger: KVLogger,
 ) {
     public fun invoke(request: UpdateProductEventRequest) {
         logger.add("request_online", request.online)

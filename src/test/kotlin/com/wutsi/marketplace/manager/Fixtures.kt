@@ -28,7 +28,7 @@ object Fixtures {
         storeId: Long? = null,
         country: String = "CM",
         phoneNumber: String = "+237670000010",
-        displayName: String = "Ray Sponsible"
+        displayName: String = "Ray Sponsible",
     ) = Account(
         id = id,
         displayName = displayName,
@@ -39,31 +39,31 @@ object Fixtures {
         storeId = storeId,
         phone = Phone(
             number = phoneNumber,
-            country = country
-        )
+            country = country,
+        ),
     )
 
     fun createStore(
         id: Long = -1,
         accountId: Long = -1,
         status: StoreStatus = StoreStatus.ACTIVE,
-        productCount: Int = 0
+        productCount: Int = 0,
     ) = Store(
         id = id,
         accountId = accountId,
         status = status.name,
-        productCount = productCount
+        productCount = productCount,
     )
 
     fun createFileSummary(
-        id: Long
+        id: Long,
     ) = FileSummary(
         id = id,
         url = "https://www.img.com/$id.png",
         name = "$id.png",
         contentType = "image/png",
         contentSize = 10000,
-        created = OffsetDateTime.of(2020, 1, 1, 10, 30, 0, 0, ZoneOffset.UTC)
+        created = OffsetDateTime.of(2020, 1, 1, 10, 30, 0, 0, ZoneOffset.UTC),
     )
 
     fun createProduct(
@@ -73,13 +73,13 @@ object Fixtures {
         pictures: List<PictureSummary> = emptyList(),
         type: ProductType = ProductType.PHYSICAL_PRODUCT,
         event: com.wutsi.marketplace.access.dto.Event? = null,
-        files: List<FileSummary> = emptyList()
+        files: List<FileSummary> = emptyList(),
     ) = Product(
         id = id,
         store = StoreSummary(
             id = storeId,
             accountId = -1,
-            currency = "XAF"
+            currency = "XAF",
         ),
         pictures = pictures,
         summary = "This is a summary",
@@ -95,22 +95,22 @@ object Fixtures {
         event = event,
         category = CategorySummary(
             id = 1,
-            title = "Art"
+            title = "Art",
         ),
-        files = files
+        files = files,
     )
 
     fun createProductSummary(id: Long = -1) = ProductSummary(
-        id = id
+        id = id,
     )
 
     fun createPictureSummary(id: Long = -1) = PictureSummary(
         id = id,
-        url = "https://img.com/$id.png"
+        url = "https://img.com/$id.png",
     )
 
     fun createReservationSummary(id: Long) = ReservationSummary(
-        id = id
+        id = id,
     )
 
     fun createMeetingProviderSummary(id: Long, type: MeetingProviderType = MeetingProviderType.ZOOM) =
@@ -118,13 +118,13 @@ object Fixtures {
             id = id,
             logoUrl = "https://img.com/$id.png",
             name = "NAME-$id",
-            type = type.name
+            type = type.name,
         )
 
     fun createEvent(
         starts: OffsetDateTime = OffsetDateTime.of(2020, 1, 1, 10, 30, 0, 0, ZoneOffset.UTC),
         ends: OffsetDateTime = OffsetDateTime.of(2020, 1, 1, 15, 30, 0, 0, ZoneOffset.UTC),
-        meetingProvider: MeetingProviderSummary? = null
+        meetingProvider: MeetingProviderSummary? = null,
     ) = com.wutsi.marketplace.access.dto.Event(
         online = true,
         meetingPassword = "123456",
@@ -132,13 +132,13 @@ object Fixtures {
         meetingJoinUrl = "https://us04.zoom.us/j/12345678",
         starts = starts,
         ends = ends,
-        meetingProvider = meetingProvider
+        meetingProvider = meetingProvider,
     )
 
     fun createMeetingProviderSummary() = MeetingProviderSummary(
         id = 1000,
         type = MeetingProviderType.ZOOM.name,
         name = "Zoom",
-        logoUrl = "https://prod-wutsi.s3.amazonaws.com/static/marketplace-access-server/meeting-providers/zoom.png"
+        logoUrl = "https://prod-wutsi.s3.amazonaws.com/static/marketplace-access-server/meeting-providers/zoom.png",
     )
 }

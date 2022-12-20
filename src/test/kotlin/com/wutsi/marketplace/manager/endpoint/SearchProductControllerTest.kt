@@ -29,7 +29,7 @@ public class SearchProductControllerTest : AbstractControllerTest() {
         limit = 100,
         offset = 0,
         status = ProductStatus.PUBLISHED.name,
-        sortBy = "RECOMMENDED"
+        sortBy = "RECOMMENDED",
     )
 
     @Test
@@ -38,11 +38,11 @@ public class SearchProductControllerTest : AbstractControllerTest() {
         val products = listOf(
             Fixtures.createProductSummary(id = 1),
             Fixtures.createProductSummary(id = 2),
-            Fixtures.createProductSummary(id = 3)
+            Fixtures.createProductSummary(id = 3),
         )
         doReturn(com.wutsi.marketplace.access.dto.SearchProductResponse(products)).whenever(marketplaceAccessApi)
             .searchProduct(
-                any()
+                any(),
             )
 
         // WHEN
@@ -59,8 +59,8 @@ public class SearchProductControllerTest : AbstractControllerTest() {
                 limit = request!!.limit,
                 offset = request!!.offset,
                 status = request!!.status,
-                sortBy = request!!.sortBy
-            )
+                sortBy = request!!.sortBy,
+            ),
         )
 
         assertEquals(products.size, response.body!!.products.size)

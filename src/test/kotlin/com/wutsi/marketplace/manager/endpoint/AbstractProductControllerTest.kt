@@ -54,7 +54,7 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
         product = Fixtures.createProduct(
             id = PRODUCT_ID,
             storeId = STORE_ID,
-            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2))
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
@@ -107,7 +107,7 @@ abstract class AbstractProductControllerTest<Req> : AbstractSecuredControllerTes
             id = ACCOUNT_ID,
             business = true,
             storeId = STORE_ID,
-            status = AccountStatus.INACTIVE
+            status = AccountStatus.INACTIVE,
         )
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 

@@ -31,7 +31,7 @@ class ImportProductWorkflow(
     private val updateProductAttributeWorkflow: UpdateProductAttributeWorkflow,
     private val publishProductWorkflow: PublishProductWorkflow,
 
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<ImportProductRequest, CsvImportResponse>(eventStream) {
     companion object {
         const val COLUMN_TITLE = "title"
@@ -47,7 +47,7 @@ class ImportProductWorkflow(
             "summary" to COLUMN_SUMMARY,
             "price" to COLUMN_PRICE,
             "category-id" to COLUMN_CATEGORY,
-            "quantity" to COLUMN_QUANTITY
+            "quantity" to COLUMN_QUANTITY,
         )
     }
 
@@ -71,9 +71,9 @@ class ImportProductWorkflow(
                     COLUMN_CATEGORY,
                     COLUMN_QUANTITY,
                     COLUMN_PUBLISH,
-                    COLUMN_PICTURE_URL
+                    COLUMN_PICTURE_URL,
                 )
-                .build()
+                .build(),
         )
         val products = loadProducts(context)
         for (record in parser) {
@@ -100,7 +100,7 @@ class ImportProductWorkflow(
 
         return CsvImportResponse(
             imported = imported,
-            errors = errors
+            errors = errors,
         )
     }
 
@@ -150,9 +150,9 @@ class ImportProductWorkflow(
                 categoryId = toLong(record.get(COLUMN_CATEGORY)),
                 summary = record.get(COLUMN_SUMMARY),
                 price = toLong(record.get(COLUMN_PRICE)),
-                quantity = toInt(record.get(COLUMN_QUANTITY))
+                quantity = toInt(record.get(COLUMN_QUANTITY)),
             ),
-            context = context
+            context = context,
         ).productId
 
     private fun update(record: CSVRecord, product: ProductSummary, context: WorkflowContext): Long {
@@ -166,9 +166,9 @@ class ImportProductWorkflow(
         updateProductAttributeWorkflow.execute(
             request = UpdateProductAttributeListRequest(
                 attributes = attributes,
-                productId = product.id
+                productId = product.id,
             ),
-            context = context
+            context = context,
         )
         return product.id
     }
@@ -200,8 +200,8 @@ class ImportProductWorkflow(
         marketplaceAccessApi.searchProduct(
             request = SearchProductRequest(
                 storeId = getCurrentAccount(context).storeId,
-                limit = regulationEngine.maxProducts()
-            )
+                limit = regulationEngine.maxProducts(),
+            ),
         ).products.associateBy { ProductHandleGenerator.generate(it.title) }
 
     protected fun toCsvError(row: Int, ex: FeignException): CsvError =
@@ -210,13 +210,13 @@ class ImportProductWorkflow(
             CsvError(
                 row = row,
                 code = response.error.code,
-                description = response.error.message
+                description = response.error.message,
             )
         } catch (e: Exception) {
             CsvError(
                 row = row,
                 code = ex.status().toString(),
-                description = ex.message
+                description = ex.message,
             )
         }
 

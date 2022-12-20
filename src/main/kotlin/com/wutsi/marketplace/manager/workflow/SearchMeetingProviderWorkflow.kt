@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service
 @Service
 class SearchMeetingProviderWorkflow(
     private val objectMapper: ObjectMapper,
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<Void?, SearchMeetingProviderResponse>(eventStream) {
     override fun getEventType(
         request: Void?,
         response: SearchMeetingProviderResponse,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): String? = null
 
     override fun toEventPayload(
         request: Void?,
         response: SearchMeetingProviderResponse,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): ProductEventPayload? = null
 
     override fun getValidationRules(request: Void?, context: WorkflowContext) = RuleSet.NONE
@@ -36,9 +36,9 @@ class SearchMeetingProviderWorkflow(
             meetingProviders = response.meetingProviders.map {
                 objectMapper.readValue(
                     objectMapper.writeValueAsString(it),
-                    MeetingProviderSummary::class.java
+                    MeetingProviderSummary::class.java,
                 )
-            }
+            },
         )
     }
 }

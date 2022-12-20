@@ -8,7 +8,7 @@ import kotlin.Long
 
 @RestController
 public class DeletePictureController(
-    public val `delegate`: DeletePictureDelegate
+    public val `delegate`: DeletePictureDelegate,
 ) {
     @DeleteMapping("/v1/pictures/{id}")
     public fun invoke(@PathVariable(name = "id") id: Long) {

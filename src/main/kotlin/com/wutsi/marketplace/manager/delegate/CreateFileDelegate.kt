@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.`delegate`
+package com.wutsi.marketplace.manager.delegate
 
 import com.wutsi.marketplace.manager.dto.CreateFileRequest
 import com.wutsi.marketplace.manager.dto.CreateFileResponse
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 public class CreateFileDelegate(
     private val logger: KVLogger,
-    private val workflow: CreateFileWorkflow
+    private val workflow: CreateFileWorkflow,
 ) {
     public fun invoke(request: CreateFileRequest): CreateFileResponse {
         logger.add("request_url", request.url)
@@ -22,7 +22,7 @@ public class CreateFileDelegate(
         logger.add("response_file_id", response.fileId)
 
         return CreateFileResponse(
-            fileId = response.fileId
+            fileId = response.fileId,
         )
     }
 }

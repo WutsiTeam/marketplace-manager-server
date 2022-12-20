@@ -24,5 +24,5 @@ public data class Product(
     public val published: OffsetDateTime? = null,
     public val type: String = "",
     public val event: Event? = null,
-    public val files: List<FileSummary> = emptyList()
+    public val files: List<FileSummary> = emptyList(),
 )

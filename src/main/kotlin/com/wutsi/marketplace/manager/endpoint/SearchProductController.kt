@@ -10,12 +10,12 @@ import javax.validation.Valid
 
 @RestController
 public class SearchProductController(
-    public val `delegate`: SearchProductDelegate
+    public val `delegate`: SearchProductDelegate,
 ) {
     @PostMapping("/v1/products/search")
     public fun invoke(
         @Valid @RequestBody
-        request: SearchProductRequest
+        request: SearchProductRequest,
     ): SearchProductResponse =
         delegate.invoke(request)
 }

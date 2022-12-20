@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UpdateProductEventWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<UpdateProductEventRequest, Unit>(eventStream) {
     override fun getProductId(request: UpdateProductEventRequest, context: WorkflowContext): Long? =
         request.productId
@@ -21,8 +21,8 @@ class UpdateProductEventWorkflow(
                 meetingProviderId = request.meetingProviderId,
                 starts = request.starts,
                 ends = request.ends,
-                online = request.online
-            )
+                online = request.online,
+            ),
         )
     }
 }

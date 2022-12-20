@@ -8,7 +8,7 @@ import kotlin.Long
 
 @RestController
 public class DeleteProductController(
-    public val `delegate`: DeleteProductDelegate
+    public val `delegate`: DeleteProductDelegate,
 ) {
     @DeleteMapping("/v1/products/{id}")
     public fun invoke(@PathVariable(name = "id") id: Long) {

@@ -10,12 +10,12 @@ import javax.validation.Valid
 
 @RestController
 public class CreatePictureController(
-    public val `delegate`: CreatePictureDelegate
+    public val `delegate`: CreatePictureDelegate,
 ) {
     @PostMapping("/v1/pictures")
     public fun invoke(
         @Valid @RequestBody
-        request: CreatePictureRequest
+        request: CreatePictureRequest,
     ): CreatePictureResponse =
         delegate.invoke(request)
 }

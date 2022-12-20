@@ -42,16 +42,16 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
         verify(marketplaceAccessApi).createStore(
             CreateStoreRequest(
                 accountId = account.id,
-                currency = "XAF"
-            )
+                currency = "XAF",
+            ),
         )
 
         verify(eventStream).publish(
             EventURN.STORE_ACTIVATED.urn,
             StoreEventPayload(
                 accountId = account.id,
-                storeId = STORE_ID
-            )
+                storeId = STORE_ID,
+            ),
         )
     }
 

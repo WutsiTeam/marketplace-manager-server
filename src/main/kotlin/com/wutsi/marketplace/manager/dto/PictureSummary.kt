@@ -5,5 +5,5 @@ import kotlin.String
 
 public data class PictureSummary(
     public val id: Long = 0,
-    public val url: String = ""
+    public val url: String = "",
 )

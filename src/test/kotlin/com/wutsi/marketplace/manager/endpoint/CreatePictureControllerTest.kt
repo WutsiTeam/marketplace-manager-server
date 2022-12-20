@@ -29,7 +29,7 @@ class CreatePictureControllerTest : AbstractProductControllerTest<CreatePictureR
 
     override fun createRequest() = CreatePictureRequest(
         productId = PRODUCT_ID,
-        url = "https://www.img.com/1.png"
+        url = "https://www.img.com/1.png",
     )
 
     @BeforeEach
@@ -54,8 +54,8 @@ class CreatePictureControllerTest : AbstractProductControllerTest<CreatePictureR
         verify(marketplaceAccessApi).createPicture(
             com.wutsi.marketplace.access.dto.CreatePictureRequest(
                 productId = request!!.productId,
-                url = request!!.url
-            )
+                url = request!!.url,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())
@@ -72,8 +72,8 @@ class CreatePictureControllerTest : AbstractProductControllerTest<CreatePictureR
                 Fixtures.createPictureSummary(),
                 Fixtures.createPictureSummary(),
                 Fixtures.createPictureSummary(),
-                Fixtures.createPictureSummary()
-            )
+                Fixtures.createPictureSummary(),
+            ),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 

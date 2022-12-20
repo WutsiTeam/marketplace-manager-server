@@ -7,7 +7,7 @@ import org.springframework.web.bind.`annotation`.RestController
 
 @RestController
 public class SearchMeetingProviderController(
-    public val `delegate`: SearchMeetingProviderDelegate
+    public val `delegate`: SearchMeetingProviderDelegate,
 ) {
     @PostMapping("/v1/meeting-providers/search")
     public fun invoke(): SearchMeetingProviderResponse = delegate.invoke()

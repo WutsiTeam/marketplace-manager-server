@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PublishProductWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<Long, Unit>(eventStream) {
     override fun getAdditionalRules(account: Account, store: Store?, product: Product?): List<Rule?> =
         listOf(
@@ -31,7 +31,7 @@ class PublishProductWorkflow(
             product?.let { ProductEventShouldHaveEndDateRule(product) },
             product?.let { ProductEventShouldHaveStartDateBeforeEndDateRule(product) },
             product?.let { ProductEventShouldHaveStartDateInFutureRule(product) },
-            product?.let { ProductDigitalDownloadShouldHaveFileRule(product) }
+            product?.let { ProductDigitalDownloadShouldHaveFileRule(product) },
         )
 
     override fun getProductId(productId: Long, context: WorkflowContext): Long? =
@@ -41,8 +41,8 @@ class PublishProductWorkflow(
         marketplaceAccessApi.updateProductStatus(
             id = productId,
             request = UpdateProductStatusRequest(
-                status = ProductStatus.PUBLISHED.name
-            )
+                status = ProductStatus.PUBLISHED.name,
+            ),
         )
     }
 }

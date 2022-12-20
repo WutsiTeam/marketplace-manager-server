@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.`delegate`
+package com.wutsi.marketplace.manager.delegate
 
 import com.wutsi.marketplace.manager.dto.CreatePictureRequest
 import com.wutsi.marketplace.manager.dto.CreatePictureResponse
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class CreatePictureDelegate(
     private val workflow: CreatePictureWorkflow,
-    private val logger: KVLogger
+    private val logger: KVLogger,
 ) {
     fun invoke(request: CreatePictureRequest): CreatePictureResponse {
         logger.add("request_prodcut_id", request.productId)

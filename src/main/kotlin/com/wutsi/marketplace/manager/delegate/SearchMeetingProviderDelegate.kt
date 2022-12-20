@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.`delegate`
+package com.wutsi.marketplace.manager.delegate
 
 import com.wutsi.marketplace.manager.dto.SearchMeetingProviderResponse
 import com.wutsi.marketplace.manager.workflow.SearchMeetingProviderWorkflow

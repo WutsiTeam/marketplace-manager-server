@@ -11,30 +11,30 @@ import org.springframework.stereotype.Service
 
 @Service
 class CreatePictureWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<com.wutsi.marketplace.manager.dto.CreatePictureRequest, CreatePictureResponse>(eventStream) {
     override fun getProductId(
         request: com.wutsi.marketplace.manager.dto.CreatePictureRequest,
-        context: WorkflowContext
+        context: WorkflowContext,
     ) =
         request.productId
 
     override fun getAdditionalRules(account: Account, store: Store?, product: Product?) = listOf(
-        product?.let { ProductShouldNotHaveTooManyPicturesRule(it, regulationEngine) }
+        product?.let { ProductShouldNotHaveTooManyPicturesRule(it, regulationEngine) },
     )
 
     override fun doExecute(
         request: com.wutsi.marketplace.manager.dto.CreatePictureRequest,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): CreatePictureResponse {
         val response = marketplaceAccessApi.createPicture(
             request = com.wutsi.marketplace.access.dto.CreatePictureRequest(
                 productId = request.productId,
-                url = request.url
-            )
+                url = request.url,
+            ),
         )
         return CreatePictureResponse(
-            pictureId = response.pictureId
+            pictureId = response.pictureId,
         )
     }
 }

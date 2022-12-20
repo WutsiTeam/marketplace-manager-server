@@ -37,8 +37,8 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
         verify(marketplaceAccessApi).updateProductStatus(
             PRODUCT_ID,
             UpdateProductStatusRequest(
-                status = ProductStatus.PUBLISHED.name
-            )
+                status = ProductStatus.PUBLISHED.name,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())
@@ -51,7 +51,7 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
             id = PRODUCT_ID,
             storeId = STORE_ID,
             quantity = null,
-            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2))
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
@@ -64,8 +64,8 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
         verify(marketplaceAccessApi).updateProductStatus(
             PRODUCT_ID,
             UpdateProductStatusRequest(
-                status = ProductStatus.PUBLISHED.name
-            )
+                status = ProductStatus.PUBLISHED.name,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())
@@ -78,7 +78,7 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
             id = PRODUCT_ID,
             storeId = STORE_ID,
             quantity = 0,
-            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2))
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
@@ -102,7 +102,7 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
         product = Fixtures.createProduct(
             id = PRODUCT_ID,
             storeId = STORE_ID,
-            pictures = emptyList()
+            pictures = emptyList(),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
@@ -129,8 +129,8 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
             type = ProductType.EVENT,
             event = Fixtures.createEvent(
                 starts = OffsetDateTime.now().plusDays(10),
-                ends = OffsetDateTime.now().plusDays(12)
-            )
+                ends = OffsetDateTime.now().plusDays(12),
+            ),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
@@ -143,8 +143,8 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
         verify(marketplaceAccessApi).updateProductStatus(
             PRODUCT_ID,
             UpdateProductStatusRequest(
-                status = ProductStatus.PUBLISHED.name
-            )
+                status = ProductStatus.PUBLISHED.name,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())

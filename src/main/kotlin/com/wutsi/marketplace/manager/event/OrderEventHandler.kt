@@ -15,7 +15,7 @@ class OrderEventHandler(
     private val mapper: ObjectMapper,
     private val logger: KVLogger,
     private val marketplaceAccessApi: MarketplaceAccessApi,
-    private val cancelReservationWorkflow: CancelReservationWorkflow
+    private val cancelReservationWorkflow: CancelReservationWorkflow,
 ) {
     fun onOrderExpired(event: Event) {
         val payload = toOrderEventPayload(event)
@@ -23,8 +23,8 @@ class OrderEventHandler(
 
         marketplaceAccessApi.searchReservation(
             request = SearchReservationRequest(
-                orderId = payload.orderId
-            )
+                orderId = payload.orderId,
+            ),
         ).reservations.forEach {
             cancelReservationWorkflow.execute(it.id, WorkflowContext())
         }

@@ -9,12 +9,12 @@ import javax.validation.Valid
 
 @RestController
 public class ImportProductController(
-    public val `delegate`: ImportProductDelegate
+    public val `delegate`: ImportProductDelegate,
 ) {
     @PostMapping("/v1/products/import")
     public fun invoke(
         @Valid @RequestBody
-        request: ImportProductRequest
+        request: ImportProductRequest,
     ) {
         delegate.invoke(request)
     }

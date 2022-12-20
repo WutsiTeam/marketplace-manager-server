@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class BusinessEventHandler(
     private val mapper: ObjectMapper,
     private val logger: KVLogger,
-    private val deactivateStoreWorkflow: DeactivateStoreWorkflow
+    private val deactivateStoreWorkflow: DeactivateStoreWorkflow,
 ) {
     fun onBusinessDeactivated(event: Event) {
         val payload = toBusinessEventPayload(event)

@@ -45,7 +45,7 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
     override fun url() = "http://localhost:$port/v1/products/import"
 
     override fun createRequest() = ImportProductRequest(
-        url = "http://localhost:$port/products.csv"
+        url = "http://localhost:$port/products.csv",
     )
 
     @BeforeEach
@@ -121,13 +121,13 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
                 id = 100,
                 title = "boubou",
                 price = 1,
-                status = ProductStatus.DRAFT.name
+                status = ProductStatus.DRAFT.name,
             ),
             ProductSummary(
                 id = 101,
                 title = "veste noire",
-                price = 1
-            )
+                price = 1,
+            ),
         )
         doReturn(SearchProductResponse(products)).whenever(marketplaceAccessApi).searchProduct(any())
 
@@ -149,18 +149,18 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
                 ProductAttribute("summary", "This is a summary"),
                 ProductAttribute("price", "75000"),
                 ProductAttribute("category-id", "10000"),
-                ProductAttribute("quantity", "10")
+                ProductAttribute("quantity", "10"),
             ),
-            req.firstValue.attributes
+            req.firstValue.attributes,
         )
 
         assertEquals(101L, req.secondValue.productId)
         assertEquals(
             listOf(
                 ProductAttribute("title", "Veste Noire"),
-                ProductAttribute("price", "60000")
+                ProductAttribute("price", "60000"),
             ),
-            req.secondValue.attributes
+            req.secondValue.attributes,
         )
 
         verify(publishProductWorkflow).execute(eq(100L), any())
@@ -173,7 +173,7 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
     fun noTitle() {
         // WHEN
         request = ImportProductRequest(
-            url = "http://localhost:$port/products_no_title.csv"
+            url = "http://localhost:$port/products_no_title.csv",
         )
         val response = rest.postForEntity(url(), request, Any::class.java)
         Thread.sleep(5000)
@@ -194,7 +194,7 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
     fun invalidQuantity() {
         // WHEN
         request = ImportProductRequest(
-            url = "http://localhost:$port/products_invalid_quantity.csv"
+            url = "http://localhost:$port/products_invalid_quantity.csv",
         )
         val response = rest.postForEntity(url(), request, Any::class.java)
         Thread.sleep(5000)
@@ -215,7 +215,7 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
     fun invalidPrice() {
         // WHEN
         request = ImportProductRequest(
-            url = "http://localhost:$port/products_invalid_price.csv"
+            url = "http://localhost:$port/products_invalid_price.csv",
         )
         val response = rest.postForEntity(url(), request, Any::class.java)
         Thread.sleep(5000)
@@ -236,7 +236,7 @@ class ImportProductControllerTest : AbstractProductControllerTest<ImportProductR
     fun invalidCategory() {
         // WHEN
         request = ImportProductRequest(
-            url = "http://localhost:$port/products_invalid_category.csv"
+            url = "http://localhost:$port/products_invalid_category.csv",
         )
         val response = rest.postForEntity(url(), request, Any::class.java)
         Thread.sleep(5000)

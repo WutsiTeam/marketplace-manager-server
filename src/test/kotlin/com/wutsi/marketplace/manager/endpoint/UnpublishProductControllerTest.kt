@@ -26,8 +26,8 @@ public class UnpublishProductControllerTest : AbstractProductControllerTest<Long
         verify(marketplaceAccessApi).updateProductStatus(
             PRODUCT_ID,
             UpdateProductStatusRequest(
-                status = ProductStatus.DRAFT.name
-            )
+                status = ProductStatus.DRAFT.name,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())

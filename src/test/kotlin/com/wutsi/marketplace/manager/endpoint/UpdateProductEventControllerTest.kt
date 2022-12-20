@@ -24,7 +24,7 @@ public class UpdateProductEventControllerTest : AbstractProductControllerTest<Up
         ends = OffsetDateTime.of(2020, 10, 1, 12, 3, 0, 0, ZoneOffset.UTC),
         meetingId = "1234567890",
         meetingPassword = "123456",
-        online = true
+        online = true,
     )
 
     @Test
@@ -44,8 +44,8 @@ public class UpdateProductEventControllerTest : AbstractProductControllerTest<Up
                 meetingId = request!!.meetingId,
                 ends = request!!.ends,
                 starts = request!!.starts,
-                online = request!!.online
-            )
+                online = request!!.online,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())

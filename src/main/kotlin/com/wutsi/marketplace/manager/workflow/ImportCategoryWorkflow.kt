@@ -15,7 +15,7 @@ import java.util.Scanner
 @Service
 class ImportCategoryWorkflow(
     eventStream: EventStream,
-    private val logger: KVLogger
+    private val logger: KVLogger,
 ) : AbstractMarketplaceWorkflow<String, Unit, Void>(eventStream) {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ImportCategoryWorkflow::class.java)
@@ -69,8 +69,8 @@ class ImportCategoryWorkflow(
                 id = id,
                 request = SaveCategoryRequest(
                     parentId = parent?.let { ids[parent]!! },
-                    title = title
-                )
+                    title = title,
+                ),
             )
         } finally {
             val longTitle = extractLongTitle(line)

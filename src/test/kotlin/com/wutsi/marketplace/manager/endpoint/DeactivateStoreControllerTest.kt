@@ -40,16 +40,16 @@ class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
         verify(marketplaceAccessApi).updateStoreStatus(
             account.storeId!!,
             UpdateStoreStatusRequest(
-                status = StoreStatus.INACTIVE.name
-            )
+                status = StoreStatus.INACTIVE.name,
+            ),
         )
 
         verify(eventStream).publish(
             EventURN.STORE_DEACTIVATED.urn,
             StoreEventPayload(
                 accountId = account.id,
-                storeId = STORE_ID
-            )
+                storeId = STORE_ID,
+            ),
         )
     }
 

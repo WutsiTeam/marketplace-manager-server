@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeleteFileWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<Long, Unit>(eventStream) {
     override fun getProductId(fileId: Long, context: WorkflowContext): Long? =
         null

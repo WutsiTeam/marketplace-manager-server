@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UnpublishProductWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<Long, Unit>(eventStream) {
     override fun getProductId(productId: Long, context: WorkflowContext): Long? =
         productId
@@ -17,8 +17,8 @@ class UnpublishProductWorkflow(
         marketplaceAccessApi.updateProductStatus(
             id = productId,
             request = UpdateProductStatusRequest(
-                status = ProductStatus.DRAFT.name
-            )
+                status = ProductStatus.DRAFT.name,
+            ),
         )
     }
 }

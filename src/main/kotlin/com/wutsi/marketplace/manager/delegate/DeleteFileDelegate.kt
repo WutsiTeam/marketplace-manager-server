@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.`delegate`
+package com.wutsi.marketplace.manager.delegate
 
 import com.wutsi.marketplace.manager.workflow.DeleteFileWorkflow
 import com.wutsi.workflow.WorkflowContext

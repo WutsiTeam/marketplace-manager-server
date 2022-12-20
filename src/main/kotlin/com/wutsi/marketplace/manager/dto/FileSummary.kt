@@ -13,5 +13,5 @@ public data class FileSummary(
     public val contentSize: Int = 0,
     public val url: String = "",
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    public val created: OffsetDateTime = OffsetDateTime.now()
+    public val created: OffsetDateTime = OffsetDateTime.now(),
 )

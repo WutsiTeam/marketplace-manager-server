@@ -9,5 +9,5 @@ public data class UpdateProductAttributeListRequest(
     public val productId: Long = 0,
     @get:NotNull
     @get:NotEmpty
-    public val attributes: List<ProductAttribute> = emptyList()
+    public val attributes: List<ProductAttribute> = emptyList(),
 )

@@ -26,7 +26,7 @@ public class SearchMeetingProviderControllerTest : AbstractSecuredControllerTest
         // GIVEN
         val providers = listOf(
             Fixtures.createMeetingProviderSummary(1, MeetingProviderType.ZOOM),
-            Fixtures.createMeetingProviderSummary(2, MeetingProviderType.MEET)
+            Fixtures.createMeetingProviderSummary(2, MeetingProviderType.MEET),
         )
         doReturn(SearchMeetingProviderResponse(providers)).whenever(marketplaceAccessApi).searchMeetingProvider()
 

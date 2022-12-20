@@ -7,5 +7,5 @@ public data class MeetingProviderSummary(
     public val id: Long = 0,
     public val type: String = "",
     public val name: String = "",
-    public val logoUrl: String = ""
+    public val logoUrl: String = "",
 )

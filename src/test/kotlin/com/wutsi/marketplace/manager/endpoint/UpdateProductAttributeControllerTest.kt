@@ -23,13 +23,13 @@ class UpdateProductAttributeControllerTest : AbstractProductControllerTest<Updat
         attributes = listOf(
             ProductAttribute(
                 name = "title",
-                value = "Hello world"
+                value = "Hello world",
             ),
             ProductAttribute(
                 name = "price",
-                value = "10000"
-            )
-        )
+                value = "10000",
+            ),
+        ),
     )
 
     @Test
@@ -44,7 +44,7 @@ class UpdateProductAttributeControllerTest : AbstractProductControllerTest<Updat
         val req = argumentCaptor<UpdateProductAttributeRequest>()
         verify(marketplaceAccessApi, times(2)).updateProductAttribute(
             eq(PRODUCT_ID),
-            req.capture()
+            req.capture(),
         )
 
         assertEquals(request!!.attributes[0].name, req.firstValue.name)

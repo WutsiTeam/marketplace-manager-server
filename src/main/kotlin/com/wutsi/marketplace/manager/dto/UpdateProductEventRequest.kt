@@ -18,5 +18,5 @@ public data class UpdateProductEventRequest(
     public val starts: OffsetDateTime? = null,
     @get:NotNull
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    public val ends: OffsetDateTime? = null
+    public val ends: OffsetDateTime? = null,
 )

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CancelReservationWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractMarketplaceWorkflow<Long, Unit, Void>(eventStream) {
     override fun getEventType(reservationId: Long, response: Unit, context: WorkflowContext): String? = null
 
@@ -21,8 +21,8 @@ class CancelReservationWorkflow(
         marketplaceAccessApi.updateReservationStatus(
             id = reservationId,
             request = UpdateReservationStatusRequest(
-                status = ReservationStatus.CANCELLED.name
-            )
+                status = ReservationStatus.CANCELLED.name,
+            ),
         )
     }
 }

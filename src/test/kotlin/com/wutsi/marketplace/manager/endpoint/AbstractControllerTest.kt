@@ -26,14 +26,14 @@ abstract class AbstractControllerTest {
         "",
         createFeignRequest(),
         createFeignBody(code),
-        emptyMap()
+        emptyMap(),
     )
 
     protected fun createFeignConflictException(code: String) = FeignException.Conflict(
         "",
         createFeignRequest(),
         createFeignBody(code),
-        emptyMap()
+        emptyMap(),
     )
 
     private fun createFeignRequest() = Request.create(
@@ -42,7 +42,7 @@ abstract class AbstractControllerTest {
         emptyMap(),
         "".toByteArray(),
         Charset.defaultCharset(),
-        RequestTemplate()
+        RequestTemplate(),
     )
 
     private fun createFeignBody(code: String) =

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeletePictureWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<Long, Unit>(eventStream) {
     override fun getProductId(pictureId: Long, context: WorkflowContext): Long? =
         null

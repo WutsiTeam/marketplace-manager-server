@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UpdateProductAttributeWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<UpdateProductAttributeListRequest, Unit>(eventStream) {
     override fun getProductId(request: UpdateProductAttributeListRequest, context: WorkflowContext): Long? =
         request.productId
@@ -18,8 +18,8 @@ class UpdateProductAttributeWorkflow(
                 id = request.productId,
                 request = com.wutsi.marketplace.access.dto.UpdateProductAttributeRequest(
                     name = it.name,
-                    value = it.value
-                )
+                    value = it.value,
+                ),
             )
         }
     }

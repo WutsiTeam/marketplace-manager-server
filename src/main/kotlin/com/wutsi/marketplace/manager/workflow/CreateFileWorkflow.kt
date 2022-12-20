@@ -11,32 +11,32 @@ import org.springframework.stereotype.Service
 
 @Service
 class CreateFileWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractProductWorkflow<com.wutsi.marketplace.manager.dto.CreateFileRequest, CreateFileResponse>(eventStream) {
     override fun getProductId(
         request: com.wutsi.marketplace.manager.dto.CreateFileRequest,
-        context: WorkflowContext
+        context: WorkflowContext,
     ) =
         request.productId
 
     override fun getAdditionalRules(account: Account, store: Store?, product: Product?) = listOf(
-        product?.let { ProductDigitalDownloadShouldNotHaveTooManyFilesRule(it, regulationEngine) }
+        product?.let { ProductDigitalDownloadShouldNotHaveTooManyFilesRule(it, regulationEngine) },
     )
 
     override fun doExecute(
         request: com.wutsi.marketplace.manager.dto.CreateFileRequest,
-        context: WorkflowContext
+        context: WorkflowContext,
     ): CreateFileResponse {
         val response = marketplaceAccessApi.createFile(
             request = com.wutsi.marketplace.access.dto.CreateFileRequest(
                 productId = request.productId,
                 url = request.url,
                 contentSize = request.contentSize,
-                contentType = request.contentType
-            )
+                contentType = request.contentType,
+            ),
         )
         return CreateFileResponse(
-            fileId = response.fileId
+            fileId = response.fileId,
         )
     }
 }

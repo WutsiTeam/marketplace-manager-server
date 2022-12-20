@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ActivateStoreWorkflow(
-    eventStream: EventStream
+    eventStream: EventStream,
 ) : AbstractStoreWorkflow<Void?, ActivateStoreResponse>(eventStream) {
     override fun getEventType(request: Void?, response: ActivateStoreResponse, context: WorkflowContext) =
         EventURN.STORE_ACTIVATED.urn
@@ -21,11 +21,11 @@ class ActivateStoreWorkflow(
     override fun toEventPayload(request: Void?, response: ActivateStoreResponse, context: WorkflowContext) =
         StoreEventPayload(
             accountId = getCurrentAccountId(context),
-            storeId = response.storeId
+            storeId = response.storeId,
         )
 
     override fun getAdditionalRules(account: Account, store: Store?) = listOf(
-        CountryShouldSupportStoreRule(account, regulationEngine)
+        CountryShouldSupportStoreRule(account, regulationEngine),
     )
 
     override fun doExecute(request: Void?, context: WorkflowContext): ActivateStoreResponse {
@@ -33,11 +33,11 @@ class ActivateStoreWorkflow(
         val response = marketplaceAccessApi.createStore(
             request = CreateStoreRequest(
                 accountId = account.id,
-                currency = regulationEngine.country(account.country).currency
-            )
+                currency = regulationEngine.country(account.country).currency,
+            ),
         )
         return ActivateStoreResponse(
-            storeId = response.storeId
+            storeId = response.storeId,
         )
     }
 }

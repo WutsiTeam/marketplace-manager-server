@@ -9,7 +9,7 @@ import kotlin.Long
 
 @RestController
 public class GetProductController(
-    public val `delegate`: GetProductDelegate
+    public val `delegate`: GetProductDelegate,
 ) {
     @GetMapping("/v1/products/{id}")
     public fun invoke(@PathVariable(name = "id") id: Long): GetProductResponse = delegate.invoke(id)

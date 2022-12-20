@@ -32,7 +32,7 @@ class CreateProductControllerTest : AbstractProductControllerTest<CreateProductR
         summary = "This is a summary",
         categoryId = 3203029,
         price = 1500,
-        type = ProductType.EVENT.name
+        type = ProductType.EVENT.name,
     )
 
     @BeforeEach
@@ -42,7 +42,7 @@ class CreateProductControllerTest : AbstractProductControllerTest<CreateProductR
         val productId = PRODUCT_ID
         doReturn(com.wutsi.marketplace.access.dto.CreateProductResponse(productId)).whenever(marketplaceAccessApi)
             .createProduct(
-                any()
+                any(),
             )
     }
 
@@ -65,8 +65,8 @@ class CreateProductControllerTest : AbstractProductControllerTest<CreateProductR
                 categoryId = request!!.categoryId,
                 price = request!!.price,
                 quantity = request!!.quantity,
-                type = request!!.type
-            )
+                type = request!!.type,
+            ),
         )
 
         verify(eventStream, never()).publish(any(), any())
