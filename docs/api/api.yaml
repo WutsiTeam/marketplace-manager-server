@@ -113,32 +113,32 @@ paths:
       security:
         - api_key: []
 
-  /v1/products/files:
+  /v1/files:
     post:
-      operationId: "add-product-file"
+      operationId: "create-file"
       description: Add a file into product
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddProductFileRequest'
+              $ref: '#/components/schemas/CreateFileRequest'
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AddProductFileResponse'
+                $ref: '#/components/schemas/CreateFileResponse'
         404:
           description: The product not found
       tags:
         - Product
 
-  /v1/products/files/{id}:
+  /v1/files/{id}:
     delete:
-      operationId: "remove-product-file"
-      description: Remove file from a product
+      operationId: "delete-file"
+      description: Delete a file
       parameters:
         - in: path
           name: id
@@ -290,21 +290,21 @@ paths:
 
   /v1/pictures:
     post:
-      operationId: add-picture
+      operationId: create-picture
       description: Add a picture to a product
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddPictureRequest'
+              $ref: '#/components/schemas/CreatePictureRequest'
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AddPictureResponse'
+                $ref: '#/components/schemas/CreatePictureResponse'
       tags:
         - Product
       security:
@@ -453,7 +453,7 @@ components:
       required:
         - name
 
-    AddPictureRequest:
+    CreatePictureRequest:
       type: object
       properties:
         productId:
@@ -466,7 +466,7 @@ components:
       required:
         - url
 
-    AddPictureResponse:
+    CreatePictureResponse:
       type: object
       properties:
         pictureId:
@@ -860,13 +860,16 @@ components:
           description: Event date
           nullable: true
 
-    AddProductFileRequest:
+    CreateFileRequest:
       type: object
       properties:
         productId:
           type: integer
           format: int64
           description: ID of the product
+        name:
+          type: string
+          description: File name
         url:
           type: string
           description: Type of file
@@ -877,10 +880,11 @@ components:
           type: integer
           description: Size of the file
       required:
+        - name
         - url
         - contentType
 
-    AddProductFileResponse:
+    CreateFileResponse:
       type: object
       properties:
         fileId:

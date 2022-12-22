@@ -33,6 +33,7 @@ class CreateFileWorkflow(
                 url = request.url,
                 contentSize = request.contentSize,
                 contentType = request.contentType,
+                name = request.name,
             ),
         )
         return CreateFileResponse(

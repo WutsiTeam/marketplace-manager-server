@@ -33,6 +33,7 @@ class CreateFileControllerTest : AbstractProductControllerTest<CreateFileRequest
         url = "https://www.img.com/1.png",
         contentSize = 10000,
         contentType = "image/png",
+        name = "Yo Man.png",
     )
 
     @BeforeEach
@@ -60,6 +61,7 @@ class CreateFileControllerTest : AbstractProductControllerTest<CreateFileRequest
                 url = request!!.url,
                 contentType = request!!.contentType,
                 contentSize = request!!.contentSize,
+                name = request!!.name,
             ),
         )
 
