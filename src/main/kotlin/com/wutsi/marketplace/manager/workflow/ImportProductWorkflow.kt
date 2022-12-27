@@ -75,33 +75,35 @@ class ImportProductWorkflow(
                 )
                 .build(),
         )
-        val products = loadProducts(context)
-        for (record in parser) {
-            val logger = DefaultKVLogger()
-            logger.add("row", row)
+        parser.use {
+            val products = loadProducts(context)
+            for (record in parser) {
+                val logger = DefaultKVLogger()
+                logger.add("row", row)
 
-            try {
-                val error = validate(row, record)
-                if (error == null) {
-                    doImport(record, products, context)
-                    logger.add("record_title", record.get(COLUMN_TITLE))
-                    imported++
-                } else {
+                try {
+                    val error = validate(row, record)
+                    if (error == null) {
+                        doImport(record, products, context)
+                        logger.add("record_title", record.get(COLUMN_TITLE))
+                        imported++
+                    } else {
+                        handleError(error, errors, logger)
+                    }
+                } catch (ex: FeignException) {
+                    val error = toCsvError(row, ex)
                     handleError(error, errors, logger)
+                } finally {
+                    logger.log()
+                    row++
                 }
-            } catch (ex: FeignException) {
-                val error = toCsvError(row, ex)
-                handleError(error, errors, logger)
-            } finally {
-                logger.log()
-                row++
             }
-        }
 
-        return CsvImportResponse(
-            imported = imported,
-            errors = errors,
-        )
+            return CsvImportResponse(
+                imported = imported,
+                errors = errors,
+            )
+        }
     }
 
     private fun handleError(error: CsvError, errors: MutableList<CsvError>, logger: KVLogger) {
