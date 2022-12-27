@@ -14,6 +14,7 @@ class EventHandler(
     fun handleEvent(event: Event) {
         when (event.type) {
             EventURN.ORDER_EXPIRED.urn -> order.onOrderExpired(event)
+            EventURN.ORDER_CANCELLED.urn -> order.onOrderExpired(event)
             EventURN.BUSINESS_DEACTIVATED.urn -> business.onBusinessDeactivated(event)
             else -> {}
         }

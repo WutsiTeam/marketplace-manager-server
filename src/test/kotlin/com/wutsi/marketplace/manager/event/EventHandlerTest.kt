@@ -82,6 +82,43 @@ internal class EventHandlerTest {
     }
 
     @Test
+    fun onOrderCancelled() {
+        // GIVEN
+        val reservations = listOf(
+            Fixtures.createReservationSummary(1),
+            Fixtures.createReservationSummary(2),
+        )
+        doReturn(SearchReservationResponse(reservations)).whenever(marketplaceAccessApi).searchReservation(any())
+
+        // WHEN
+        val event = Event(
+            type = EventURN.ORDER_CANCELLED.urn,
+            payload = mapper.writeValueAsString(
+                OrderEventPayload(
+                    orderId = "1111",
+                ),
+            ),
+        )
+        handler.handleEvent(event)
+
+        // THEN
+        verify(marketplaceAccessApi).updateReservationStatus(
+            reservations[0].id,
+            UpdateReservationStatusRequest(
+                ReservationStatus.CANCELLED.name,
+            ),
+        )
+        verify(marketplaceAccessApi).updateReservationStatus(
+            reservations[1].id,
+            UpdateReservationStatusRequest(
+                ReservationStatus.CANCELLED.name,
+            ),
+        )
+
+        verify(eventStream, never()).publish(any(), any())
+    }
+
+    @Test
     fun onBusinessDeactivated() {
         // GIVEN
         val reservations = listOf(

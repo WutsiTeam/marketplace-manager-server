@@ -18,6 +18,14 @@ class OrderEventHandler(
     private val cancelReservationWorkflow: CancelReservationWorkflow,
 ) {
     fun onOrderExpired(event: Event) {
+        cancelReservation(event)
+    }
+
+    fun onOrderCancelled(event: Event) {
+        cancelReservation(event)
+    }
+
+    private fun cancelReservation(event: Event) {
         val payload = toOrderEventPayload(event)
         log(payload)
 
