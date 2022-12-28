@@ -1,12 +1,16 @@
 package com.wutsi.marketplace.manager.dto
 
-import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.format.`annotation`.DateTimeFormat
 import java.time.OffsetDateTime
+import kotlin.Int
+import kotlin.Long
+import kotlin.String
+import kotlin.collections.List
 
 public data class Product(
     public val id: Long = 0,
     public val store: StoreSummary = StoreSummary(),
-    public val thumbnail: PictureSummary? = null,
+    public val thumbnail: PictureSummary = PictureSummary(),
     public val pictures: List<PictureSummary> = emptyList(),
     public val title: String = "",
     public val summary: String? = null,
@@ -23,6 +27,9 @@ public data class Product(
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     public val published: OffsetDateTime? = null,
     public val type: String = "",
-    public val event: Event? = null,
+    public val event: Event = Event(),
     public val files: List<FileSummary> = emptyList(),
+    public val totalOrders: Long = 0,
+    public val totalUnits: Long = 0,
+    public val totalSales: Long = 0,
 )

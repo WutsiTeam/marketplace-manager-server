@@ -677,6 +677,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FileSummary"
+        totalOrders:
+          type: integer
+          format: int64
+          description: Total orders
+        totalUnits:
+          type: integer
+          format: int64
+          description: Total unit sold
+        totalSales:
+          type: integer
+          format: int64
+          description: Value of the total sales
 
     PictureSummary:
       type: object
