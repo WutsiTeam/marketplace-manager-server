@@ -689,6 +689,10 @@ components:
           type: integer
           format: int64
           description: Value of the total sales
+        totalViews:
+          type: integer
+          format: int64
+          description: Value of the total views
 
     PictureSummary:
       type: object
