@@ -14,7 +14,7 @@ abstract class AbstractStoreWorkflow<Req, Resp>(eventStream: EventStream) :
     override fun getValidationRules(request: Req, context: WorkflowContext): RuleSet {
         val account = getCurrentAccount(context)
         val store = account.storeId?.let {
-            getCurrentStore(account)
+            getCurrentStore(account, context)
         }
         val rules = mutableListOf<Rule?>(
             AccountShouldBeActiveRule(account),

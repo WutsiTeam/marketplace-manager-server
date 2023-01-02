@@ -27,11 +27,24 @@ abstract class AbstractMarketplaceWorkflow<Req, Resp, Ev>(eventStream: EventStre
 
     protected fun getCurrentAccount(context: WorkflowContext): Account {
         val accountId = context.accountId ?: SecurityUtil.getAccountId()
-        return membershipAccessApi.getAccount(accountId).account
+        val key = "account.$accountId"
+        if (!context.data.containsKey(key) || (context.data[key] !is Account)) {
+            val account = membershipAccessApi.getAccount(accountId).account
+            context.data[key] = account
+            return account
+        }
+        return context.data[key] as Account
     }
 
-    protected fun getCurrentStore(account: Account): Store? =
-        account.storeId?.let {
-            marketplaceAccessApi.getStore(it).store
+    protected fun getCurrentStore(account: Account, context: WorkflowContext): Store? {
+        account.storeId ?: return null
+
+        val key = "store.${account.storeId}"
+        if (!context.data.containsKey(key) || (context.data[key] !is Store)) {
+            val store = marketplaceAccessApi.getStore(account.storeId!!).store
+            context.data[key] = account
+            return store
         }
+        return context.data[key] as Store
+    }
 }

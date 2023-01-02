@@ -1,33 +1,15 @@
 package com.wutsi.marketplace.manager.workflow
 
-import com.wutsi.event.StoreEventPayload
-import com.wutsi.marketplace.access.dto.PictureSummary
+import com.wutsi.marketplace.access.MarketplaceAccessApi
 import com.wutsi.marketplace.manager.dto.GetStoreResponse
 import com.wutsi.marketplace.manager.dto.Store
-import com.wutsi.platform.core.stream.EventStream
-import com.wutsi.workflow.RuleSet
+import com.wutsi.workflow.Workflow
 import com.wutsi.workflow.WorkflowContext
 import org.springframework.stereotype.Service
 
 @Service
-class GetStoreWorkflow(
-    eventStream: EventStream,
-) : AbstractStoreWorkflow<Long, GetStoreResponse>(eventStream) {
-    override fun getEventType(
-        productId: Long,
-        response: GetStoreResponse,
-        context: WorkflowContext,
-    ): String? = null
-
-    override fun toEventPayload(
-        productId: Long,
-        response: GetStoreResponse,
-        context: WorkflowContext,
-    ): StoreEventPayload? = null
-
-    override fun getValidationRules(request: Long, context: WorkflowContext) = RuleSet.NONE
-
-    override fun doExecute(storeId: Long, context: WorkflowContext): GetStoreResponse {
+class GetStoreWorkflow(private val marketplaceAccessApi: MarketplaceAccessApi) : Workflow<Long, GetStoreResponse> {
+    override fun execute(storeId: Long, context: WorkflowContext): GetStoreResponse {
         val store = marketplaceAccessApi.getStore(storeId).store
         return GetStoreResponse(
             store = Store(
@@ -43,9 +25,4 @@ class GetStoreWorkflow(
             ),
         )
     }
-
-    private fun toPictureThumbnail(picture: PictureSummary) = com.wutsi.marketplace.manager.dto.PictureSummary(
-        id = picture.id,
-        url = picture.url,
-    )
 }

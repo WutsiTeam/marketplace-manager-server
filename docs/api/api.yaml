@@ -354,6 +354,157 @@ paths:
         - api_key: []
 
 
+  /v1/discounts:
+    post:
+      operationId: create-discount
+      description: Create a discount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDiscountRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDiscountResponse'
+      tags:
+        - Discount
+
+  /v1/discounts/{id}:
+    get:
+      operationId: get-discount
+      description: Search discounts
+      parameters:
+        - in: path
+          name: id
+          description: ID of the discount
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDiscountResponse'
+      tags:
+        - Discount
+
+    post:
+      operationId: update-discount
+      description: Update a discount
+      parameters:
+        - in: path
+          name: id
+          description: ID of the discount
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDiscountRequest'
+      responses:
+        200:
+          description: Success
+      tags:
+        - Discount
+
+    delete:
+      operationId: "delete-discount"
+      description: Delete a discount
+      parameters:
+        - in: path
+          name: id
+          description: ID of the discount
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+      tags:
+        - Discount
+
+  /v1/discounts/search:
+    post:
+      operationId: search-discount
+      description: Search discounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchDiscountRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchDiscountResponse'
+      tags:
+        - Discount
+
+  /v1/discounts/{discount-id}/products/{product-id}:
+    post:
+      operationId: add-discount-product
+      description: Add a discount to a product
+      parameters:
+        - in: path
+          name: discount-id
+          description: ID of the discount
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: product-id
+          description: ID of the product
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+      tags:
+        - Discount
+
+    delete:
+      operationId: remove-discount-product
+      description: Remove a discount from a product
+      parameters:
+        - in: path
+          name: discount-id
+          description: ID of the discount
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: product-id
+          description: ID of the product
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+      tags:
+        - Discount
+
 components:
   securitySchemes:
     api_key:
@@ -563,11 +714,6 @@ components:
           format: int64
           description: Price of the product
           nullable: true
-        comparablePrice:
-          type: integer
-          format: int64
-          description: Comparable Price of the product
-          nullable: true
         categoryId:
           type: integer
           format: int64
@@ -630,11 +776,6 @@ components:
           type: integer
           format: int64
           description: Price of the product
-          nullable: true
-        comparablePrice:
-          type: integer
-          format: int64
-          description: Comparable Price of the product
           nullable: true
         currency:
           type: string
@@ -931,3 +1072,175 @@ components:
           type: string
           format: date-time
           description: Creation Date/Time
+
+    CreateDiscountRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the discount
+          maxLength: 30
+        rate:
+          type: integer
+          description: Discount percentage (0-100)
+          minimum: 1
+        starts:
+          type: string
+          format: date
+          description: Discount start date
+        ends:
+          type: string
+          format: date
+          description: Discount end date
+        allProducts:
+          type: boolean
+          description: Apply to all products?
+      required:
+        - name
+        - starts
+        - ends
+
+
+    CreateDiscountResponse:
+      type: object
+      properties:
+        discountId:
+          type: integer
+          format: int64
+          description: ID of the discount
+
+    GetDiscountResponse:
+      type: object
+      properties:
+        discount:
+          type: object
+          $ref: "#/components/schemas/Discount"
+
+    Discount:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the discount
+        storeId:
+          type: integer
+          format: int64
+          description: ID of the store
+        name:
+          type: string
+          description: Name of the discount
+        rate:
+          type: integer
+          description: Discount rate (0 - 100)
+        starts:
+          type: string
+          format: date
+          description: Discount start date
+        ends:
+          type: string
+          format: date
+          description: Discount end date
+        allProducts:
+          type: boolean
+          description: Apply to all products?
+        productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        created:
+          type: string
+          format: date-time
+          description: Creation date/time
+        updated:
+          type: string
+          format: date-time
+          description: Updated date/time
+
+    UpdateDiscountRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the discount
+        rate:
+          type: integer
+          description: Discount rate (0 - 100)
+        starts:
+          type: string
+          format: date
+          description: Discount start date
+        ends:
+          type: string
+          format: date
+          description: Discount end date
+        allProducts:
+          type: boolean
+          description: Apply to all products?
+      required:
+        - name
+        - starts
+        - ends
+
+    SearchDiscountRequest:
+      type: object
+      properties:
+        storeId:
+          type: integer
+          format: int64
+          description: ID of the store
+        productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        date:
+          type: string
+          format: date
+          description: Discount start date
+          nullable: true
+        limit:
+          type: integer
+          default: 100
+        offset:
+          type: integer
+          default: 0
+
+    SearchDiscountResponse:
+      type: object
+      properties:
+        discounts:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiscountSummary"
+
+    DiscountSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the discount
+        storeId:
+          type: integer
+          format: int64
+          description: ID of the store
+        name:
+          type: string
+          description: Name of the discount
+        rate:
+          type: integer
+          description: Discount rate (0 - 100)
+        starts:
+          type: string
+          format: date
+          description: Discount start date
+        ends:
+          type: string
+          format: date
+          description: Discount end date
+        created:
+          type: string
+          format: date-time
+          description: Creation date/time

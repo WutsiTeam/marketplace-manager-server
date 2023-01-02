@@ -32,7 +32,7 @@
     <klint.version>0.48.0</klint.version>
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
 
-    <wutsi-workflow.version>1.0.63</wutsi-workflow.version>
+    <wutsi-workflow.version>1.0.64-SNAPSHOT</wutsi-workflow.version>
   </properties>
 
   <dependencies>

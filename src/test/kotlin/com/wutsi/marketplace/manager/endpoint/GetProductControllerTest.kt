@@ -50,7 +50,6 @@ public class GetProductControllerTest : AbstractControllerTest() {
         assertEquals(product.summary, prod.summary)
         assertEquals(product.description, prod.description)
         assertEquals(product.price, prod.price)
-        assertEquals(product.comparablePrice, prod.comparablePrice)
         assertEquals(product.currency, prod.currency)
         assertEquals(product.thumbnail?.url, prod.thumbnail?.url)
         assertEquals(product.pictures.size, prod.pictures.size)

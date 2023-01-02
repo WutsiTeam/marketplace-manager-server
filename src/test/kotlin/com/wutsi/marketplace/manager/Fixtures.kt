@@ -6,6 +6,8 @@ import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.ProductType
 import com.wutsi.enums.StoreStatus
 import com.wutsi.marketplace.access.dto.CategorySummary
+import com.wutsi.marketplace.access.dto.Discount
+import com.wutsi.marketplace.access.dto.DiscountSummary
 import com.wutsi.marketplace.access.dto.FileSummary
 import com.wutsi.marketplace.access.dto.MeetingProviderSummary
 import com.wutsi.marketplace.access.dto.PictureSummary
@@ -16,6 +18,7 @@ import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.access.dto.StoreSummary
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
@@ -85,7 +88,6 @@ object Fixtures {
         summary = "This is a summary",
         description = "This is the description",
         price = 100000L,
-        comparablePrice = 150000L,
         quantity = quantity,
         status = ProductStatus.DRAFT.name,
         type = type.name,
@@ -140,5 +142,39 @@ object Fixtures {
         type = MeetingProviderType.ZOOM.name,
         name = "Zoom",
         logoUrl = "https://prod-wutsi.s3.amazonaws.com/static/marketplace-access-server/meeting-providers/zoom.png",
+    )
+
+    fun createDiscount(
+        id: Long = 1000,
+        storeId: Long = 1,
+        rate: Int = 10,
+        starts: LocalDate = LocalDate.now(),
+        ends: LocalDate = LocalDate.now().plusDays(10),
+        allProducts: Boolean = false,
+        productIds: List<Long> = listOf(100L, 102L, 100000L),
+    ) = Discount(
+        id = 1000,
+        storeId = storeId,
+        name = "FIN$rate",
+        rate = rate,
+        starts = starts,
+        ends = ends,
+        allProducts = allProducts,
+        productIds = productIds,
+    )
+
+    fun createDiscountSummary(
+        id: Long = 1000,
+        storeId: Long = 1,
+        rate: Int = 10,
+        starts: LocalDate = LocalDate.now(),
+        ends: LocalDate = LocalDate.now().plusDays(10),
+    ) = DiscountSummary(
+        id = 1000,
+        storeId = storeId,
+        name = "FIN$rate",
+        rate = rate,
+        starts = starts,
+        ends = ends,
     )
 }
