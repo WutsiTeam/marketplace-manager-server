@@ -396,9 +396,27 @@ paths:
       tags:
         - Discount
 
+    delete:
+      operationId: "delete-discount"
+      description: Delete a discount
+      parameters:
+        - in: path
+          name: id
+          description: ID of the discount
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+      tags:
+        - Discount
+
+  /v1/discounts/{id}/attributes:
     post:
-      operationId: update-discount
-      description: Update a discount
+      operationId: "update-discount-attribute"
+      description: Update a discount attribute
       parameters:
         - in: path
           name: id
@@ -412,24 +430,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateDiscountRequest'
-      responses:
-        200:
-          description: Success
-      tags:
-        - Discount
-
-    delete:
-      operationId: "delete-discount"
-      description: Delete a discount
-      parameters:
-        - in: path
-          name: id
-          description: ID of the discount
-          required: true
-          schema:
-            type: integer
-            format: int64
+              $ref: '#/components/schemas/UpdateDiscountAttributeRequest'
       responses:
         200:
           description: Success
@@ -1076,29 +1077,40 @@ components:
     CreateDiscountRequest:
       type: object
       properties:
+        storeId:
+          type: integer
+          format: int64
+          description: ID of the store
         name:
           type: string
           description: Name of the discount
           maxLength: 30
+        type:
+          type: string
+          description: Type of discount
+          enum:
+            - SALES
+            - COUPON
         rate:
           type: integer
           description: Discount percentage (0-100)
           minimum: 1
         starts:
           type: string
-          format: date
+          format: date-time
           description: Discount start date
+          nullable: true
         ends:
           type: string
-          format: date
+          format: date-time
           description: Discount end date
+          nullable: true
         allProducts:
           type: boolean
           description: Apply to all products?
       required:
         - name
-        - starts
-        - ends
+        - type
 
 
     CreateDiscountResponse:
@@ -1127,6 +1139,12 @@ components:
           type: integer
           format: int64
           description: ID of the store
+        type:
+          type: string
+          description: Type of discount
+          enum:
+            - SALES
+            - COUPON
         name:
           type: string
           description: Name of the discount
@@ -1135,12 +1153,14 @@ components:
           description: Discount rate (0 - 100)
         starts:
           type: string
-          format: date
+          format: date-time
           description: Discount start date
+          nullable: true
         ends:
           type: string
-          format: date
+          format: date-time
           description: Discount end date
+          nullable: true
         allProducts:
           type: boolean
           description: Apply to all products?
@@ -1158,31 +1178,6 @@ components:
           format: date-time
           description: Updated date/time
 
-    UpdateDiscountRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the discount
-        rate:
-          type: integer
-          description: Discount rate (0 - 100)
-        starts:
-          type: string
-          format: date
-          description: Discount start date
-        ends:
-          type: string
-          format: date
-          description: Discount end date
-        allProducts:
-          type: boolean
-          description: Apply to all products?
-      required:
-        - name
-        - starts
-        - ends
-
     SearchDiscountRequest:
       type: object
       properties:
@@ -1195,6 +1190,13 @@ components:
           items:
             type: integer
             format: int64
+        type:
+          type: string
+          description: Type of discount
+          enum:
+            - SALES
+            - COUPON
+          nullable: true
         date:
           type: string
           format: date
@@ -1226,6 +1228,12 @@ components:
           type: integer
           format: int64
           description: ID of the store
+        type:
+          type: string
+          description: Type of discount
+          enum:
+            - SALES
+            - COUPON
         name:
           type: string
           description: Name of the discount
@@ -1234,13 +1242,33 @@ components:
           description: Discount rate (0 - 100)
         starts:
           type: string
-          format: date
+          format: date-time
           description: Discount start date
+          nullable: true
         ends:
           type: string
-          format: date
+          format: date-time
           description: Discount end date
+          nullable: true
         created:
           type: string
           format: date-time
           description: Creation date/time
+
+    UpdateDiscountAttributeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the attribute to update
+          enum:
+            - name
+            - rate
+            - starts
+            - ends
+        value:
+          type: string
+          description: Value of the attribute
+          nullable: true
+      required:
+        - name

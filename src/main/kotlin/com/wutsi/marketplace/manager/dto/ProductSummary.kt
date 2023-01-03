@@ -16,5 +16,5 @@ public data class ProductSummary(
     public val quantity: Int? = null,
     public val status: String = "",
     public val type: String = "",
-    public val event: Event = Event(),
+    public val event: Event? = null,
 )

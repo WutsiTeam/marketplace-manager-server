@@ -9,27 +9,31 @@ import com.wutsi.marketplace.manager.dto.CreateDiscountResponse
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
-import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CreateDiscountControllerTest : AbstractDiscountControllerTest() {
+    private fun url() = "http://localhost:$port/v1/discounts"
+
     @Test
     public fun invoke() {
         // GIVEN
-        val discountId = 11L
-        doReturn(com.wutsi.marketplace.access.dto.CreateDiscountResponse(discountId)).whenever(marketplaceAccessApi)
+        doReturn(com.wutsi.marketplace.access.dto.CreateDiscountResponse(111))
+            .whenever(marketplaceAccessApi)
             .createDiscount(
                 any(),
             )
 
         // WHEN
         val request = CreateDiscountRequest(
-            name = "FIN10",
+            starts = OffsetDateTime.now(ZoneOffset.UTC),
+            ends = null,
             rate = 10,
-            starts = LocalDate.now(),
-            ends = LocalDate.now().plusDays(10),
             allProducts = true,
+            type = "SALES",
+            name = "FOO",
         )
         val response = rest.postForEntity(url(), request, CreateDiscountResponse::class.java)
 
@@ -37,16 +41,15 @@ public class CreateDiscountControllerTest : AbstractDiscountControllerTest() {
         assertEquals(HttpStatus.OK, response.statusCode)
 
         verify(marketplaceAccessApi).createDiscount(
-            com.wutsi.marketplace.access.dto.CreateDiscountRequest(
+            request = com.wutsi.marketplace.access.dto.CreateDiscountRequest(
                 storeId = account.storeId!!,
                 name = request.name,
-                rate = request.rate,
+                type = request.type,
                 starts = request.starts,
                 ends = request.ends,
+                rate = request.rate,
                 allProducts = request.allProducts,
             ),
         )
     }
-
-    private fun url() = "http://localhost:$port/v1/discounts"
 }

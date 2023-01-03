@@ -10,7 +10,7 @@ import kotlin.collections.List
 public data class Product(
     public val id: Long = 0,
     public val store: StoreSummary = StoreSummary(),
-    public val thumbnail: PictureSummary = PictureSummary(),
+    public val thumbnail: PictureSummary? = null,
     public val pictures: List<PictureSummary> = emptyList(),
     public val title: String = "",
     public val summary: String? = null,
@@ -26,7 +26,7 @@ public data class Product(
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     public val published: OffsetDateTime? = null,
     public val type: String = "",
-    public val event: Event = Event(),
+    public val event: Event? = null,
     public val files: List<FileSummary> = emptyList(),
     public val totalOrders: Long = 0,
     public val totalUnits: Long = 0,

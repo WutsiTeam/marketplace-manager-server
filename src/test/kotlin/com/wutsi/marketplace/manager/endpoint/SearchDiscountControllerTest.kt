@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.enums.DiscountType
 import com.wutsi.marketplace.access.dto.SearchDiscountResponse
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.dto.SearchDiscountRequest
@@ -35,6 +36,7 @@ public class SearchDiscountControllerTest : AbstractSecuredControllerTest() {
             storeId = 111,
             limit = 300,
             offset = 1,
+            type = DiscountType.COUPON.name,
         )
         val response = rest.postForEntity(url(), request, SearchDiscountResponse::class.java)
 
@@ -51,6 +53,7 @@ public class SearchDiscountControllerTest : AbstractSecuredControllerTest() {
                 storeId = request.storeId,
                 limit = request.limit,
                 offset = request.offset,
+                type = request.type,
             ),
         )
     }

@@ -32,8 +32,11 @@ class GetDiscountControllerTest : AbstractSecuredControllerTest() {
         assertEquals(discount.id, result.id)
         assertEquals(discount.name, result.name)
         assertEquals(discount.storeId, result.storeId)
-        assertEquals(discount.starts, result.starts)
-        assertEquals(discount.ends, result.ends)
+        assertEquals(
+            discount.starts!!.toInstant().toEpochMilli() / 1000,
+            result.starts!!.toInstant().toEpochMilli() / 1000,
+        )
+        assertEquals(discount.ends!!.toInstant().toEpochMilli() / 1000, result.ends!!.toInstant().toEpochMilli() / 1000)
         assertEquals(discount.allProducts, result.allProducts)
         assertEquals(discount.productIds, result.productIds)
     }

@@ -22,6 +22,7 @@ class SearchDiscountWorkflow(
                 productIds = request.productIds,
                 limit = request.limit,
                 offset = request.offset,
+                type = request.type,
             ),
         )
         return SearchDiscountResponse(

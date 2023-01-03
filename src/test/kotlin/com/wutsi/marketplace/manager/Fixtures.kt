@@ -1,6 +1,7 @@
 package com.wutsi.marketplace.manager
 
 import com.wutsi.enums.AccountStatus
+import com.wutsi.enums.DiscountType
 import com.wutsi.enums.MeetingProviderType
 import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.ProductType
@@ -18,7 +19,6 @@ import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.access.dto.StoreSummary
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.membership.access.dto.Phone
-import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
@@ -148,12 +148,12 @@ object Fixtures {
         id: Long = 1000,
         storeId: Long = 1,
         rate: Int = 10,
-        starts: LocalDate = LocalDate.now(),
-        ends: LocalDate = LocalDate.now().plusDays(10),
+        starts: OffsetDateTime = OffsetDateTime.now(),
+        ends: OffsetDateTime = OffsetDateTime.now().plusDays(10),
         allProducts: Boolean = false,
         productIds: List<Long> = listOf(100L, 102L, 100000L),
     ) = Discount(
-        id = 1000,
+        id = id,
         storeId = storeId,
         name = "FIN$rate",
         rate = rate,
@@ -161,20 +161,22 @@ object Fixtures {
         ends = ends,
         allProducts = allProducts,
         productIds = productIds,
+        type = DiscountType.COUPON.name,
     )
 
     fun createDiscountSummary(
         id: Long = 1000,
         storeId: Long = 1,
         rate: Int = 10,
-        starts: LocalDate = LocalDate.now(),
-        ends: LocalDate = LocalDate.now().plusDays(10),
+        starts: OffsetDateTime = OffsetDateTime.now(),
+        ends: OffsetDateTime = OffsetDateTime.now().plusDays(10),
     ) = DiscountSummary(
-        id = 1000,
+        id = id,
         storeId = storeId,
         name = "FIN$rate",
         rate = rate,
         starts = starts,
         ends = ends,
+        type = DiscountType.COUPON.name,
     )
 }

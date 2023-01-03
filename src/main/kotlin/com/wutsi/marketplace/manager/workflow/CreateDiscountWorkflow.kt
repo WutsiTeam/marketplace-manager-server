@@ -6,7 +6,6 @@ import com.wutsi.marketplace.manager.dto.CreateDiscountResponse
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.Rule
 import com.wutsi.workflow.WorkflowContext
-import com.wutsi.workflow.rule.account.DiscountShouldHaveDurationLessThan30DaysRule
 import com.wutsi.workflow.rule.account.DiscountShouldHaveStartDateBeforeEndDateRule
 import org.springframework.stereotype.Service
 
@@ -18,9 +17,9 @@ class CreateDiscountWorkflow(
         val discount = Discount(
             starts = request.starts,
             ends = request.ends,
+            type = request.type,
         )
         return listOf(
-            DiscountShouldHaveDurationLessThan30DaysRule(discount),
             DiscountShouldHaveStartDateBeforeEndDateRule(discount),
         )
     }
@@ -38,6 +37,7 @@ class CreateDiscountWorkflow(
                 ends = request.ends,
                 allProducts = request.allProducts,
                 rate = request.rate,
+                type = request.type,
             ),
         )
         return CreateDiscountResponse(
