@@ -20,6 +20,7 @@ class SearchDiscountWorkflow(
                 storeId = request.storeId,
                 date = request.date,
                 productIds = request.productIds,
+                discountIds = request.discountIds,
                 limit = request.limit,
                 offset = request.offset,
                 type = request.type,

@@ -11,8 +11,11 @@ import com.wutsi.marketplace.access.dto.Discount
 import com.wutsi.marketplace.access.dto.DiscountSummary
 import com.wutsi.marketplace.access.dto.FileSummary
 import com.wutsi.marketplace.access.dto.MeetingProviderSummary
+import com.wutsi.marketplace.access.dto.Offer
+import com.wutsi.marketplace.access.dto.OfferSummary
 import com.wutsi.marketplace.access.dto.PictureSummary
 import com.wutsi.marketplace.access.dto.Product
+import com.wutsi.marketplace.access.dto.ProductPriceSummary
 import com.wutsi.marketplace.access.dto.ProductSummary
 import com.wutsi.marketplace.access.dto.ReservationSummary
 import com.wutsi.marketplace.access.dto.Store
@@ -178,5 +181,23 @@ object Fixtures {
         starts = starts,
         ends = ends,
         type = DiscountType.COUPON.name,
+    )
+
+    fun createProductPriceSummary(productId: Long) = ProductPriceSummary(
+        productId = productId,
+    )
+
+    fun createOfferSummary(
+        productId: Long,
+    ) = OfferSummary(
+        product = createProductSummary(productId),
+        price = createProductPriceSummary(productId),
+    )
+
+    fun createOffer(
+        productId: Long,
+    ) = Offer(
+        product = createProduct(productId),
+        price = createProductPriceSummary(productId),
     )
 }

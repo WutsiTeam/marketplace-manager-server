@@ -373,6 +373,8 @@ paths:
                 $ref: '#/components/schemas/CreateDiscountResponse'
       tags:
         - Discount
+      security:
+        - api_key: []
 
   /v1/discounts/{id}:
     get:
@@ -412,6 +414,8 @@ paths:
           description: Success
       tags:
         - Discount
+      security:
+        - api_key: []
 
   /v1/discounts/{id}/attributes:
     post:
@@ -436,6 +440,8 @@ paths:
           description: Success
       tags:
         - Discount
+      security:
+        - api_key: []
 
   /v1/discounts/search:
     post:
@@ -456,6 +462,8 @@ paths:
                 $ref: '#/components/schemas/SearchDiscountResponse'
       tags:
         - Discount
+      security:
+        - api_key: []
 
   /v1/discounts/{discount-id}/products/{product-id}:
     post:
@@ -505,6 +513,54 @@ paths:
           description: Success
       tags:
         - Discount
+      security:
+        - api_key: []
+
+  /v1/offers/search:
+    post:
+      operationId: "search-offer"
+      description: Search Offers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchOfferRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchOfferResponse'
+      tags:
+        - Offer
+      security:
+        - api_key: []
+
+  /v1/offers/{id}:
+    get:
+      operationId: "get-offer"
+      description: Get an offer
+      parameters:
+        - in: path
+          name: id
+          description: ID of the offer
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOfferResponse'
+      tags:
+        - Offer
+      security:
+        - api_key: []
 
 components:
   securitySchemes:
@@ -1077,10 +1133,6 @@ components:
     CreateDiscountRequest:
       type: object
       properties:
-        storeId:
-          type: integer
-          format: int64
-          description: ID of the store
         name:
           type: string
           description: Name of the discount
@@ -1185,7 +1237,13 @@ components:
           type: integer
           format: int64
           description: ID of the store
+          nullable: true
         productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        discountIds:
           type: array
           items:
             type: integer
@@ -1272,3 +1330,99 @@ components:
           nullable: true
       required:
         - name
+
+    ProductPriceSummary:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: ID of the product
+        price:
+          type: integer
+          format: int64
+          description: Actual price of the product
+        referencePrice:
+          type: integer
+          format: int64
+          description: Reference price of the product
+          nullable: true
+        discountId:
+          type: integer
+          format: int64
+          description: ID of the discount applied
+          nullable: true
+        savings:
+          type: integer
+          format: int64
+          description: Savings amount
+        savingsPercentage:
+          type: integer
+          description: Savings percentate (0 - 100)
+        expires:
+          type: string
+          format: date-time
+          description: Price expiry date
+          nullable: true
+
+    SearchOfferRequest:
+      type: object
+      properties:
+        storeId:
+          type: integer
+          format: int64
+          nullable: true
+        productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        limit:
+          type: integer
+          default: 100
+        offset:
+          type: integer
+          default: 0
+        sortBy:
+          type: string
+          enum:
+            - RECOMMENDED
+            - PRICE_DESC
+            - PRICE_ASC
+            - TITLE
+          nullable: true
+
+    SearchOfferResponse:
+      type: object
+      properties:
+        offers:
+          type: array
+          items:
+            $ref: "#/components/schemas/OfferSummary"
+
+    OfferSummary:
+      type: object
+      properties:
+        product:
+          type: object
+          $ref: "#/components/schemas/ProductSummary"
+        price:
+          type: object
+          $ref: "#/components/schemas/ProductPriceSummary"
+
+    GetOfferResponse:
+      type: object
+      properties:
+        offer:
+          type: object
+          $ref: "#/components/schemas/Offer"
+
+    Offer:
+      type: objevt
+      properties:
+        product:
+          type: object
+          $ref: "#/components/schemas/Product"
+        price:
+          type: object
+          $ref: "#/components/schemas/ProductPriceSummary"

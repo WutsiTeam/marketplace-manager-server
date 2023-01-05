@@ -32,6 +32,7 @@ public class SearchDiscountControllerTest : AbstractSecuredControllerTest() {
         // WHEN
         val request = SearchDiscountRequest(
             productIds = listOf(1, 2, 3),
+            discountIds = listOf(100, 200, 300),
             date = LocalDate.now(),
             storeId = 111,
             limit = 300,
@@ -49,6 +50,7 @@ public class SearchDiscountControllerTest : AbstractSecuredControllerTest() {
         verify(marketplaceAccessApi).searchDiscount(
             com.wutsi.marketplace.access.dto.SearchDiscountRequest(
                 productIds = request.productIds,
+                discountIds = request.discountIds,
                 date = request.date,
                 storeId = request.storeId,
                 limit = request.limit,
