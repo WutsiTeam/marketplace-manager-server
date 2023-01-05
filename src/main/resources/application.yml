@@ -42,6 +42,8 @@ wutsi:
     security:
       type: jwt
       public-endpoints:
+        - "GET /v1/offers/{id}"
+        - "POST /v1/offers/search"
         - "GET /v1/products/{id}"
         - "POST /v1/products/search"
         - "GET /v1/stores/{id}"
