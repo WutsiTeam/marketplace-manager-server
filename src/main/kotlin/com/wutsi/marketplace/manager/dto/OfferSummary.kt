@@ -2,5 +2,5 @@ package com.wutsi.marketplace.manager.dto
 
 public data class OfferSummary(
     public val product: ProductSummary = ProductSummary(),
-    public val price: ProductPriceSummary = ProductPriceSummary(),
+    public val price: OfferPrice = OfferPrice(),
 )
