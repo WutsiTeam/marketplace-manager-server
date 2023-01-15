@@ -1,10 +1,14 @@
 package com.wutsi.marketplace.manager.dto
 
-import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.format.`annotation`.DateTimeFormat
 import java.time.LocalDate
+import kotlin.Int
+import kotlin.Long
+import kotlin.String
+import kotlin.collections.List
 
 public data class SearchDiscountRequest(
-    public val storeId: Long = 0,
+    public val storeId: Long? = null,
     public val productIds: List<Long> = emptyList(),
     public val discountIds: List<Long> = emptyList(),
     public val type: String? = null,

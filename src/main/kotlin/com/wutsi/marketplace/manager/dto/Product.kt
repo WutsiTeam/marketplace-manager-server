@@ -1,11 +1,7 @@
 package com.wutsi.marketplace.manager.dto
 
-import org.springframework.format.`annotation`.DateTimeFormat
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.OffsetDateTime
-import kotlin.Int
-import kotlin.Long
-import kotlin.String
-import kotlin.collections.List
 
 public data class Product(
     public val id: Long = 0,
@@ -32,4 +28,5 @@ public data class Product(
     public val totalUnits: Long = 0,
     public val totalSales: Long = 0,
     public val totalViews: Long = 0,
+    public val outOfStock: Boolean = false,
 )
