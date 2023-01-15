@@ -45,7 +45,7 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
     }
 
     @Test
-    fun nullQuantity() {
+    fun infiniteStock() {
         // GIVEN
         product = Fixtures.createProduct(
             id = PRODUCT_ID,
@@ -56,17 +56,18 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
 
         // WHEN
-        val ex = assertThrows<HttpClientErrorException> {
-            rest.postForEntity(url(), request, Any::class.java)
-        }
+        val response = rest.postForEntity(url(), request, Any::class.java)
 
         // THEN
-        assertEquals(HttpStatus.CONFLICT, ex.statusCode)
+        assertEquals(HttpStatus.OK, response.statusCode)
 
-        val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
-        assertEquals(ErrorURN.PRODUCT_NO_STOCK.urn, response.error.code)
+        verify(marketplaceAccessApi).updateProductStatus(
+            PRODUCT_ID,
+            UpdateProductStatusRequest(
+                status = ProductStatus.PUBLISHED.name,
+            ),
+        )
 
-        verify(marketplaceAccessApi, never()).updateProductStatus(any(), any())
         verify(eventStream, never()).publish(any(), any())
     }
 
