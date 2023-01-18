@@ -1,25 +1,18 @@
 package com.wutsi.marketplace.manager.endpoint
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.enums.StoreStatus
-import com.wutsi.error.ErrorURN
 import com.wutsi.event.EventURN
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.membership.access.dto.GetAccountResponse
-import com.wutsi.platform.core.error.ErrorResponse
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
-import org.springframework.web.client.HttpClientErrorException
-import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
@@ -60,16 +53,9 @@ class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 
         // WHEN
-        val ex = assertThrows<HttpClientErrorException> {
-            rest.delete(url())
-        }
+        rest.delete(url())
 
         // THEN
-        assertEquals(HttpStatus.CONFLICT, ex.statusCode)
-
-        val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
-        assertEquals(ErrorURN.NO_STORE.urn, response.error.code)
-
         verify(marketplaceAccessApi, never()).createStore(any())
         verify(eventStream, never()).publish(any(), any())
     }

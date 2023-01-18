@@ -3,7 +3,6 @@ package com.wutsi.marketplace.manager.workflow
 import com.wutsi.event.EventURN
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.CreateStoreRequest
-import com.wutsi.marketplace.access.dto.Store
 import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
@@ -24,7 +23,7 @@ class ActivateStoreWorkflow(
             storeId = response.storeId,
         )
 
-    override fun getAdditionalRules(account: Account, store: Store?) = listOf(
+    override fun getAdditionalRules(account: Account, context: WorkflowContext) = listOf(
         CountryShouldSupportStoreRule(account, regulationEngine),
     )
 

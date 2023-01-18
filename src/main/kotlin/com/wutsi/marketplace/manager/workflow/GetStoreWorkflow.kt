@@ -15,6 +15,7 @@ class GetStoreWorkflow(private val marketplaceAccessApi: MarketplaceAccessApi) :
             store = Store(
                 id = storeId,
                 accountId = store.accountId,
+                businessId = store.businessId,
                 currency = store.currency,
                 productCount = store.productCount,
                 publishedProductCount = store.publishedProductCount,

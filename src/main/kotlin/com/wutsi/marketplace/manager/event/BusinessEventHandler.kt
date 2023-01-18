@@ -2,6 +2,8 @@ package com.wutsi.marketplace.manager.event
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.wutsi.event.BusinessEventPayload
+import com.wutsi.marketplace.access.MarketplaceAccessApi
+import com.wutsi.marketplace.access.dto.SearchStoreRequest
 import com.wutsi.marketplace.manager.workflow.DeactivateStoreWorkflow
 import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.platform.core.stream.Event
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service
 class BusinessEventHandler(
     private val mapper: ObjectMapper,
     private val logger: KVLogger,
+    private val marketplaceAccessApi: MarketplaceAccessApi,
     private val deactivateStoreWorkflow: DeactivateStoreWorkflow,
 ) {
     fun onBusinessDeactivated(event: Event) {
@@ -19,7 +22,13 @@ class BusinessEventHandler(
         log(payload)
 
         val context = WorkflowContext(accountId = payload.accountId)
-        deactivateStoreWorkflow.execute(null, context)
+        marketplaceAccessApi.searchStore(
+            request = SearchStoreRequest(
+                businessId = payload.businessId,
+            ),
+        ).stores.forEach {
+            deactivateStoreWorkflow.execute(it.id, context)
+        }
     }
 
     private fun toBusinessEventPayload(event: Event): BusinessEventPayload =

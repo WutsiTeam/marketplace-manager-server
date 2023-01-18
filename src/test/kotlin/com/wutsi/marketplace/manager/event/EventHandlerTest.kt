@@ -13,8 +13,8 @@ import com.wutsi.event.EventURN
 import com.wutsi.event.OrderEventPayload
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.MarketplaceAccessApi
-import com.wutsi.marketplace.access.dto.GetStoreResponse
 import com.wutsi.marketplace.access.dto.SearchReservationResponse
+import com.wutsi.marketplace.access.dto.SearchStoreResponse
 import com.wutsi.marketplace.access.dto.UpdateReservationStatusRequest
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
 import com.wutsi.marketplace.manager.Fixtures
@@ -130,8 +130,8 @@ internal class EventHandlerTest {
         val account = Fixtures.createAccount(id = 111, storeId = 333L, businessId = 333)
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 
-        val store = Fixtures.createStore(id = account.storeId!!, accountId = account.id)
-        doReturn(GetStoreResponse(store)).whenever(marketplaceAccessApi).getStore(any())
+        val store = Fixtures.createStoreSummary(id = account.storeId!!, accountId = account.id)
+        doReturn(SearchStoreResponse(listOf(store))).whenever(marketplaceAccessApi).searchStore(any())
 
         // WHEN
         val event = Event(

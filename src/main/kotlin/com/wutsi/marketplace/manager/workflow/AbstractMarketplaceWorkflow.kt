@@ -36,13 +36,14 @@ abstract class AbstractMarketplaceWorkflow<Req, Resp, Ev>(eventStream: EventStre
         return context.data[key] as Account
     }
 
-    protected fun getCurrentStore(account: Account, context: WorkflowContext): Store? {
-        account.storeId ?: return null
+    protected fun getCurrentStore(account: Account, context: WorkflowContext): Store? =
+        account.storeId?.let { getStore(it, context) }
 
-        val key = "store.${account.storeId}"
+    protected fun getStore(storeId: Long, context: WorkflowContext): Store {
+        val key = "store.$storeId"
         if (!context.data.containsKey(key) || (context.data[key] !is Store)) {
-            val store = marketplaceAccessApi.getStore(account.storeId!!).store
-            context.data[key] = account
+            val store = marketplaceAccessApi.getStore(storeId).store
+            context.data[key] = store
             return store
         }
         return context.data[key] as Store

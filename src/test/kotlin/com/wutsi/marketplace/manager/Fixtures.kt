@@ -61,6 +61,18 @@ object Fixtures {
         productCount = productCount,
     )
 
+    fun createStoreSummary(
+        id: Long = -1,
+        accountId: Long = -1,
+        businessId: Long = -1,
+        status: StoreStatus = StoreStatus.ACTIVE,
+    ) = StoreSummary(
+        id = id,
+        accountId = accountId,
+        businessId = businessId,
+        status = status.name,
+    )
+
     fun createFileSummary(
         id: Long,
     ) = FileSummary(

@@ -924,6 +924,10 @@ components:
           type: integer
           format: int64
           description: ID of the associated account
+        businessId:
+          type: integer
+          format: int64
+          description: ID of associated business
         currency:
           type: string
           description: Currency of the store
@@ -964,6 +968,10 @@ components:
           type: integer
           format: int64
           description: ID of the associated account
+        businessId:
+          type: integer
+          format: int64
+          description: ID of associated business
         currency:
           type: string
           description: Currency of the store

@@ -9,6 +9,7 @@ import kotlin.String
 public data class Store(
     public val id: Long = 0,
     public val accountId: Long = 0,
+    public val businessId: Long = 0,
     public val currency: String = "",
     public val productCount: Int = 0,
     public val publishedProductCount: Int = 0,
