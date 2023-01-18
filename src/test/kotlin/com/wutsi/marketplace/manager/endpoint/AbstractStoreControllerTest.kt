@@ -41,7 +41,7 @@ abstract class AbstractStoreControllerTest<Req> : AbstractSecuredControllerTest(
     override fun setUp() {
         super.setUp()
 
-        account = Fixtures.createAccount(id = ACCOUNT_ID, business = true)
+        account = Fixtures.createAccount(id = ACCOUNT_ID, business = true, businessId = 111L)
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 
         store = Fixtures.createStore(id = STORE_ID, accountId = ACCOUNT_ID)

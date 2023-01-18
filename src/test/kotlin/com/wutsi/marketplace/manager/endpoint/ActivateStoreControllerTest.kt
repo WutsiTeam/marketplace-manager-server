@@ -42,6 +42,7 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
         verify(marketplaceAccessApi).createStore(
             CreateStoreRequest(
                 accountId = account.id,
+                businessId = account.businessId!!,
                 currency = "XAF",
             ),
         )
