@@ -27,6 +27,7 @@ class BusinessEventHandler(
                 businessId = payload.businessId,
             ),
         ).stores.forEach {
+            logger.add("store_to_deactivate", it.id)
             deactivateStoreWorkflow.execute(it.id, context)
         }
     }

@@ -7,6 +7,7 @@ import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.WorkflowContext
+import com.wutsi.workflow.rule.account.AccountShouldBeActiveRule
 import com.wutsi.workflow.rule.account.AccountShouldBeBusinessRule
 import com.wutsi.workflow.rule.account.CountryShouldSupportStoreRule
 import org.springframework.stereotype.Service
@@ -25,6 +26,7 @@ class ActivateStoreWorkflow(
         )
 
     override fun getAdditionalRules(account: Account, context: WorkflowContext) = listOf(
+        AccountShouldBeActiveRule(account),
         AccountShouldBeBusinessRule(account),
         CountryShouldSupportStoreRule(account, regulationEngine),
     )
