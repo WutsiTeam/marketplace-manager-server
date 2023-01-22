@@ -799,6 +799,9 @@ components:
         outOfStock:
           type: boolean
           description: Will be TRUE if this product is no longer available
+        url:
+          type: string
+          description: "Product URL"
 
     Product:
       type: object
@@ -893,6 +896,9 @@ components:
         outOfStock:
           type: boolean
           description: Will be TRUE if this product is no longer available
+        url:
+          type: string
+          description: "Product URL"
 
     PictureSummary:
       type: object

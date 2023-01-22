@@ -14,4 +14,5 @@ public data class ProductSummary(
     public val type: String = "",
     public val event: Event? = null,
     public val outOfStock: Boolean = false,
+    public val url: String = "",
 )

@@ -29,4 +29,5 @@ public data class Product(
     public val totalSales: Long = 0,
     public val totalViews: Long = 0,
     public val outOfStock: Boolean = false,
+    public val url: String = "",
 )
