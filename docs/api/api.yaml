@@ -11,6 +11,53 @@ servers:
     description: Production
 
 paths:
+  /v1/categories/search:
+    post:
+      operationId: "search-category"
+      description: Search product categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCategoryRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCategoryResponse'
+      tags:
+        - Category
+
+  /v1/categories/{id}:
+    get:
+      operationId: "get-category"
+      description: Return information about a category
+      parameters:
+        - in: path
+          name: id
+          description: ID of the category
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCategoryResponse'
+        403:
+          description: The caller is not authorized to call this endpoint
+        404:
+          description: The category not found
+      tags:
+        - Category
+
+
   /v1/stores:
     post:
       operationId: "activate-store"
@@ -331,29 +378,6 @@ paths:
         - api_key: []
 
 
-  /v1/categories/import:
-    get:
-      operationId: "import-category"
-      description: |
-        Import all the product categories.
-        Wutsi used [Google Product Categories](https://support.google.com/merchants/answer/6324436) for categorizing products
-      parameters:
-        - in: query
-          name: language
-          description: 2 letter code of the language of the categories
-          required: true
-          schema:
-            type: string
-            required: true
-      responses:
-        200:
-          description: Success
-      tags:
-        - Category
-      security:
-        - api_key: []
-
-
   /v1/discounts:
     post:
       operationId: create-discount
@@ -566,6 +590,84 @@ components:
       name: Authorization
 
   schemas:
+    GetCategoryResponse:
+      type: object
+      properties:
+        category:
+          type: object
+          $ref: "#/components/schemas/Category"
+
+    SearchCategoryRequest:
+      type: object
+      properties:
+        parentId:
+          type: integer
+          format: int64
+          nullable: true
+        categoryIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        keyword:
+          type: string
+          nullable: true
+        level:
+          type: integer
+          nullable: true
+        limit:
+          type: integer
+          default: 100
+        offset:
+          type: integer
+          default: 0
+
+    SearchCategoryResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategorySummary"
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the category
+        title:
+          type: string
+        longTitle:
+          type: string
+        level:
+          type: integer
+        parentId:
+          type: integer
+          format: int64
+          description: ID of the parent category
+          nullable: true
+
+    CategorySummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the category
+        title:
+          type: string
+        longTitle:
+          type: string
+        level:
+          type: integer
+        parentId:
+          type: integer
+          format: int64
+          description: ID of the parent category
+          nullable: true
+
     ActivateStoreResponse:
       type: object
       properties:
@@ -793,9 +895,9 @@ components:
             - WEBMINAR
             - MEMBERSHIP
         event:
-          type: object
-          $ref: "#/components/schemas/Event"
-          nullable: true
+          anyOf:
+            - type: "null"
+            - $ref: "#/components/schemas/Event"
         outOfStock:
           type: boolean
           description: Will be TRUE if this product is no longer available
@@ -810,16 +912,19 @@ components:
           type: integer
           format: int64
           description: Unique identifier of the product
-        store:
-          type: object
-          $ref: "#/components/schemas/StoreSummary"
         thumbnail:
-          type: object
-          $ref: "#/components/schemas/PictureSummary"
+          anyOf:
+            - type: "null"
+            - $ref: "#/components/schemas/PictureSummary"
+          nullable: true
         pictures:
           type: array
           items:
             $ref: "#/components/schemas/PictureSummary"
+        category:
+          anyOf:
+            - type: "null"
+            - $ref: "#/components/schemas/CategorySummary"
         title:
           type: string
           description: Product title
@@ -861,6 +966,8 @@ components:
           format: date-time
           description: Published modification Date/Time
           nullable: true
+        store:
+          $ref: "#/components/schemas/StoreSummary"
         type:
           type: string
           description: Type of product
@@ -870,8 +977,9 @@ components:
             - WEBMINAR
             - MEMBERSHIP
         event:
-          type: object
-          $ref: "#/components/schemas/Event"
+          anyOf:
+            - type: "null"
+            - $ref: "#/components/schemas/Event"
           nullable: true
         files:
           type: array
@@ -1071,8 +1179,9 @@ components:
           description: Password of the meeting
           nullable: true
         meetingProvider:
-          type: object
-          $ref: "#/components/schemas/MeetingProviderSummary"
+          anyOf:
+            - type: "null"
+            - $ref: "#/components/schemas/MeetingProviderSummary"
           description: Online meeting provider
           nullable: true
         meetingJoinUrl:

@@ -1,5 +1,10 @@
 package com.wutsi.marketplace.manager.dto
 
+import kotlin.Boolean
+import kotlin.Int
+import kotlin.Long
+import kotlin.String
+
 public data class ProductSummary(
     public val id: Long = 0,
     public val storeId: Long = 0,

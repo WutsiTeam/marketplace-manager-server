@@ -6,6 +6,7 @@ import com.wutsi.enums.MeetingProviderType
 import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.ProductType
 import com.wutsi.enums.StoreStatus
+import com.wutsi.marketplace.access.dto.Category
 import com.wutsi.marketplace.access.dto.CategorySummary
 import com.wutsi.marketplace.access.dto.Discount
 import com.wutsi.marketplace.access.dto.DiscountSummary
@@ -211,5 +212,19 @@ object Fixtures {
     ) = Offer(
         product = createProduct(productId),
         price = createOfferPrice(productId),
+    )
+
+    fun createCategory(id: Long) = Category(
+        id = id,
+        title = "Category#$id",
+        longTitle = "Home > Category",
+        level = 1,
+    )
+
+    fun createCategorySummary(id: Long) = CategorySummary(
+        id = id,
+        title = "Category#$id",
+        longTitle = "Home > Category",
+        level = 1,
     )
 }
