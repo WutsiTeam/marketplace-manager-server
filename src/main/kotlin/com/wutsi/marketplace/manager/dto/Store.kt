@@ -20,4 +20,6 @@ public data class Store(
     @get:DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     public val deactivated: OffsetDateTime? = null,
     public val status: String = "",
+    public val cancellationPolicy: CancellationPolicy = CancellationPolicy(),
+    public val returnPolicy: ReturnPolicy = ReturnPolicy(),
 )

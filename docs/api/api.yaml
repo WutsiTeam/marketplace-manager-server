@@ -105,6 +105,29 @@ paths:
       tags:
         - Store
 
+  /v1/stores/{id}/policies:
+    post:
+      operationId: "update-store-policy-attribute"
+      description: Update a policy of a store
+      parameters:
+        - in: path
+          name: id
+          description: ID of the store
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStorePolicyAttributeRequest'
+      responses:
+        200:
+          description: Success
+      tags:
+        - Store
 
   /v1/meeting-providers/search:
     post:
@@ -1070,6 +1093,42 @@ components:
             - UNDER_REVIEW
             - ACTIVE
             - INACTIVE
+        cancellationPolicy:
+          $ref: "#/components/schemas/CancellationPolicy"
+        returnPolicy:
+          $ref: "#/components/schemas/ReturnPolicy"
+
+    ReturnPolicy:
+      type: object
+      properties:
+        accepted:
+          type: boolean
+          description: Are returns accepted?
+        contactWindow:
+          type: integer
+          description: This is the window in days to contact the merchant after the delivery
+        shipBackWindow:
+          type: integer
+          description: This is the window in days to return the merchant after the delivery
+        message:
+          type: string
+          description: Return policy message
+          nullable: true
+
+    CancellationPolicy:
+      type: object
+      properties:
+        accepted:
+          type: boolean
+          description: Are returns accepted?
+        window:
+          type: integer
+          description: This is the window in days to cancel orders
+        message:
+          type: string
+          description: Cancellation policy message
+          nullable: true
+
 
     StoreSummary:
       type: object
@@ -1529,25 +1588,42 @@ components:
       type: object
       properties:
         product:
-          type: object
           $ref: "#/components/schemas/ProductSummary"
         price:
-          type: object
           $ref: "#/components/schemas/OfferPrice"
 
     GetOfferResponse:
       type: object
       properties:
         offer:
-          type: object
           $ref: "#/components/schemas/Offer"
 
     Offer:
-      type: objevt
+      type: object
       properties:
         product:
-          type: object
           $ref: "#/components/schemas/Product"
         price:
-          type: object
           $ref: "#/components/schemas/OfferPrice"
+
+    UpdateStorePolicyAttributeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the attribute to update
+          enum:
+            - cancellation-accepted
+            - cancellation-window
+            - cancellation-message
+            - return-accepted
+            - return-contact-window
+            - return-ship-back-window
+            - return-message
+        value:
+          type: string
+          description: Value of the attribute
+          nullable: true
+      required:
+        - name
+
