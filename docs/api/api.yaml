@@ -832,6 +832,10 @@ components:
           items:
             type: integer
             format: int64
+        types:
+          type: array
+          items:
+            type: string
         storeId:
           type: integer
           format: int64
@@ -1561,6 +1565,10 @@ components:
           items:
             type: integer
             format: int64
+        types:
+          type: array
+          items:
+            type: string
         limit:
           type: integer
           default: 100

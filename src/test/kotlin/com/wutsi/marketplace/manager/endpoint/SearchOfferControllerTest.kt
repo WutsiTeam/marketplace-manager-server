@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.enums.ProductSort
+import com.wutsi.enums.ProductType
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.dto.SearchOfferRequest
 import com.wutsi.marketplace.manager.dto.SearchOfferResponse
@@ -35,6 +36,7 @@ public class SearchOfferControllerTest : AbstractControllerTest() {
             limit = 100,
             offset = 0,
             sortBy = ProductSort.RECOMMENDED.name,
+            types = listOf(ProductType.PHYSICAL_PRODUCT.name, ProductType.EVENT.name),
         )
         val response = rest.postForEntity(url(), request, SearchOfferResponse::class.java)
 
@@ -49,6 +51,7 @@ public class SearchOfferControllerTest : AbstractControllerTest() {
                 limit = request.limit,
                 offset = request.offset,
                 sortBy = request.sortBy,
+                types = request.types,
             ),
         )
     }

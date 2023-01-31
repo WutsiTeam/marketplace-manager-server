@@ -22,6 +22,7 @@ class SearchOfferWorkflow(
                 storeId = request.storeId,
                 sortBy = request.sortBy,
                 productIds = request.productIds,
+                types = request.types,
             ),
         )
         return SearchOfferResponse(

@@ -24,6 +24,7 @@ class SearchProductWorkflow(
                 storeId = request.storeId,
                 sortBy = request.sortBy,
                 status = request.status,
+                types = request.types,
             ),
         )
         return SearchProductResponse(

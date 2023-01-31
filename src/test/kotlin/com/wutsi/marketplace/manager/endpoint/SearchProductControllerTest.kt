@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.enums.ProductStatus
+import com.wutsi.enums.ProductType
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.dto.SearchProductRequest
 import com.wutsi.marketplace.manager.dto.SearchProductResponse
@@ -30,6 +31,7 @@ public class SearchProductControllerTest : AbstractControllerTest() {
         offset = 0,
         status = ProductStatus.PUBLISHED.name,
         sortBy = "RECOMMENDED",
+        types = listOf(ProductType.PHYSICAL_PRODUCT.name, ProductType.EVENT.name),
     )
 
     @Test
@@ -60,6 +62,7 @@ public class SearchProductControllerTest : AbstractControllerTest() {
                 offset = request!!.offset,
                 status = request!!.status,
                 sortBy = request!!.sortBy,
+                types = request!!.types,
             ),
         )
 
