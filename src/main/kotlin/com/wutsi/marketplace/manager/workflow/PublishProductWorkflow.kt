@@ -15,6 +15,7 @@ import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateBeforeEndD
 import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateInFutureRule
 import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateRule
 import com.wutsi.workflow.rule.account.ProductShouldHavePictureRule
+import com.wutsi.workflow.rule.account.ProductShouldHavePriceRule
 import com.wutsi.workflow.rule.account.ProductShouldHaveStockRule
 import org.springframework.stereotype.Service
 
@@ -32,6 +33,7 @@ class PublishProductWorkflow(
             product?.let { ProductEventShouldHaveStartDateBeforeEndDateRule(product) },
             product?.let { ProductEventShouldHaveStartDateInFutureRule(product) },
             product?.let { ProductDigitalDownloadShouldHaveFileRule(product) },
+            product?.let { ProductShouldHavePriceRule(product) },
         )
 
     override fun getProductId(productId: Long, context: WorkflowContext): Long? =
