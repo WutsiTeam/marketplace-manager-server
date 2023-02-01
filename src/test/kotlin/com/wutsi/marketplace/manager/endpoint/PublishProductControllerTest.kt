@@ -122,6 +122,56 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
     }
 
     @Test
+    fun free() {
+        // GIVEN
+        product = Fixtures.createProduct(
+            id = PRODUCT_ID,
+            storeId = STORE_ID,
+            price = 0,
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
+        )
+        doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
+
+        // WHEN
+        val ex = assertThrows<HttpClientErrorException> {
+            rest.postForEntity(url(), request, Any::class.java)
+        }
+        // THEN
+        assertEquals(HttpStatus.CONFLICT, ex.statusCode)
+
+        val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
+        assertEquals(ErrorURN.PRODUCT_PRICE_MISSING.urn, response.error.code)
+
+        verify(marketplaceAccessApi, never()).updateProductStatus(any(), any())
+        verify(eventStream, never()).publish(any(), any())
+    }
+
+    @Test
+    fun noPrice() {
+        // GIVEN
+        product = Fixtures.createProduct(
+            id = PRODUCT_ID,
+            storeId = STORE_ID,
+            price = null,
+            pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
+        )
+        doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())
+
+        // WHEN
+        val ex = assertThrows<HttpClientErrorException> {
+            rest.postForEntity(url(), request, Any::class.java)
+        }
+        // THEN
+        assertEquals(HttpStatus.CONFLICT, ex.statusCode)
+
+        val response = ObjectMapper().readValue(ex.responseBodyAsString, ErrorResponse::class.java)
+        assertEquals(ErrorURN.PRODUCT_PRICE_MISSING.urn, response.error.code)
+
+        verify(marketplaceAccessApi, never()).updateProductStatus(any(), any())
+        verify(eventStream, never()).publish(any(), any())
+    }
+
+    @Test
     fun publishEvent() {
         product = Fixtures.createProduct(
             id = PRODUCT_ID,

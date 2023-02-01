@@ -93,6 +93,7 @@ object Fixtures {
         type: ProductType = ProductType.PHYSICAL_PRODUCT,
         event: com.wutsi.marketplace.access.dto.Event? = null,
         files: List<FileSummary> = emptyList(),
+        price: Long? = 100000L,
     ) = Product(
         id = id,
         store = StoreSummary(
@@ -103,7 +104,7 @@ object Fixtures {
         pictures = pictures,
         summary = "This is a summary",
         description = "This is the description",
-        price = 100000L,
+        price = price,
         quantity = quantity,
         status = ProductStatus.DRAFT.name,
         type = type.name,
