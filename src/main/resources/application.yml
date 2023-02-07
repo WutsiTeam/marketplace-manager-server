@@ -38,6 +38,12 @@ wutsi:
   client-id: marketplace-manager
   application:
     name: marketplace-manager
+    asset-url: https://int-wutsi.s3.amazonaws.com/static/wutsi-assets
+    webapp-url: https://wutsi-web-test.herokuapp.com
+    email:
+      welcome:
+        debug: true
+        enabled: true
   platform:
     security:
       type: jwt

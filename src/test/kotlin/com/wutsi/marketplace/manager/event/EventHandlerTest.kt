@@ -2,7 +2,9 @@ package com.wutsi.marketplace.manager.event
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -20,12 +22,18 @@ import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.membership.access.MembershipAccessApi
 import com.wutsi.membership.access.dto.GetAccountResponse
+import com.wutsi.platform.core.messaging.Message
+import com.wutsi.platform.core.messaging.MessagingService
+import com.wutsi.platform.core.messaging.MessagingServiceProvider
+import com.wutsi.platform.core.messaging.MessagingType
 import com.wutsi.platform.core.stream.Event
 import com.wutsi.platform.core.stream.EventStream
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class EventHandlerTest {
@@ -43,6 +51,17 @@ internal class EventHandlerTest {
 
     @MockBean
     private lateinit var membershipAccessApi: MembershipAccessApi
+
+    @MockBean
+    private lateinit var messagingServiceProvider: MessagingServiceProvider
+
+    private lateinit var messaging: MessagingService
+
+    @BeforeEach
+    fun setUp() {
+        messaging = mock()
+        doReturn(messaging).whenever(messagingServiceProvider).get(MessagingType.EMAIL)
+    }
 
     @Test
     fun onOrderExpired() {
@@ -155,5 +174,37 @@ internal class EventHandlerTest {
             EventURN.STORE_DEACTIVATED.urn,
             StoreEventPayload(storeId = store.id, accountId = store.accountId),
         )
+    }
+
+    @Test
+    fun onWelcome() {
+        // GIVEN
+        val account = Fixtures.createAccount(
+            id = 111,
+            storeId = 222,
+            displayName = "Yo Man",
+            email = "yo-man@gmail.com"
+        )
+        doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
+
+        // WHEN
+        val event = Event(
+            type = InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
+            payload = mapper.writeValueAsString(
+                StoreEventPayload(
+                    accountId = account.id,
+                    storeId = account.storeId!!
+                ),
+            ),
+        )
+        handler.handleEvent(event)
+        Thread.sleep(20000L)
+
+        // THEN
+        val msg = argumentCaptor<Message>()
+        verify(messaging).send(msg.capture())
+        assertEquals(account.email, msg.firstValue.recipient.email)
+        assertEquals(account.displayName, msg.firstValue.recipient.displayName)
+        assertEquals("Welcome to Wutsi", msg.firstValue.subject)
     }
 }

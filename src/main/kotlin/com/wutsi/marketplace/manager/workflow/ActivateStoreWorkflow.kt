@@ -4,6 +4,7 @@ import com.wutsi.event.EventURN
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.CreateStoreRequest
 import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
+import com.wutsi.marketplace.manager.event.InternalEventURN
 import com.wutsi.membership.access.dto.Account
 import com.wutsi.platform.core.stream.EventStream
 import com.wutsi.workflow.WorkflowContext
@@ -39,6 +40,11 @@ class ActivateStoreWorkflow(
                 businessId = account.businessId!!,
                 currency = regulationEngine.country(account.country).currency,
             ),
+        )
+
+        eventStream.enqueue(
+            InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
+            StoreEventPayload(accountId = account.id, storeId = response.storeId)
         )
         return ActivateStoreResponse(
             storeId = response.storeId,

@@ -13,6 +13,7 @@ import com.wutsi.marketplace.access.dto.CreateStoreRequest
 import com.wutsi.marketplace.access.dto.CreateStoreResponse
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
+import com.wutsi.marketplace.manager.event.InternalEventURN
 import com.wutsi.membership.access.dto.GetAccountResponse
 import com.wutsi.platform.core.error.ErrorResponse
 import org.junit.jupiter.api.Test
@@ -44,6 +45,14 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
                 accountId = account.id,
                 businessId = account.businessId!!,
                 currency = "XAF",
+            ),
+        )
+
+        verify(eventStream).enqueue(
+            InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
+            StoreEventPayload(
+                accountId = account.id,
+                storeId = STORE_ID,
             ),
         )
 
