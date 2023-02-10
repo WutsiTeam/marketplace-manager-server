@@ -40,6 +40,7 @@ wutsi:
     name: marketplace-manager
     asset-url: https://int-wutsi.s3.amazonaws.com/static/wutsi-assets
     webapp-url: https://wutsi-web-test.herokuapp.com
+    website-url: https://www.wusti.app
     email:
       welcome:
         debug: true

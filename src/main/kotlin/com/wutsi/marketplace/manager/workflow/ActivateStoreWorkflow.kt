@@ -44,7 +44,7 @@ class ActivateStoreWorkflow(
 
         eventStream.enqueue(
             InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
-            StoreEventPayload(accountId = account.id, storeId = response.storeId)
+            StoreEventPayload(accountId = account.id, storeId = response.storeId),
         )
         return ActivateStoreResponse(
             storeId = response.storeId,

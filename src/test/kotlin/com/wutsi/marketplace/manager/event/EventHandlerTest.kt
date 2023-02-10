@@ -183,7 +183,8 @@ internal class EventHandlerTest {
             id = 111,
             storeId = 222,
             displayName = "Yo Man",
-            email = "yo-man@gmail.com"
+            email = "yo-man@gmail.com",
+            language = "fr",
         )
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 
@@ -193,18 +194,18 @@ internal class EventHandlerTest {
             payload = mapper.writeValueAsString(
                 StoreEventPayload(
                     accountId = account.id,
-                    storeId = account.storeId!!
+                    storeId = account.storeId!!,
                 ),
             ),
         )
         handler.handleEvent(event)
-        Thread.sleep(20000L)
+        Thread.sleep(10000L)
 
         // THEN
         val msg = argumentCaptor<Message>()
         verify(messaging).send(msg.capture())
         assertEquals(account.email, msg.firstValue.recipient.email)
         assertEquals(account.displayName, msg.firstValue.recipient.displayName)
-        assertEquals("Welcome to Wutsi", msg.firstValue.subject)
+        assertEquals("Welcome to Wutsi community", msg.firstValue.subject)
     }
 }

@@ -29,14 +29,12 @@ class WelcomeEmailWorkflow(
     private val templateEngine: TemplateEngine,
     private val mailFilterSet: MailFilterSet,
 
+    @Value("\${wutsi.application.asset-url}") private val assetUrl: String,
+    @Value("\${wutsi.application.webapp-url}") private val webappUrl: String,
+    @Value("\${wutsi.application.website-url}") private val websiteUrl: String,
     @Value("\${wutsi.application.email.welcome.debug}") private val debug: Boolean,
     @Value("\${wutsi.application.email.welcome.enabled}") private val enabled: Boolean,
 ) : Workflow<Long, Unit> {
-    @Value("\${wutsi.application.asset-url}")
-    private lateinit var assetUrl: String
-
-    @Value("\${wutsi.application.webapp-url}")
-    private lateinit var webappUrl: String
 
     @Autowired
     private lateinit var messagingServiceProvider: MessagingServiceProvider
@@ -78,13 +76,20 @@ class WelcomeEmailWorkflow(
         }
 
     private fun generateBody(merchant: Account): String {
+        val context = createMailContext(merchant)
         val body = templateEngine.process(
             "welcome.html",
-            Context(Locale(merchant.language))
+            Context(
+                Locale(merchant.language),
+                mapOf(
+                    "merchant" to context.merchant,
+                    "websiteUrl" to websiteUrl,
+                ),
+            ),
         )
         return mailFilterSet.filter(
             body = body,
-            context = createMailContext(merchant)
+            context = context,
         )
     }
 
@@ -107,20 +112,21 @@ class WelcomeEmailWorkflow(
         LoggerFactory.getLogger(this::class.java)
 
     private fun createMailContext(merchant: Account) = MailContext(
+        template = "wutsi",
         assetUrl = assetUrl,
         merchant = Merchant(
             url = "$webappUrl/u/${merchant.id}",
             name = merchant.displayName,
             logoUrl = merchant.pictureUrl,
-            category = merchant.category?.title,
-            location = merchant.city?.longName,
             phoneNumber = merchant.phone.number,
-            whatsapp = merchant.whatsapp,
             websiteUrl = merchant.website,
             twitterId = merchant.twitterId,
             facebookId = merchant.facebookId,
-            instagramId = merchant.instagramId,
             youtubeId = merchant.youtubeId,
+            instagramId = merchant.instagramId,
+            category = null,
+            location = null,
+            whatsapp = merchant.whatsapp,
             country = merchant.country,
         ),
     )
