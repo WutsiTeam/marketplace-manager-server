@@ -6,7 +6,6 @@ wutsi:
     email:
       welcome:
         debug: false
-        enabled: false
   platform:
     messaging:
       sms:

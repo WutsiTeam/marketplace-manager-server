@@ -84,42 +84,6 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
         )
     }
 
-//    @Test
-//    fun welcomeEmailSent() {
-//        // GIVEN
-//        doReturn(CreateStoreResponse(STORE_ID)).whenever(marketplaceAccessApi).createStore(any())
-//
-//        // WHEN
-//        val response = rest.postForEntity(url(), null, ActivateStoreResponse::class.java)
-//
-//        // THEN
-//        assertEquals(HttpStatus.OK, response.statusCode)
-//
-//        // THEN
-//        verify(eventStream).enqueue(
-//            InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
-//            StoreEventPayload(
-//                accountId = account.id,
-//                storeId = STORE_ID,
-//            ),
-//        )
-//
-//        verify(eventStream).publish(
-//            EventURN.STORE_ACTIVATED.urn,
-//            StoreEventPayload(
-//                accountId = account.id,
-//                storeId = STORE_ID,
-//            ),
-//        )
-//
-//        Thread.sleep(20000L)
-//        val msg = argumentCaptor<Message>()
-//        verify(messaging).send(msg.capture())
-//        assertEquals(account.email, msg.firstValue.recipient.email)
-//        assertEquals(account.displayName, msg.firstValue.recipient.displayName)
-//        assertEquals("Welcome to Wutsi community", msg.firstValue.subject)
-//    }
-
     @Test
     fun countryNotSupported() {
         // GIVEN

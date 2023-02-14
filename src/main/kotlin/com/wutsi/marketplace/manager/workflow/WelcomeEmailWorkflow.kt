@@ -33,7 +33,6 @@ class WelcomeEmailWorkflow(
     @Value("\${wutsi.application.webapp-url}") private val webappUrl: String,
     @Value("\${wutsi.application.website-url}") private val websiteUrl: String,
     @Value("\${wutsi.application.email.welcome.debug}") private val debug: Boolean,
-    @Value("\${wutsi.application.email.welcome.enabled}") private val enabled: Boolean,
 ) : Workflow<Long, Unit> {
 
     @Autowired
@@ -46,11 +45,8 @@ class WelcomeEmailWorkflow(
     private lateinit var messages: MessageSource
 
     override fun execute(accountId: Long, context: WorkflowContext) {
-        if (!enabled) {
-            return
-        }
-
         val merchant = membershipAccessApi.getAccount(accountId).account
+        logger.add("merchant_email", merchant.email)
         createMessage(merchant)?.let {
             val messageId = sendEmail(message = debug(it))
             logger.add("message_id_email", messageId)
