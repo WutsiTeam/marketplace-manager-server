@@ -3,6 +3,7 @@ package com.wutsi.marketplace.manager.endpoint
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -16,15 +17,33 @@ import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
 import com.wutsi.marketplace.manager.event.InternalEventURN
 import com.wutsi.membership.access.dto.GetAccountResponse
 import com.wutsi.platform.core.error.ErrorResponse
+import com.wutsi.platform.core.messaging.MessagingService
+import com.wutsi.platform.core.messaging.MessagingServiceProvider
+import com.wutsi.platform.core.messaging.MessagingType
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus
 import org.springframework.web.client.HttpClientErrorException
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
+    @MockBean
+    private lateinit var messagingServiceProvider: MessagingServiceProvider
+
+    private lateinit var messaging: MessagingService
+
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+
+        messaging = mock()
+        doReturn(messaging).whenever(messagingServiceProvider).get(MessagingType.EMAIL)
+    }
+
     override fun url() = "http://localhost:$port/v1/stores"
 
     override fun createRequest(): Void? = null
@@ -64,6 +83,42 @@ class ActivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
             ),
         )
     }
+
+//    @Test
+//    fun welcomeEmailSent() {
+//        // GIVEN
+//        doReturn(CreateStoreResponse(STORE_ID)).whenever(marketplaceAccessApi).createStore(any())
+//
+//        // WHEN
+//        val response = rest.postForEntity(url(), null, ActivateStoreResponse::class.java)
+//
+//        // THEN
+//        assertEquals(HttpStatus.OK, response.statusCode)
+//
+//        // THEN
+//        verify(eventStream).enqueue(
+//            InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
+//            StoreEventPayload(
+//                accountId = account.id,
+//                storeId = STORE_ID,
+//            ),
+//        )
+//
+//        verify(eventStream).publish(
+//            EventURN.STORE_ACTIVATED.urn,
+//            StoreEventPayload(
+//                accountId = account.id,
+//                storeId = STORE_ID,
+//            ),
+//        )
+//
+//        Thread.sleep(20000L)
+//        val msg = argumentCaptor<Message>()
+//        verify(messaging).send(msg.capture())
+//        assertEquals(account.email, msg.firstValue.recipient.email)
+//        assertEquals(account.displayName, msg.firstValue.recipient.displayName)
+//        assertEquals("Welcome to Wutsi community", msg.firstValue.subject)
+//    }
 
     @Test
     fun countryNotSupported() {

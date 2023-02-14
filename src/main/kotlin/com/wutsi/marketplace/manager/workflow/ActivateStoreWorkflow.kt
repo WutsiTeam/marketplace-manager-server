@@ -3,6 +3,7 @@ package com.wutsi.marketplace.manager.workflow
 import com.wutsi.event.EventURN
 import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.CreateStoreRequest
+import com.wutsi.marketplace.access.dto.CreateStoreResponse
 import com.wutsi.marketplace.manager.dto.ActivateStoreResponse
 import com.wutsi.marketplace.manager.event.InternalEventURN
 import com.wutsi.membership.access.dto.Account
@@ -42,12 +43,20 @@ class ActivateStoreWorkflow(
             ),
         )
 
-        eventStream.enqueue(
-            InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
-            StoreEventPayload(accountId = account.id, storeId = response.storeId),
-        )
+        sendWelcomeEmail(account, response)
         return ActivateStoreResponse(
             storeId = response.storeId,
         )
+    }
+
+    private fun sendWelcomeEmail(account: Account, response: CreateStoreResponse) {
+        try {
+            eventStream.enqueue(
+                InternalEventURN.WELCOME_TO_MERCHANT_SUBMITTED.urn,
+                StoreEventPayload(accountId = account.id, storeId = response.storeId),
+            )
+        } catch (ex: Exception) {
+            // Ignore
+        }
     }
 }
