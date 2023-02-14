@@ -44,7 +44,6 @@ wutsi:
     email:
       welcome:
         debug: true
-        enabled: true
   platform:
     security:
       type: jwt
