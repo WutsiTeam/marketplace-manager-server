@@ -3,8 +3,10 @@
     <div th:text="#{email.welcome.body.welcome}">Welcome to the Wutsi e-Commerce community.</div>
 </div>
 <div class="padding text-center text-larger">
-    <b>Here is the link to your online store:</b><br/>
-    <a th:href="${merchant.url}" th:text="${merchant.url}">https://wutsi-web-test.herokuapp.com/u/111</a>
+    <span th:text="#{email.welcome.body.store-link}">Here is the link to your online store:</span><br/>
+    <b>
+        <a th:href="${merchant.url}" th:text="${merchant.url}">https://wutsi-web-test.herokuapp.com/u/111</a>
+    </b>
 </div>
 
 <div class="padding">
