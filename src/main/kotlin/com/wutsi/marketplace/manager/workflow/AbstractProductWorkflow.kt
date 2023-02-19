@@ -1,5 +1,6 @@
 package com.wutsi.marketplace.manager.workflow
 
+import com.wutsi.enums.ProductStatus
 import com.wutsi.event.ProductEventPayload
 import com.wutsi.marketplace.access.dto.Product
 import com.wutsi.marketplace.access.dto.Store
@@ -13,6 +14,15 @@ import com.wutsi.workflow.rule.account.AccountShouldBeBusinessRule
 import com.wutsi.workflow.rule.account.AccountShouldBeOwnerOfProductRule
 import com.wutsi.workflow.rule.account.AccountShouldBeOwnerOfStoreRule
 import com.wutsi.workflow.rule.account.AccountShouldHaveStoreRule
+import com.wutsi.workflow.rule.account.ProductDigitalDownloadShouldHaveFileRule
+import com.wutsi.workflow.rule.account.ProductEventShouldHaveEndDateRule
+import com.wutsi.workflow.rule.account.ProductEventShouldHaveMeetingIdRule
+import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateBeforeEndDateRule
+import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateInFutureRule
+import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateRule
+import com.wutsi.workflow.rule.account.ProductShouldHavePictureRule
+import com.wutsi.workflow.rule.account.ProductShouldHavePriceRule
+import com.wutsi.workflow.rule.account.ProductShouldHaveStockRule
 import com.wutsi.workflow.rule.account.StoreShouldBeActiveRule
 
 abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
@@ -37,10 +47,28 @@ abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
             product?.let { AccountShouldBeOwnerOfProductRule(account, it) },
         )
         rules.addAll(getAdditionalRules(account, store, product))
+        if (product?.status == ProductStatus.PUBLISHED.name) {
+            getValidationRuleForPublishedProduct(product)
+        }
+
         return RuleSet(
             rules.filterNotNull(),
         )
     }
+
+    protected fun getValidationRuleForPublishedProduct(product: Product?) =
+        listOf(
+            product?.let { ProductShouldHavePictureRule(product) },
+            product?.let { ProductShouldHaveStockRule(product) },
+            product?.let { ProductEventShouldHaveMeetingIdRule(product) },
+            product?.let { ProductEventShouldHaveStartDateRule(product) },
+            product?.let { ProductEventShouldHaveEndDateRule(product) },
+            product?.let { ProductEventShouldHaveStartDateBeforeEndDateRule(product) },
+            product?.let { ProductEventShouldHaveStartDateInFutureRule(product) },
+            product?.let { ProductDigitalDownloadShouldHaveFileRule(product) },
+            product?.let { ProductShouldHavePriceRule(product) },
+        )
+
 
     protected open fun getAdditionalRules(account: Account, store: Store?, product: Product?): List<Rule?> = emptyList()
 
