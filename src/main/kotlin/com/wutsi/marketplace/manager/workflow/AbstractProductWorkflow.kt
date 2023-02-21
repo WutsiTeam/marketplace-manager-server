@@ -69,7 +69,6 @@ abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
             product?.let { ProductShouldHavePriceRule(product) },
         )
 
-
     protected open fun getAdditionalRules(account: Account, store: Store?, product: Product?): List<Rule?> = emptyList()
 
     private fun getProduct(request: Req, context: WorkflowContext): Product? =

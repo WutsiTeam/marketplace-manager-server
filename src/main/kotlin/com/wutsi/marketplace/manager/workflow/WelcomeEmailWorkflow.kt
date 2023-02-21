@@ -16,8 +16,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.Cache
 import org.springframework.context.MessageSource
-import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
@@ -28,6 +28,7 @@ class WelcomeEmailWorkflow(
     private val membershipAccessApi: MembershipAccessApi,
     private val templateEngine: TemplateEngine,
     private val mailFilterSet: MailFilterSet,
+    private val cache: Cache,
 
     @Value("\${wutsi.application.asset-url}") private val assetUrl: String,
     @Value("\${wutsi.application.webapp-url}") private val webappUrl: String,
@@ -45,38 +46,44 @@ class WelcomeEmailWorkflow(
     private lateinit var messages: MessageSource
 
     override fun execute(accountId: Long, context: WorkflowContext) {
+        if (isEmailSent(accountId)) {
+            logger.add("email_already_sent", true)
+            return
+        }
+
         val merchant = membershipAccessApi.getAccount(accountId).account
         logger.add("merchant_email", merchant.email)
         createMessage(merchant)?.let {
             val messageId = sendEmail(message = debug(it))
             logger.add("message_id_email", messageId)
+
+            emailSent(accountId)
         }
     }
-
-    protected fun getText(key: String, args: Array<Any> = emptyArray()): String =
-        messages.getMessage(key, args, LocaleContextHolder.getLocale())
 
     private fun createMessage(
         merchant: Account,
     ): Message? =
         merchant.email?.let {
+            val locale = Locale(merchant.language)
+
             Message(
                 recipient = Party(
                     email = it,
                     displayName = merchant.displayName,
                 ),
-                subject = getText("email.welcome.subject"),
-                body = generateBody(merchant),
+                subject = getText("email.welcome.subject", locale = locale),
+                body = generateBody(merchant, locale),
                 mimeType = "text/html;charset=UTF-8",
             )
         }
 
-    private fun generateBody(merchant: Account): String {
+    private fun generateBody(merchant: Account, locale: Locale): String {
         val context = createMailContext(merchant)
         val body = templateEngine.process(
             "welcome.html",
             Context(
-                Locale(merchant.language),
+                locale,
                 mapOf(
                     "merchant" to context.merchant,
                     "websiteUrl" to websiteUrl,
@@ -134,4 +141,17 @@ class WelcomeEmailWorkflow(
         val sender = messagingServiceProvider.get(MessagingType.EMAIL)
         return sender.send(message)
     }
+
+    private fun emailSent(accountId: Long) {
+        cache.put(getEmailCacheKey(accountId), "1")
+    }
+
+    private fun isEmailSent(accountId: Long): Boolean =
+        cache.get(getEmailCacheKey(accountId), String::class.java) != null
+
+    private fun getEmailCacheKey(accountId: Long): String =
+        "welcome_email_$accountId"
+
+    private fun getText(key: String, args: Array<Any> = emptyArray(), locale: Locale): String =
+        messages.getMessage(key, args, locale)
 }

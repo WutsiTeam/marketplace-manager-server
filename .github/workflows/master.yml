@@ -1,3 +1,4 @@
+
 name: master
 
 on:
@@ -79,6 +80,7 @@ jobs:
           heroku config:set --app ${HEROKU_APP} WHATSAPP_PHONE_ID=${WHATSAPP_PHONE_ID}
           heroku config:set --app ${HEROKU_APP} FIREBASE_CREDENTIALS="${FIREBASE_CREDENTIALS}"
           heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
           heroku deploy:jar marketplace-manager-server.jar --app ${HEROKU_APP}
 
       - name: Health check
@@ -151,6 +153,7 @@ jobs:
           heroku config:set --app ${HEROKU_APP} WHATSAPP_PHONE_ID=${WHATSAPP_PHONE_ID}
           heroku config:set --app ${HEROKU_APP} FIREBASE_CREDENTIALS="${FIREBASE_CREDENTIALS}"
           heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
           heroku deploy:jar marketplace-manager-server.jar --app ${HEROKU_APP}
 
       - name: Health check
