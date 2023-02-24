@@ -118,7 +118,7 @@ class WelcomeEmailWorkflow(
         template = "wutsi",
         assetUrl = assetUrl,
         merchant = Merchant(
-            url = "$webappUrl/u/${merchant.id}",
+            url = if (merchant.name == null) "$webappUrl/u/${merchant.id}" else "$webappUrl/@${merchant.name}",
             name = merchant.displayName,
             logoUrl = merchant.pictureUrl,
             phoneNumber = merchant.phone.number,

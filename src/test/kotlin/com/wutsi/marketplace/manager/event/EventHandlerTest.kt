@@ -226,6 +226,7 @@ internal class EventHandlerTest {
             displayName = "Yo Man",
             email = "yo-man@gmail.com",
             language = "fr",
+            name = "yo-man",
         )
         doReturn(GetAccountResponse(account)).whenever(membershipAccessApi).getAccount(any())
 

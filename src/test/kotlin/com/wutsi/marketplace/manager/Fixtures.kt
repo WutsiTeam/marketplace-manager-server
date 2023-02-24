@@ -39,9 +39,11 @@ object Fixtures {
         email: String? = null,
         pictureUrl: String = "https://ik.imagekit.io/cx8qxsgz4d/user/12/picture/tr:w-64,h-64,fo-face/023bb5c8-7b09-4f2f-be51-29f5c851c2c0-scaled_image_picker1721723356188894418.png",
         language: String = "en",
+        name: String? = null,
     ) = Account(
         id = id,
         displayName = displayName,
+        name = name,
         status = status.name,
         business = business,
         country = country,
