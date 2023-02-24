@@ -15,13 +15,6 @@ wutsi:
       welcome:
         debug: false
   platform:
-    cache:
-      type: memcached
-      memcached:
-        username: ${MEMCACHIER_USERNAME}
-        password: ${MEMCACHIER_PASSWORD}
-        servers: ${MEMCACHIER_SERVERS}
-        ttl: 900 # 5 min
     messaging:
       sms:
         type: aws

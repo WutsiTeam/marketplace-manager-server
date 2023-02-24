@@ -5,7 +5,7 @@ import kotlin.Long
 import kotlin.String
 
 public data class CreatePictureRequest(
-  public val productId: Long = 0,
-  @get:NotBlank
-  public val url: String = "",
+    public val productId: Long = 0,
+    @get:NotBlank
+    public val url: String = "",
 )
