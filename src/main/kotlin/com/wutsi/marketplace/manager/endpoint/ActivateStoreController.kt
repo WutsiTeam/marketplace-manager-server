@@ -7,8 +7,8 @@ import org.springframework.web.bind.`annotation`.RestController
 
 @RestController
 public class ActivateStoreController(
-    public val `delegate`: ActivateStoreDelegate,
+  public val `delegate`: ActivateStoreDelegate,
 ) {
-    @PostMapping("/v1/stores")
-    public fun invoke(): ActivateStoreResponse = delegate.invoke()
+  @PostMapping("/v1/stores")
+  public fun invoke(): ActivateStoreResponse = delegate.invoke()
 }

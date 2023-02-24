@@ -6,10 +6,10 @@ import kotlin.String
 import kotlin.collections.List
 
 public data class SearchOfferRequest(
-    public val storeId: Long? = null,
-    public val productIds: List<Long> = emptyList(),
-    public val types: List<String> = emptyList(),
-    public val limit: Int = 100,
-    public val offset: Int = 0,
-    public val sortBy: String? = null,
+  public val storeId: Long? = null,
+  public val productIds: List<Long> = emptyList(),
+  public val types: List<String> = emptyList(),
+  public val limit: Int = 100,
+  public val offset: Int = 0,
+  public val sortBy: String? = null,
 )

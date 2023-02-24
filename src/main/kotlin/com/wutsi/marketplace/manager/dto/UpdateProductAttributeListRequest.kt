@@ -6,8 +6,8 @@ import kotlin.Long
 import kotlin.collections.List
 
 public data class UpdateProductAttributeListRequest(
-    public val productId: Long = 0,
-    @get:NotNull
-    @get:NotEmpty
-    public val attributes: List<ProductAttribute> = emptyList(),
+  public val productId: Long = 0,
+  @get:NotNull
+  @get:NotEmpty
+  public val attributes: List<ProductAttribute> = emptyList(),
 )
