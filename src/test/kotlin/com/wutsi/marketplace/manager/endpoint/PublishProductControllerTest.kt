@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.enums.MeetingProviderType
 import com.wutsi.enums.ProductStatus
 import com.wutsi.enums.ProductType
 import com.wutsi.error.ErrorURN
@@ -179,8 +180,13 @@ class PublishProductControllerTest : AbstractProductControllerTest<Long>() {
             pictures = listOf(Fixtures.createPictureSummary(1), Fixtures.createPictureSummary(2)),
             type = ProductType.EVENT,
             event = Fixtures.createEvent(
+                // See https://calendar.google.com/calendar/u/0/r/week/2027/1/1?hl=en
                 starts = OffsetDateTime.now().plusDays(10),
                 ends = OffsetDateTime.now().plusDays(12),
+                meetingProvider = Fixtures.createMeetingProviderSummary(
+                    type = MeetingProviderType.MEET,
+                ),
+                meetingId = "tue-ipjz-avq",
             ),
         )
         doReturn(GetProductResponse(product)).whenever(marketplaceAccessApi).getProduct(any())

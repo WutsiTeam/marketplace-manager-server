@@ -33,7 +33,7 @@
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
     <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
 
-    <wutsi-workflow.version>1.0.102</wutsi-workflow.version>
+    <wutsi-workflow.version>1.0.103</wutsi-workflow.version>
   </properties>
 
   <dependencies>

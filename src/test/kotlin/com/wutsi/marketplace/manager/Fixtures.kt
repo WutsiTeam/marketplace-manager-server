@@ -152,20 +152,21 @@ object Fixtures {
         starts: OffsetDateTime = OffsetDateTime.of(2020, 1, 1, 10, 30, 0, 0, ZoneOffset.UTC),
         ends: OffsetDateTime = OffsetDateTime.of(2020, 1, 1, 15, 30, 0, 0, ZoneOffset.UTC),
         meetingProvider: MeetingProviderSummary? = null,
+        meetingId: String = "1234567890",
     ) = com.wutsi.marketplace.access.dto.Event(
         online = true,
         meetingPassword = "123456",
-        meetingId = "1234567890",
-        meetingJoinUrl = "https://us04.zoom.us/j/12345678",
+        meetingId = meetingId,
+        meetingJoinUrl = if (meetingProvider?.type == MeetingProviderType.MEET.name) "https://meet.google.com/$meetingId" else "https://us04.zoom.us/j/$meetingId",
         starts = starts,
         ends = ends,
         meetingProvider = meetingProvider,
     )
 
-    fun createMeetingProviderSummary() = MeetingProviderSummary(
+    fun createMeetingProviderSummary(type: MeetingProviderType = MeetingProviderType.ZOOM) = MeetingProviderSummary(
         id = 1000,
-        type = MeetingProviderType.ZOOM.name,
-        name = "Zoom",
+        type = type.name,
+        name = type.name,
         logoUrl = "https://prod-wutsi.s3.amazonaws.com/static/marketplace-access-server/meeting-providers/zoom.png",
     )
 

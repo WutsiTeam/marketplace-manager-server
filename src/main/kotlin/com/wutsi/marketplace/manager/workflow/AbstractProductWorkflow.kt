@@ -15,6 +15,7 @@ import com.wutsi.workflow.rule.account.AccountShouldBeOwnerOfProductRule
 import com.wutsi.workflow.rule.account.AccountShouldBeOwnerOfStoreRule
 import com.wutsi.workflow.rule.account.AccountShouldHaveStoreRule
 import com.wutsi.workflow.rule.account.ProductDigitalDownloadShouldHaveFileRule
+import com.wutsi.workflow.rule.account.ProductEventMeetingIdShouldBeValidRule
 import com.wutsi.workflow.rule.account.ProductEventShouldHaveEndDateRule
 import com.wutsi.workflow.rule.account.ProductEventShouldHaveMeetingIdRule
 import com.wutsi.workflow.rule.account.ProductEventShouldHaveStartDateBeforeEndDateRule
@@ -67,6 +68,7 @@ abstract class AbstractProductWorkflow<Req, Resp>(eventStream: EventStream) :
             product?.let { ProductEventShouldHaveStartDateInFutureRule(product) },
             product?.let { ProductDigitalDownloadShouldHaveFileRule(product) },
             product?.let { ProductShouldHavePriceRule(product) },
+            product?.let { ProductEventMeetingIdShouldBeValidRule(product) },
         )
 
     protected open fun getAdditionalRules(account: Account, store: Store?, product: Product?): List<Rule?> = emptyList()
