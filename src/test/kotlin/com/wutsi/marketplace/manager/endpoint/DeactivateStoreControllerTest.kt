@@ -6,19 +6,16 @@ import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.enums.StoreStatus
-import com.wutsi.event.EventURN
-import com.wutsi.event.StoreEventPayload
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
 import com.wutsi.marketplace.manager.Fixtures
 import com.wutsi.membership.access.dto.GetAccountResponse
+import com.wutsi.membership.access.dto.UpdateAccountAttributeRequest
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
-    override fun url() = "http://localhost:$port/v1/stores"
-
-    override fun createRequest(): Void? = null
+class DeactivateStoreControllerTest : AbstractSecuredController2Test() {
+    private fun url() = "http://localhost:$port/v1/stores"
 
     @Test
     fun disable() {
@@ -28,6 +25,7 @@ class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
 
         // WHEN
         rest.delete(url())
+        Thread.sleep(10000)
 
         // THEN
         verify(marketplaceAccessApi).updateStoreStatus(
@@ -37,11 +35,11 @@ class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
             ),
         )
 
-        verify(eventStream).publish(
-            EventURN.STORE_DEACTIVATED.urn,
-            StoreEventPayload(
-                accountId = account.id,
-                storeId = STORE_ID,
+        verify(membershipAccessApi).updateAccountAttribute(
+            id = account.id,
+            request = UpdateAccountAttributeRequest(
+                name = "store-id",
+                value = null,
             ),
         )
     }
@@ -57,6 +55,7 @@ class DeactivateStoreControllerTest : AbstractStoreControllerTest<Void>() {
 
         // THEN
         verify(marketplaceAccessApi, never()).createStore(any())
-        verify(eventStream, never()).publish(any(), any())
+
+        verify(membershipAccessApi, never()).updateAccountAttribute(any(), any())
     }
 }

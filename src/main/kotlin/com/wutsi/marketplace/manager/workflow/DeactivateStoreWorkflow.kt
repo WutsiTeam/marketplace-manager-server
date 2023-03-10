@@ -1,30 +1,61 @@
 package com.wutsi.marketplace.manager.workflow
 
 import com.wutsi.enums.StoreStatus
-import com.wutsi.event.EventURN
-import com.wutsi.event.StoreEventPayload
+import com.wutsi.marketplace.access.MarketplaceAccessApi
 import com.wutsi.marketplace.access.dto.UpdateStoreStatusRequest
-import com.wutsi.platform.core.stream.EventStream
+import com.wutsi.marketplace.manager.workflow.task.SetAccountStoreTask
+import com.wutsi.membership.access.MembershipAccessApi
+import com.wutsi.membership.access.dto.Account
 import com.wutsi.workflow.WorkflowContext
+import com.wutsi.workflow.engine.Workflow
+import com.wutsi.workflow.engine.WorkflowEngine
+import com.wutsi.workflow.util.WorkflowIdGenerator
 import org.springframework.stereotype.Service
+import javax.annotation.PostConstruct
 
 @Service
 class DeactivateStoreWorkflow(
-    eventStream: EventStream,
-) : AbstractStoreWorkflow<Long, Unit>(eventStream) {
-    override fun getEventType(storeId: Long, response: Unit, context: WorkflowContext) = EventURN.STORE_DEACTIVATED.urn
+    private val workflowEngine: WorkflowEngine,
+    private val marketplaceAccessApi: MarketplaceAccessApi,
+    private val membershipAccessApi: MembershipAccessApi,
+) : Workflow {
+    companion object {
+        val ID = WorkflowIdGenerator.generate("marketplace", "deactivate-store")
+    }
 
-    override fun toEventPayload(storeId: Long, response: Unit, context: WorkflowContext) = StoreEventPayload(
-        accountId = getCurrentAccountId(context),
-        storeId = storeId,
-    )
+    @PostConstruct
+    fun init() {
+        workflowEngine.register(CreateStoreWorkflow.ID, this)
+    }
 
-    override fun doExecute(storeId: Long, context: WorkflowContext) {
-        marketplaceAccessApi.updateStoreStatus(
-            id = storeId,
-            request = UpdateStoreStatusRequest(
-                status = StoreStatus.INACTIVE.name,
+    override fun execute(context: WorkflowContext) {
+        val account = getCurrentAccount(context)
+
+        // Deactivate the store
+        deactivateStore(account)
+
+        // Set the account store
+        resetAccountStore(account)
+    }
+
+    private fun getCurrentAccount(context: WorkflowContext): Account =
+        membershipAccessApi.getAccount(context.accountId!!).account
+
+    private fun deactivateStore(account: Account) =
+        account.storeId?.let {
+            marketplaceAccessApi.updateStoreStatus(
+                id = it,
+                request = UpdateStoreStatusRequest(
+                    status = StoreStatus.INACTIVE.name,
+                ),
+            )
+        }
+
+    private fun resetAccountStore(account: Account) =
+        workflowEngine.executeAsync(
+            id = SetAccountStoreTask.ID,
+            context = WorkflowContext(
+                accountId = account.id,
             ),
         )
-    }
 }

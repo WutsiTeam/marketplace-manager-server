@@ -1,4 +1,4 @@
-package com.wutsi.marketplace.manager.workflow
+package com.wutsi.marketplace.manager.workflow.task
 
 import com.wutsi.mail.MailContext
 import com.wutsi.mail.MailFilterSet
@@ -10,40 +10,48 @@ import com.wutsi.platform.core.messaging.Message
 import com.wutsi.platform.core.messaging.MessagingServiceProvider
 import com.wutsi.platform.core.messaging.MessagingType
 import com.wutsi.platform.core.messaging.Party
-import com.wutsi.workflow.Workflow
 import com.wutsi.workflow.WorkflowContext
-import org.slf4j.Logger
+import com.wutsi.workflow.engine.Workflow
+import com.wutsi.workflow.engine.WorkflowEngine
+import com.wutsi.workflow.util.WorkflowIdGenerator
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
 import java.util.Locale
+import javax.annotation.PostConstruct
 
 @Service
-class WelcomeEmailWorkflow(
+class WelcomeEmailTask(
     private val membershipAccessApi: MembershipAccessApi,
+    private val messagingServiceProvider: MessagingServiceProvider,
     private val templateEngine: TemplateEngine,
     private val mailFilterSet: MailFilterSet,
+    private val workflowEngine: WorkflowEngine,
+    private val logger: KVLogger,
+    private val messages: MessageSource,
 
     @Value("\${wutsi.application.asset-url}") private val assetUrl: String,
     @Value("\${wutsi.application.webapp-url}") private val webappUrl: String,
     @Value("\${wutsi.application.website-url}") private val websiteUrl: String,
     @Value("\${wutsi.application.email.welcome.debug}") private val debug: Boolean,
-) : Workflow<Long, Unit> {
+) : Workflow {
+    companion object {
+        val ID = WorkflowIdGenerator.generate("marketplace", "send-welcome-email")
+    }
 
-    @Autowired
-    private lateinit var messagingServiceProvider: MessagingServiceProvider
+    @PostConstruct
+    fun init() {
+        workflowEngine.register(ID, this)
+    }
 
-    @Autowired
-    protected lateinit var logger: KVLogger
+    override fun execute(context: WorkflowContext) {
+        context.accountId?.let { accountId -> execute(accountId) }
+    }
 
-    @Autowired
-    private lateinit var messages: MessageSource
-
-    override fun execute(accountId: Long, context: WorkflowContext) {
+    private fun execute(accountId: Long) {
         val merchant = membershipAccessApi.getAccount(accountId).account
         logger.add("merchant_email", merchant.email)
         createMessage(merchant)?.let {
@@ -52,9 +60,7 @@ class WelcomeEmailWorkflow(
         }
     }
 
-    private fun createMessage(
-        merchant: Account,
-    ): Message? =
+    private fun createMessage(merchant: Account): Message? =
         merchant.email?.let {
             val locale = Locale(merchant.language)
 
@@ -89,7 +95,7 @@ class WelcomeEmailWorkflow(
 
     private fun debug(message: Message): Message {
         if (debug) {
-            val logger = getLogger()
+            val logger = LoggerFactory.getLogger(this::class.java)
             logger.info("Recipient Address: ${message.recipient.displayName}< ${message.recipient.email}>")
             message.recipient.deviceToken?.let {
                 logger.info("Recipient Device: $it")
@@ -101,9 +107,6 @@ class WelcomeEmailWorkflow(
         }
         return message
     }
-
-    private fun getLogger(): Logger =
-        LoggerFactory.getLogger(this::class.java)
 
     private fun createMailContext(merchant: Account) = MailContext(
         template = "wutsi",
