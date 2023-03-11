@@ -40,7 +40,7 @@ class WelcomeEmailTask(
 ) : Workflow {
     companion object {
         val ID = WorkflowIdGenerator.generate("marketplace", "send-welcome-email")
-        val CONTEXT_STORE_ID = "store-id"
+        const val CONTEXT_STORE_ID = "store-id"
     }
 
     @PostConstruct

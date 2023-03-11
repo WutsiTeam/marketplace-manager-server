@@ -39,6 +39,7 @@ class CreateStoreWorkflow(
 
     override fun execute(context: WorkflowContext) {
         val account = getCurrentAccount(context)
+        logger.add("account_store_id", account.storeId)
         if (account.storeId != null) {
             return
         }
