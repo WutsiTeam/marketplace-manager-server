@@ -40,6 +40,7 @@ class WelcomeEmailTask(
 ) : Workflow {
     companion object {
         val ID = WorkflowIdGenerator.generate("marketplace", "send-welcome-email")
+        val CONTEXT_STORE_ID = "store-id"
     }
 
     @PostConstruct
@@ -48,12 +49,12 @@ class WelcomeEmailTask(
     }
 
     override fun execute(context: WorkflowContext) {
-        context.accountId?.let { accountId -> execute(accountId) }
-    }
-
-    private fun execute(accountId: Long) {
-        val merchant = membershipAccessApi.getAccount(accountId).account
+        val merchant = membershipAccessApi.getAccount(context.accountId!!).account
+        val storeId = context.data[CONTEXT_STORE_ID]
+        logger.add("merchant_store_id", merchant.storeId)
+        logger.add("store_id", storeId)
         logger.add("merchant_email", merchant.email)
+
         createMessage(merchant)?.let {
             val messageId = sendEmail(message = debug(it))
             logger.add("message_id_email", messageId)

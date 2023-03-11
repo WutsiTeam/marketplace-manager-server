@@ -7,6 +7,7 @@ import com.wutsi.marketplace.manager.workflow.task.SetAccountStoreTask
 import com.wutsi.marketplace.manager.workflow.task.WelcomeEmailTask
 import com.wutsi.membership.access.MembershipAccessApi
 import com.wutsi.membership.access.dto.Account
+import com.wutsi.platform.core.logging.KVLogger
 import com.wutsi.regulation.RegulationEngine
 import com.wutsi.workflow.RuleSet
 import com.wutsi.workflow.WorkflowContext
@@ -25,9 +26,10 @@ class CreateStoreWorkflow(
     private val regulationEngine: RegulationEngine,
     private val marketplaceAccessApi: MarketplaceAccessApi,
     private val membershipAccessApi: MembershipAccessApi,
+    private val logger: KVLogger,
 ) : Workflow {
     companion object {
-        val ID = WorkflowIdGenerator.generate("marketplace", "activate-store")
+        val ID = WorkflowIdGenerator.generate("marketplace", "create-store")
     }
 
     @PostConstruct
@@ -37,17 +39,21 @@ class CreateStoreWorkflow(
 
     override fun execute(context: WorkflowContext) {
         val account = getCurrentAccount(context)
+        if (account.storeId != null) {
+            return
+        }
 
         validate(account)
 
         // Create the store
         val response = createStore(account)
+        logger.add("store_id", response.storeId)
 
         // Set the account store
         setAccountStore(response.storeId, context)
 
         // Send welcome email to customer
-        sendWelcomeEmail(context)
+        sendWelcomeEmail(response.storeId, context)
     }
 
     private fun getCurrentAccount(context: WorkflowContext): Account =
@@ -84,9 +90,14 @@ class CreateStoreWorkflow(
             ),
         )
 
-    private fun sendWelcomeEmail(context: WorkflowContext) =
+    private fun sendWelcomeEmail(storeId: Long, context: WorkflowContext) =
         workflowEngine.executeAsync(
             id = WelcomeEmailTask.ID,
-            context = context,
+            context = WorkflowContext(
+                accountId = context.accountId,
+                data = mutableMapOf(
+                    WelcomeEmailTask.CONTEXT_STORE_ID to storeId,
+                ),
+            ),
         )
 }

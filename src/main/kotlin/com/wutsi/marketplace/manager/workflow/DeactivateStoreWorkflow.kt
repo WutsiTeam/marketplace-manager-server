@@ -25,7 +25,7 @@ class DeactivateStoreWorkflow(
 
     @PostConstruct
     fun init() {
-        workflowEngine.register(CreateStoreWorkflow.ID, this)
+        workflowEngine.register(ID, this)
     }
 
     override fun execute(context: WorkflowContext) {

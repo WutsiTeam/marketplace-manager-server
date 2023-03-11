@@ -86,9 +86,6 @@ wutsi:
     stream:
       name: ${wutsi.application.name}
       type: local
-      subscriptions:
-        - checkout-manager
-        - membership-manager
     tracing:
       client-id: ${wutsi.application.name}
       device-id-provider:
